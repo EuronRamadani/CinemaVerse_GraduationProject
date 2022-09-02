@@ -1,22 +1,74 @@
 <template>
   <body class="d-flex justify-content-center form-wrap">
-    <form class="login">
-      <h2>Login to your CinemaVerse Account</h2>
-      <button @click.prevent="signInWithGoogle">Google Sign In</button>
-      <div class="inputs">
-        <div class="input">
-          <input type="text" placeholder="Email" v-model="email" />
-        </div>
-        <div class="input">
-          <input type="password" placeholder="Password" v-model="password" />
-        </div>
-        <div class="error" v-if="errorMsg">
-          {{ errorMsg }}
-        </div>
+    <v-form ref="form" v-model="valid" lazy-validation>
+      <div class="mb-2">
+        <h2 class="mb-5">Login to your CinemaVerse Account</h2>
       </div>
-      <button @click.prevent="submitForm">Sign In</button>
-    </form>
-    <div class="background"></div>
+
+      <div class="google-button mb-4">
+        <v-btn block color="primary" x-large @click.prevent="signInWithGoogle">
+          <v-avatar size="40">
+            <img :src="google" />
+          </v-avatar>
+          <span class="ml-5"> Sign In With Google </span>
+        </v-btn>
+        <v-btn fab icon> </v-btn>
+      </div>
+
+      <v-row wrap no-gutters>
+        <v-col cols="12" class="text-center">
+          <v-divider vertical />
+        </v-col>
+        <v-col cols="12" class="text-center"> <h3>Or</h3> </v-col>
+        <v-col cols="12" class="text-center mb-4">
+          <v-divider vertical />
+        </v-col>
+      </v-row>
+      <v-text-field
+        type="text"
+        placeholder="Email"
+        v-model="email"
+        :rules="emailRules"
+        prepend-inner-icon="email"
+        label="E-mail"
+        required
+        outlined
+      />
+
+      <v-text-field
+        v-model="password"
+        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+        :rules="[rules.required]"
+        :type="show1 ? 'text' : 'password'"
+        name="input-10-1"
+        prepend-inner-icon="key"
+        label="Password"
+        outlined
+        @click:append="show1 = !show1"
+      />
+      <div v-if="errorMsg">
+        <h6 class="error--text">
+          {{ errorMsg }}
+        </h6>
+      </div>
+      <div class="my-2">
+        <v-btn
+          block
+          large
+          :disabled="!valid"
+          color="success"
+          @click.prevent="submitForm"
+        >
+          Submit
+        </v-btn>
+      </div>
+
+      <hr />
+      Don't have an account?
+      <v-btn outlined color="primary" :to="{ name: 'Register' }">
+        Register
+      </v-btn>
+    </v-form>
   </body>
 </template>
 
@@ -30,6 +82,18 @@ import {
 export default {
   data() {
     return {
+      google: require("@/assets/google-logo2.png"),
+      valid: false,
+      show1: false,
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+/.test(v) || "E-mail must be valid",
+      ],
+
+      rules: {
+        required: (value) => !!value || "Required.",
+        min: (v) => v.length >= 8 || "Min 8 characters",
+      },
       email: null,
       password: null,
       errorMsg: null,
@@ -44,7 +108,11 @@ export default {
         this.$router.push("/");
       });
     },
+    validate() {
+      this.$refs.form.validate();
+    },
     submitForm() {
+      this.validate;
       if (this.isFormValid()) {
         this.errorMsg = null;
         signInWithEmailAndPassword(getAuth(), this.email, this.password)
@@ -69,3 +137,8 @@ export default {
   },
 };
 </script>
+<style>
+.google-button {
+  max-height: 50px;
+}
+</style>

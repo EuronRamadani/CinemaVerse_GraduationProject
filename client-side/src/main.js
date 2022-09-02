@@ -7,6 +7,9 @@ import { initializeApp } from "firebase/app";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import "material-design-icons-iconfont/dist/material-design-icons.css";
+
+import vuetify from "./plugins/vuetify";
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -27,5 +30,6 @@ initializeApp(firebaseConfig);
 new Vue({
   router,
   store,
+  vuetify,
   render: (h) => h(App),
 }).$mount("#app");
