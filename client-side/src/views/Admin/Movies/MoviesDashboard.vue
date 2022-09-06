@@ -77,7 +77,7 @@
 <script>
 // @ is an alias to /src
 import { mapGetters } from "vuex";
-import getMovies from "@/utilities/getFilm";
+import getMovies from "@/utilities/getMovieList";
 export default {
 	name: "MoviesDashboard",
 	components: {},

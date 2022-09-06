@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <h1>Homepage</h1>
-  </div>
+	<div>
+		<!-- <h1>Homepage</h1> -->
+		<UpcomingMovies />
+	</div>
 </template>
 
 <script>
-export default {
-  name: "Home",
+import UpcomingMovies from "../components/SlideshowMovies.vue";
 
-  components: {},
+export default {
+	name: "Home",
+	components: {
+		UpcomingMovies,
+	},
 };
 </script>
