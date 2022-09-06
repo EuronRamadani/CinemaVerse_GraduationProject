@@ -1,60 +1,41 @@
 <template>
-	<!-- App.vue -->
-
-	<v-app>
-		<!-- <v-navigation-drawer app>
-  </v-navigation-drawer> -->
-
-		<!-- Sizes your content based upon application components -->
-		<!-- <div>
-			<router-view></router-view>
-			<dashboard :isLoggedIn="isLoggedIn" :auth="auth" />
-		</div> -->
-		<dashboard />
-		<v-content class="ma-4">
-			<router-view></router-view>
-		</v-content>
-		<!-- <v-main else> -->
-		<!-- <navigation :isLoggedIn="isLoggedIn" :auth="auth" /> -->
-		<!-- Provides the application the proper gutter -->
-		<!-- <v-container fluid> -->
-		<!-- If using vue-router -->
-		<!-- </v-container> -->
-		<!-- <app-footer /> -->
-		<!-- </v-main> -->
-	</v-app>
+  <v-app>
+    <public-layout v-if="!isAdminDashboard"> </public-layout>
+    <dashboard-layout v-if="isAdminDashboard"> </dashboard-layout>
+    <v-content class="ma-4" v-if="isAdminDashboard">
+      <router-view></router-view>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-// import Navigation from "@/components/navbar/Navigation.vue";
-// import AppFooter from "@/components/footer/Footer.vue";
+import PublicLayout from "@/layouts/Public/PublicLayout.vue";
+import DashboardLayout from "@/layouts/Dashboard/DashboardLayout.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import dashboard from "./views/Admin/Dashboard.vue";
 import "firebase/auth";
-// \Navigation, AppFooter,
 export default {
-	components: { dashboard },
-	name: "App",
+  components: { PublicLayout, DashboardLayout },
+  name: "App",
 
-	data() {
-		// return {
-		// 	isAdmin: true,
-		// };
-	},
-	computed: {
-		// dashboard() {
-		// 	return this.$router.name === "Admin";
-		// },
-	},
-	mounted() {
-		this.auth = getAuth();
-		onAuthStateChanged(this.auth, (user) => {
-			if (user) {
-				this.isLoggedIn = true;
-			} else {
-				this.isLoggedIn = false;
-			}
-		});
-	},
+  data() {
+    return {
+      isAdmin: false,
+    };
+  },
+  computed: {
+    isAdminDashboard() {
+      return this.$route.meta.layout === "dashboard";
+    },
+  },
+  mounted() {
+    this.auth = getAuth();
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.isLoggedIn = true;
+      } else {
+        this.isLoggedIn = false;
+      }
+    });
+  },
 };
 </script>
