@@ -10,7 +10,7 @@
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody>
+      <!-- <tbody>
         <tr v-for="{ id, name,image, description, isPaid } in events" :key="id">
           <td>{{ image }}</td>
           <td>{{ name }}</td>
@@ -27,13 +27,13 @@
             </button>
           </td>
         </tr>
-      </tbody>
+      </tbody> -->
     </table>
   </div>
 </template>
 
 <script>
 export default {
-    name:"eventList"
-}
+  name: "eventList",
+};
 </script>

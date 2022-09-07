@@ -113,7 +113,9 @@ export default {
       },
       nameRules: [
         (v) => !!v || "Name is required",
-        (v) => v.length <= 10 || "Name must be less than 10 characters",
+        (v) =>
+          (v != null && v.length >= 3) ||
+          "Name must be greater than 3 characters",
       ],
       email: null,
       displayName: null,
@@ -131,7 +133,14 @@ export default {
     signInWithGoogle() {
       const provider = new GoogleAuthProvider();
       signInWithPopup(getAuth(), provider).then((result) => {
-        console.log(result.user);
+        const user = {
+          accessToken: result.user.accessToken,
+          displayName: this.displayName,
+          email: result.user.email,
+          photoURL: this.photoURL,
+          uid: result.user.uid,
+        };
+        console.log(user);
         this.$router.push("/");
       });
     },

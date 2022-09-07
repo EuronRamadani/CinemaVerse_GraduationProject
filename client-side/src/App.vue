@@ -1,37 +1,40 @@
 <template>
-  <!-- App.vue -->
   <v-app>
-    <navigation :isLoggedIn="isLoggedIn" :auth="auth" />
-    <!-- <v-navigation-drawer app>
-  </v-navigation-drawer> -->
-
-    <!-- Sizes your content based upon application components -->
-    <v-main class="container">
-      <!-- Provides the application the proper gutter -->
-      <v-container fluid>
-        <!-- If using vue-router -->
-        <router-view></router-view>
-      </v-container>
+    <public-layout
+      v-if="!isAdminDashboard"
+      :isLoggedIn="isLoggedIn"
+      :auth="auth"
+    >
+    </public-layout>
+    <dashboard-layout v-else :isLoggedIn="isLoggedIn" :auth="auth">
+    </dashboard-layout>
+    <v-main class="ma-4" v-if="isAdminDashboard">
+      <router-view></router-view>
     </v-main>
-
-    <app-footer />
   </v-app>
 </template>
 
 <script>
-import Navigation from "@/components/navbar/Navigation.vue";
-import AppFooter from "@/components/footer/Footer.vue";
+import PublicLayout from "@/layouts/Public/PublicLayout.vue";
+import DashboardLayout from "@/layouts/Dashboard/DashboardLayout.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "firebase/auth";
-
 export default {
-  components: { Navigation, AppFooter },
+  components: { PublicLayout, DashboardLayout },
   name: "App",
 
   data() {
-    return {};
+    return {
+      isAdmin: false,
+      isLoggedIn: false,
+      auth: null,
+    };
   },
-
+  computed: {
+    isAdminDashboard() {
+      return this.$route.meta.layout === "dashboard";
+    },
+  },
   mounted() {
     this.auth = getAuth();
     onAuthStateChanged(this.auth, (user) => {
@@ -46,7 +49,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .container{
-    padding: 0;
-  }
+.container {
+  padding: 0;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-   <div class="card card-body mt-4">
+  <div class="card card-body mt-4">
     <form @submit.prevent="onSubmit">
       <div class="form-group">
         <label>Event Name</label>
@@ -26,19 +26,13 @@
         />
       </div>
 
-      <button type="submit" class="btn btn-success mt-3">
-        Create Event
-      </button>
+      <button type="submit" class="btn btn-success mt-3">Create Event</button>
     </form>
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

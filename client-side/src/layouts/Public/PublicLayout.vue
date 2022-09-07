@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <navigation />
-    <v-content class="ma-4">
+    <navigation :isLoggedIn="isLoggedIn" :auth="auth" />
+    <v-main class="ma-4">
       <router-view />
-    </v-content>
+    </v-main>
     <app-footer />
   </v-app>
 </template>
@@ -13,8 +13,18 @@ import Navigation from "@/components/navbar/Navigation.vue";
 import AppFooter from "@/components/footer/Footer.vue";
 
 export default {
+  name: "PublicLayout",
   components: { Navigation, AppFooter },
-  name: "App",
+
+  props: {
+    isLoggedIn: {
+      required: true,
+      type: Boolean,
+    },
+    auth: {
+      required: true,
+    },
+  },
 
   data() {
     return {};

@@ -35,9 +35,9 @@
         <v-layout column align-center>
           <v-flex class="mt-5">
             <v-avatar size="100">
-              <img src="/img1.png" alt="" />
+              <img :src="logo" alt="logo" class="logo" />
             </v-avatar>
-            <p class="white--text subheading mt-1 text-center">Username</p>
+            <p class="white--text subheading mt-1 text-center">CinemaVerse</p>
           </v-flex>
           <v-flex class="mt-4 mb-4"> </v-flex>
         </v-layout>
@@ -64,8 +64,21 @@
 
 <script>
 export default {
+  name: "DashboardLayout",
+
+  props: {
+    isLoggedIn: {
+      required: true,
+      type: Boolean,
+    },
+    auth: {
+      required: true,
+    },
+  },
+
   data() {
     return {
+      logo: require("@/assets/main-logo.png"),
       //refactor to get this from firebase auth
       isAdmin: true,
       drawer: true,

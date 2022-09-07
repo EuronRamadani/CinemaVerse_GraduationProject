@@ -1,44 +1,55 @@
 <template>
-  <div class="container">
-    <div class="landing">
-      <h3>View events in cinemas near you!</h3>
-      <p>Events can be free or paid depending on the Cinema</p>
+  <v-app id="inspire">
+    <v-main>
+      <v-container>
+        <v-row>
+          <v-col v-for="n in 24" :key="n" cols="4">
+            <v-card height="200"></v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+    <div class="container">
+      <div class="landing">
+        <h3>View events in cinemas near you!</h3>
+        <p>Events can be free or paid depending on the Cinema</p>
+      </div>
+      <div class="events">
+        <div class="item" @click="divOnClick">
+          <div class="ispaid">
+            <p>This is a test post</p>
+            <!-- show this conditionally if is paid or not TODO v-if="isPaid-->
+            <p>$</p>
+          </div>
+          <img src="#" alt="none" />
+        </div>
+        <div class="item" @click="divOnClick">
+          <div class="ispaid">
+            <p>This is a test post</p>
+            <!-- show this conditionally if is paid or not TODO v-if="isPaid-->
+            <p>$</p>
+          </div>
+          <img src="#" alt="none" />
+        </div>
+        <div class="item" @click="divOnClick">
+          <div class="ispaid">
+            <p>This is a test post</p>
+            <!-- show this conditionally if is paid or not TODO v-if="isPaid-->
+            <p>$</p>
+          </div>
+          <img src="#" alt="none" />
+        </div>
+        <div class="item" @click="divOnClick">
+          <div class="ispaid">
+            <p>This is a test post</p>
+            <!-- show this conditionally if is paid or not TODO v-if="isPaid-->
+            <p>$</p>
+          </div>
+          <img src="#" alt="none" />
+        </div>
+      </div>
     </div>
-    <div class="events">
-      <div class="item" @click="divOnClick">
-        <div class="ispaid">
-          <p>This is a test post</p>
-          <!-- show this conditionally if is paid or not TODO v-if="isPaid-->
-          <p>$</p>
-        </div>
-        <img src="#" alt="none" />
-      </div>
-      <div class="item" @click="divOnClick">
-        <div class="ispaid">
-          <p>This is a test post</p>
-          <!-- show this conditionally if is paid or not TODO v-if="isPaid-->
-          <p>$</p>
-        </div>
-        <img src="#" alt="none" />
-      </div>
-      <div class="item" @click="divOnClick">
-        <div class="ispaid">
-          <p>This is a test post</p>
-          <!-- show this conditionally if is paid or not TODO v-if="isPaid-->
-          <p>$</p>
-        </div>
-        <img src="#" alt="none" />
-      </div>
-      <div class="item" @click="divOnClick">
-        <div class="ispaid">
-          <p>This is a test post</p>
-          <!-- show this conditionally if is paid or not TODO v-if="isPaid-->
-          <p>$</p>
-        </div>
-        <img src="#" alt="none" />
-      </div>
-    </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -71,14 +82,14 @@ export default {
       text-align: center;
       font-size: 32px;
       font-family: "Rubik", sans-serif;
-      color:rgb(221, 118, 43);
+      color: rgb(221, 118, 43);
     }
 
     p {
       text-align: center;
       font-size: 20px;
       font-family: "Poppins", sans-serif;
-      color:white;
+      color: white;
     }
   }
 

@@ -1,7 +1,14 @@
 <template>
-  <div class="container">
-    <AddEvent />
-    <EventList />
+  <div>
+    <div>
+      <h1>EventDashboard</h1>
+      <h1>EventDashboard</h1>
+      <h1>EventDashboard</h1>
+    </div>
+    <div class="container">
+      <AddEvent />
+      <EventList />
+    </div>
   </div>
 </template>
 
@@ -15,5 +22,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
