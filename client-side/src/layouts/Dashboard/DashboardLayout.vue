@@ -35,9 +35,11 @@
         <v-layout column align-center>
           <v-flex class="mt-5">
             <v-avatar size="100">
-              <img :src="logo" alt="logo" class="logo" />
+              <img :src="user.photoURL" alt="logo" class="logo" />
             </v-avatar>
-            <p class="white--text subheading mt-1 text-center">CinemaVerse</p>
+            <p class="white--text subheading mt-1 text-center">
+              {{ user.displayName }}
+            </p>
           </v-flex>
           <v-flex class="mt-4 mb-4"> </v-flex>
         </v-layout>
@@ -89,13 +91,18 @@ export default {
           route: { name: "CinemasDashboard" },
         },
         { icon: "folder", text: "Movies", route: { name: "MoviesDashboard" } },
-        { icon: "person", text: "Events", route: { name: "EventsDashboard" } },
+        { icon: "event", text: "Events", route: { name: "EventsDashboard" } },
+        { icon: "person", text: "Users", route: { name: "UsersDashboard" } },
       ],
     };
   },
-
+  computed: {
+    user() {
+      return this.$store.state.users.user;
+    },
+  },
   created() {
-    if (!this.isAdmin) {
+    if (!this.user.isAdmin) {
       this.$router.push("/");
     }
   },

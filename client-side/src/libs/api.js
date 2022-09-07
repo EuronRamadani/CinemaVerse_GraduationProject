@@ -2,10 +2,8 @@
 import axios from "axios";
 
 export const subdomains = {
-  database: process.env.VUE_APP_DATABASE_ENV,
-  localhost: process.env.VUE_APP_ENV,
-  node: process.env.NODE_API,
-  movies: process.env.MOVIES_API,
+  node: process.env.VUE_APP_NODE_ENV,
+  movies: process.env.VUE_APP_MOVIES_ENV,
 };
 
 export const axiosIns = {};

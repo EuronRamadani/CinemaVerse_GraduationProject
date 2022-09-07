@@ -104,8 +104,13 @@ export default {
     signInWithGoogle() {
       const provider = new GoogleAuthProvider();
       signInWithPopup(getAuth(), provider).then((result) => {
-        console.log(result.user);
+        this.getUser(result.user.uid);
         this.$router.push("/");
+      });
+    },
+    getUser(id) {
+      this.$store.dispatch("getUser", id).catch((error) => {
+        console.log("errror", error);
       });
     },
     validate() {
@@ -116,8 +121,8 @@ export default {
       if (this.isFormValid()) {
         this.errorMsg = null;
         signInWithEmailAndPassword(getAuth(), this.email, this.password)
-          .then(() => {
-            console.log("Successfully signed in!");
+          .then((result) => {
+            this.getUser(result.user.uid);
             this.$router.push("/home");
           })
           .catch((err) => {

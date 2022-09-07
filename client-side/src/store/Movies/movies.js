@@ -1,22 +1,35 @@
+import api from "@/libs/api";
+
 export default {
-	state: {
-		movies: [],
-	},
-
-	getters: {
-		moviesList(state) {
-			return state.movies;
-		},
-	},
-
-	mutations: {
-		SET_LIST(state, payload) {
-			state.movies = payload;
-		},
-	},
-	actions: {
-		fetchMovies({ commit }, payload) {
-			commit("SET_LIST", payload);
-		},
-	},
+  state: {
+    looading: false,
+    movies: [],
+  },
+  mutations: {
+    SET_LOADING(state, value) {
+      state.loading = value;
+    },
+    SET_MOVIES(state, payload) {
+      state.movies = payload;
+    },
+  },
+  actions: {
+    getMovies({ commit }) {
+      commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        api("movies")
+          .get(`movies`)
+          .then((response) => {
+            commit("SET_MOVIES", response.data.result);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          })
+          .finally(() => {
+            commit("SET_LOADING", false);
+          });
+      });
+    },
+  },
 };

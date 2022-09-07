@@ -44,7 +44,6 @@ export default {
       );
 
       this.upcomingMovies = response.data.results.slice(1, 6);
-      console.log(this.upcomingMovies);
     },
   },
 };

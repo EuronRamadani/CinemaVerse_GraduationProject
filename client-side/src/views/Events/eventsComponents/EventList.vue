@@ -11,16 +11,17 @@
         </tr>
       </thead>
       <!-- <tbody>
-        <tr v-for="{ id, name,image, description, isPaid } in events" :key="id">
+        <tr
+          v-for="{ id, name, image, description, isPaid } in events"
+          :key="id"
+        >
           <td>{{ image }}</td>
           <td>{{ name }}</td>
           <td>{{ description }}</td>
           <td>{{ isPaid }}</td>
           <td>
             <router-link :to="`/edit/${id}`">
-              <button class="btn btn-primary btn-sm me-2">
-                Edit
-              </button>
+              <button class="btn btn-primary btn-sm me-2">Edit</button>
             </router-link>
             <button class="btn btn-danger btn-sm" @click="deleteEvent(id)">
               Delete

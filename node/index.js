@@ -4,24 +4,28 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const config = require("./config");
-const userRoutes = require("./Routes/user-routes");
 const mongoose = require("mongoose");
-const ReviewRoute = require("./Routes/ReviewRoute");
 
-const connectionSting = "mongodb://localhost:27017/Kinema";
+//ROUTES
+const userRoutes = require("./Routes/user-routes");
+// const ReviewRoute = require("./Routes/ReviewRoute");
+
+const connectionSting = "mongodb://localhost:27017/cinemaverse_db";
 
 mongoose.connect(connectionSting).then(() => {
-	console.log("Connected to mongodb on: " + connectionSting);
-	const app = express();
+  console.log("Connected to mongodb on: " + connectionSting);
+  const port = config.port || 1000;
 
-	app.use(express.json());
-	app.use(cors());
-	app.use(bodyParser.json());
+  const app = express();
 
-	app.use("/api", userRoutes.routes);
-	app.use("/review", ReviewRoute.routes);
+  app.use(express.json());
+  app.use(cors());
+  app.use(bodyParser.json());
 
-	app.listen(config.port, () =>
-		console.log("App is listening on url http://localhost:" + config.port)
-	);
+  app.use("/api", userRoutes.routes);
+  //   app.use("/review", ReviewRoute.routes);
+
+  app.listen(port, () =>
+    console.log("App is listening on url http://localhost:" + config.port)
+  );
 });

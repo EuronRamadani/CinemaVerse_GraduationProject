@@ -21,4 +21,15 @@ export default [
         /* webpackChunkName: "login" */ "../../views/Authorization/Login/Login.vue"
       ),
   },
+  {
+    path: "/admin/users",
+    name: "UsersDashboard",
+    meta: {
+      layout: "dashboard",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "login" */ "../../views/Admin/Users/UsersDashboard.vue"
+      ),
+  },
 ];

@@ -5,7 +5,7 @@
         <h2 class="mb-5">Create your CinemaVerse Account</h2>
       </div>
 
-      <div class="google-button mb-4">
+      <div class="google-button">
         <v-btn block color="primary" x-large @click.prevent="signInWithGoogle">
           <v-avatar size="40">
             <img :src="google" />
@@ -126,6 +126,7 @@ export default {
       status: 1,
       error: null,
       errorMsg: null,
+      defaultUserImg: require("@/assets/avatar.png"),
     };
   },
 
@@ -134,14 +135,20 @@ export default {
       const provider = new GoogleAuthProvider();
       signInWithPopup(getAuth(), provider).then((result) => {
         const user = {
+          id: result.user.uid,
           accessToken: result.user.accessToken,
-          displayName: this.displayName,
+          displayName: result.user.displayName,
           email: result.user.email,
-          photoURL: this.photoURL,
-          uid: result.user.uid,
+          photoURL: result.user.photoURL,
+          isAdmin: false,
         };
-        console.log(user);
+        this.registerUser(user);
         this.$router.push("/");
+      });
+    },
+    registerUser(query) {
+      this.$store.dispatch("addUser", query).catch((error) => {
+        console.log("errror", error);
       });
     },
     validate() {
@@ -154,20 +161,16 @@ export default {
         this.errorMsg = null;
         createUserWithEmailAndPassword(getAuth(), this.email, this.password)
           .then((result) => {
-            console.log("result", result);
-            // TODO: fix to save results to firestore database
-            // const database = db.collection("users").doc(result.user.uid);
-
-            // dataBase.set({
-            //   id: result.user.uid,
-            //   email: this.email,
-            //   displayName: this.displayName,
-            //   phoneNumber: this.phoneNumber,
-            //   photoURL: this.photoURL,
-            //   roles: this.roles,
-            //   status: this.status,
-            // });
-            this.$router.push("/home");
+            const user = {
+              id: result.user.uid,
+              accessToken: result.user.accessToken,
+              displayName: this.displayName,
+              email: this.email,
+              photoURL: result.user.photoURL || this.defaultUserImg,
+              isAdmin: false,
+            };
+            this.registerUser(user);
+            this.$router.push("/");
           })
           .catch((err) => {
             this.errorMsg = err.code;

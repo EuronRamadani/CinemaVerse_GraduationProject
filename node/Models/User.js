@@ -1,11 +1,11 @@
 class User {
-  constructor(id, email, displayName, phoneNumber, photoURL, status) {
+  constructor(id, accessToken, displayName, email, photoURL, isAdmin) {
     this.id = id;
-    this.email = email;
+    this.accessToken = accessToken;
     this.displayName = displayName;
-    this.phoneNumber = phoneNumber;
+    this.email = email;
     this.photoURL = photoURL;
-    this.status = status;
+    this.isAdmin = isAdmin;
   }
 }
 

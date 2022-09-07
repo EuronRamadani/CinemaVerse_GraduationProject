@@ -15,18 +15,21 @@
           <v-list-item v-for="item in items" :key="item" :to="{ name: item }">
             {{ item }}
           </v-list-item>
+          <v-list-item v-if="user.isAdmin" :to="{ name: 'Admin' }">
+            Admin
+          </v-list-item>
         </v-list>
       </div>
       <v-spacer></v-spacer>
       <div class="nav-links">
         <v-list color="primary" class="d-flex">
           <v-list-item v-if="isLoggedIn">
-            <v-avatar size="40">
-              <img :src="userImg" />
+            <v-avatar size="50">
+              <img :src="user.photoURL" />
             </v-avatar>
           </v-list-item>
           <v-list-item v-if="isLoggedIn" class="nav-links">
-            {{ firstName }}
+            {{ user.displayName }}
           </v-list-item>
         </v-list>
       </div>
@@ -76,26 +79,22 @@ export default {
   },
   data() {
     return {
-      items: ["Cinemas", "Movies", "Events", "Admin"],
+      items: ["Cinemas", "Movies", "Events"],
       logo: require("@/assets/main-logo_1.svg"),
     };
   },
   methods: {
     handleSignOut() {
       signOut(this.auth).then(() => {
-        this.$router.push("/");
+        this.$store.commit("RESET_STATE");
+        this.$router.push("/login");
+        window.location.reload();
       });
     },
   },
   computed: {
-    currentUser() {
-      return this.auth?.currentUser;
-    },
-    firstName() {
-      return this.currentUser.displayName;
-    },
-    userImg() {
-      return this.currentUser.photoURL;
+    user() {
+      return this.$store.state.users.user;
     },
   },
 };

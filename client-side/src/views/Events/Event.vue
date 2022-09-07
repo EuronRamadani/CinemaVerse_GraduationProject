@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header">
       <img src="#" alt="no" />
-      <div class="informationDiv">
+      <div class="info">
         <h3>This is a test post title</h3>
         <p>
           Sed quis libero eget est tincidunt gravida et sed orci. In pulvinar
@@ -39,16 +39,12 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  margin-right: 10%;
-  margin-left: 10%;
-  width: 80%;
+  margin: 0;
   padding: 0;
   height: auto;
-  border-radius: 20px;
-  border: 3px solid black;
+  background-color: rgb(21, 26, 33);
 
   .header {
-    border-radius: 20px !important;
     width: 100%;
     height: auto;
     display: flex;
@@ -58,15 +54,15 @@ export default {
     img {
       width: 50%;
       height: 400px;
-      border-radius: 20px !important;
     }
 
-    .informationDiv {
+    .info {
       width: 50%;
       height: 400px;
       padding: 16px;
       display: flex;
       flex-direction: column;
+      background-color: rgb(221, 118, 43);
 
       div {
         width: 100%;
@@ -75,26 +71,7 @@ export default {
 
       p {
         font-size: 22px;
-        color: rgb(25, 118, 210);
-      }
-    }
-  }
-
-  @media (max-width: 900px) {
-    .header {
-      flex-direction: column;
-      width: 100%;
-
-      .informationDiv {
-        width: 100%;
-
-        h3 {
-          text-align: center;
-        }
-
-        p {
-          text-align: center;
-        }
+        color: white;
       }
     }
   }
@@ -109,13 +86,13 @@ export default {
       font-size: 32px;
       margin-bottom: 3%;
       margin-top: 3%;
-      color: black;
+      color: rgb(221, 118, 43);
     }
 
     p {
       font-size: 22px;
       padding: 10px;
-      color: rgb(25, 118, 210);
+      color: white;
     }
   }
 }
