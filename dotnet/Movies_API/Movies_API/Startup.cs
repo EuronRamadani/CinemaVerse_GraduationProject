@@ -38,13 +38,6 @@ namespace Movies.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Movies.API", Version = "v1" });
             });
             services.RegisterAutoMapper();
-            services.AddCors(opt =>
-            {
-                opt.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:8080", "http://localhost:8081", "http://localhost:8082");
-                });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +53,7 @@ namespace Movies.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors("CorsPolicy");
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -22,7 +22,7 @@ button {
  outline: none;
  border: 1px solid #303030;
  background: #212121;
- color: #ae00ff;
+ color: rgb(221, 118, 43);
  text-transform: uppercase;
  letter-spacing: 2px;
  font-size: 15px;
@@ -34,7 +34,7 @@ button {
  margin: 5%;
 }
 button:hover {
- box-shadow: 0 0 10px #ae00ff, 0 0 25px #001eff, 0 0 50px #ae00ff;
+ box-shadow: 0 0 10px rgb(221, 118, 43), 0 0 25px #010102, 0 0 50px rgb(221, 118, 43);
  transition-delay: 0.6s;
 }
 button span {
@@ -45,7 +45,7 @@ button span:nth-child(1) {
  left: -100%;
  width: 100%;
  height: 2px;
- background: linear-gradient(90deg, transparent, #ae00ff);
+ background: linear-gradient(90deg, transparent, rgb(221, 118, 43));
 }
 button:hover span:nth-child(1) {
  left: 100%;
@@ -56,7 +56,7 @@ button span:nth-child(3) {
  right: -100%;
  width: 100%;
  height: 2px;
- background: linear-gradient(90deg, transparent, #001eff);
+ background: linear-gradient(90deg, transparent, #010102);
 }
 button:hover span:nth-child(3) {
  right: 100%;
@@ -68,7 +68,7 @@ button span:nth-child(2) {
  right: 0;
  width: 2px;
  height: 100%;
- background: linear-gradient(180deg, transparent, #ae00ff);
+ background: linear-gradient(180deg, transparent, rgb(221, 118, 43));
 }
 button:hover span:nth-child(2) {
  top: 100%;
@@ -80,7 +80,7 @@ button span:nth-child(4) {
  left: 0;
  width: 2px;
  height: 100%;
- background: linear-gradient(360deg, transparent, #001eff);
+ background: linear-gradient(360deg, transparent, #010102);
 }
 button:hover span:nth-child(4) {
  bottom: 100%;
@@ -88,10 +88,10 @@ button:hover span:nth-child(4) {
  transition-delay: 0.52s;
 }
 button:active {
- background: #ae00af;
- background: linear-gradient(to top right, #ae00af, #001eff);
+ background: rgb(221, 118, 43);
+ background: linear-gradient(to top right, rgb(221, 118, 43), #010102);
  color: #bfbfbf;
- box-shadow: 0 0 8px #ae00ff, 0 0 8px #001eff, 0 0 8px #ae00ff;
+ box-shadow: 0 0 8px rgb(221, 118, 43), 0 0 8px #010102, 0 0 8px rgb(221, 118, 43);
  transition: 0.1s;
 }
 button:active span:nth-child(1) 

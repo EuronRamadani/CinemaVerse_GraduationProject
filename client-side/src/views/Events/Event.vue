@@ -3,17 +3,14 @@
     <div class="header">
       <img src="#" alt="no" />
       <div class="info">
-        <div>
+        
            <h3>This is a test post title</h3>
           <p>
             Sed quis libero eget est tincidunt gravida et sed orci. In pulvinar
             rhoncus nulla a ullamcorper. Vestibulum et mi nec justo pretium
             tristique eget nec tellus.
           </p>
-        </div>
-        <div>
-           <button-f buttonText="Go to event"/>
-        </div>
+        
       </div>
      
     </div>
@@ -29,6 +26,9 @@
         senectus et netus et malesuada fames ac turpis egestas.
       </p>
     </div>
+            <div>
+           <button-f buttonText="Go to event"/>
+        </div>
   </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
   margin: 0;
   padding: 0;
   height: auto;
-  background-color: #303030;
+  background-color: rgb(21, 26, 33);
 
   .header{
     width: 100%;
@@ -65,10 +65,16 @@ export default {
         padding: 16px;
         display: flex;
         flex-direction: column;
+        background-color: rgb(221, 118, 43);
 
         div{
           width: 100%;
           height: 50%;
+        }
+
+        p{
+          font-size: 22px;
+          color: white;
         }
     }
   }
@@ -83,11 +89,13 @@ export default {
         font-size: 32px;
         margin-bottom: 3%;
         margin-top: 3%;
+        color: rgb(221, 118, 43);
     }
 
     p{
         font-size: 22px;
         padding: 10px;
+        color: white;
     }
   }
 }

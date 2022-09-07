@@ -3,10 +3,9 @@
 		<v-app-bar app color="primary" dark>
 			<div class="d-flex align-center mr-5">
 				<v-list color="primary" class="d-flex">
-					<!-- v-for="item in items" :key="item" -->
-					<v-list-item :to="{ name: 'Home' }">
+					<v-list-item v-for="item in items" :key="item" :to="{ name: 'Home' }">
 						<!-- "logo" -->
-						<img :src="logo" alt="logo" class="logo" />
+						<!-- <img :src="logo" alt="logo" class="logo" /> -->
 					</v-list-item>
 				</v-list>
 			</div>
@@ -67,8 +66,8 @@ export default {
 	components: {},
 	data() {
 		return {
-			items: ["Cinemas", "Movies", "Events", "Admin"],
-			logo: require("@/assets/main-logo_1.svg"),
+			items: ["Cinemas", "Films", "Events", "Admin"],
+			logo: require("@/assets/main-logo.svg"),
 		};
 	},
 	methods: {
@@ -103,6 +102,7 @@ export default {
 
 <style lang="scss" scoped>
 .logo {
-	width: 180px;
+	max-width: 250px;
 }
+
 </style>
