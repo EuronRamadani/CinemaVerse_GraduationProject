@@ -7,10 +7,10 @@ namespace Movies.Services.Services.Movies
 {
     public interface IMovieService
     {
-        Task<IList<MovieListModel>> GetAllAsync();
-        Task<MovieModel> GetAsync(int movieId);
-        Task<MovieModel> Create(MovieCreateModel movieCreateModel);
-        Task<MovieModel> Update(int movieId, MovieCreateModel movieModel);
-        Task<MovieModel> Delete(int movieId);
+        Task<IList<MovieListModel>> GetAllAsync(int cinemaId);
+        Task<MovieModel> GetAsync(int cinemaId, int movieId);
+        Task<MovieModel> Create(int cinemaId, MovieCreateModel movieCreateModel);
+        Task<MovieModel> Update(int cinemaId, int movieId, MovieCreateModel movieModel);
+        Task<MovieModel> Delete(int cinemaId, int movieId);
     }
 }

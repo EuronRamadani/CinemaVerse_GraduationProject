@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Movies.API.Controllers
 {
-    [Route("api/movies")]
+    [Route("api/cinemas/{cinemaId}/movies")]
     public class MoviesController : ControllerBase
     {
         private readonly IMovieService _movieService;
@@ -25,9 +25,9 @@ namespace Movies.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IList<MovieListModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int cinemaId)
         {
-            var movies = await _movieService.GetAllAsync();
+            var movies = await _movieService.GetAllAsync(cinemaId);
             return Ok(new ApiResponse<IList<MovieListModel>>(movies));
         }
 
@@ -35,20 +35,20 @@ namespace Movies.API.Controllers
         [Route("{movieId}")]
         [ProducesResponseType(typeof(ApiResponse<MovieModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int movieId)
+        public async Task<IActionResult> Get(int cinemaId, int movieId)
         {
-            var movie = await _movieService.GetAsync(movieId);
+            var movie = await _movieService.GetAsync(cinemaId, movieId);
             return Ok(new ApiResponse<MovieModel>(movie));
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<MovieModel>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] MovieCreateModel movieModel)
+        public async Task<IActionResult> Post(int cinemaId, [FromBody] MovieCreateModel movieModel)
         {
-            var movie = await _movieService.Create(movieModel);
+            var movie = await _movieService.Create(cinemaId, movieModel);
             return CreatedAtAction(
-                nameof(Get),
+                nameof(Post),
                 new { movieId = movie.Id },
                 new ApiResponse<MovieModel>(movie)
             );
@@ -58,9 +58,9 @@ namespace Movies.API.Controllers
         [Route("{movieId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(int movieId, [FromBody] MovieCreateModel movieModel)
+        public async Task<IActionResult> Put(int cinemaId, int movieId, [FromBody] MovieCreateModel movieModel)
         {
-            var movie = await _movieService.Update(movieId, movieModel);
+            var movie = await _movieService.Update(cinemaId, movieId, movieModel);
             return Ok(new ApiResponse<MovieModel>(movie));
         }
 
@@ -68,9 +68,9 @@ namespace Movies.API.Controllers
         [Route("{movieId}")]
         [ProducesResponseType(typeof(ApiResponse<MovieModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(int movieId)
+        public async Task<IActionResult> Delete(int cinemaId, int movieId)
         {
-            var movie = await _movieService.Delete(movieId);
+            var movie = await _movieService.Delete(cinemaId, movieId);
             return Ok(new ApiResponse<MovieModel>(movie));
         }
     }

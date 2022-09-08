@@ -18,6 +18,7 @@ namespace Movies.Core.Domain
         public int Length { get; set; }
         public bool Deleted { get; set; }
 
+        public Cinema Cinema { get; set; }
         //public List<Actor> Actors { get; set; }
         //public List<Review> Reviews { get; set; }
     }
