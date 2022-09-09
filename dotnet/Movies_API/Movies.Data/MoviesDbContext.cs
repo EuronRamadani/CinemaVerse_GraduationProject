@@ -12,8 +12,9 @@ namespace Movies.Data
     {
         public MoviesDbContext(DbContextOptions<MoviesDbContext> options) : base(options) { }
 
-        public DbSet<Movie> Movies{ get; set; }
-        public DbSet<Cinema> Cinemas{ get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Cinema> Cinemas { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

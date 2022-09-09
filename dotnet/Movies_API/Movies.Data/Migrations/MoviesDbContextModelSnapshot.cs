@@ -68,7 +68,7 @@ namespace Movies.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("CinemaId")
+                    b.Property<int>("CinemaId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Country")
@@ -123,18 +123,87 @@ namespace Movies.Data.Migrations
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("Movies.Core.Domain.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("CinemaId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("InsertedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LongId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("MovieId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CinemaId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("Movies.Core.Domain.Movie", b =>
                 {
                     b.HasOne("Movies.Core.Domain.Cinema", "Cinema")
                         .WithMany("Movies")
-                        .HasForeignKey("CinemaId");
+                        .HasForeignKey("CinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cinema");
+                });
+
+            modelBuilder.Entity("Movies.Core.Domain.Photo", b =>
+                {
+                    b.HasOne("Movies.Core.Domain.Cinema", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("CinemaId");
+
+                    b.HasOne("Movies.Core.Domain.Movie", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("Movies.Core.Domain.Cinema", b =>
                 {
                     b.Navigation("Movies");
+
+                    b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("Movies.Core.Domain.Movie", b =>
+                {
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

@@ -92,7 +92,7 @@ namespace Movies.Services.Services.Cinemas
                     .Where(cinema => cinema.Id == cinemaId));
 
                 if (cinema == null)
-                    throw new BaseException($"Movie with id: {cinemaId} does not exist",
+                    throw new BaseException($"Cinema with id: {cinemaId} does not exist",
                         ExceptionType.NotFound, HttpStatusCode.NotFound);
 
                 _mapper.Map(cinemaUpdateModel, cinema);

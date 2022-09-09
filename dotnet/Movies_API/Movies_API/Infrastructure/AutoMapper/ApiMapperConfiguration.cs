@@ -2,6 +2,7 @@
 using Movies.Core.Domain;
 using Movies.Services.Models.Cinemas;
 using Movies.Services.Models.Movies;
+using Movies.Services.Models.Photos;
 
 namespace Movies.Api.Infrastructure.AutoMapper
 {
@@ -11,6 +12,7 @@ namespace Movies.Api.Infrastructure.AutoMapper
         {
             CreateMovieMapper();
             CreateCinemaMapper();
+            CreatePhotoMapper();
         }
 
         private void CreateMovieMapper()
@@ -31,17 +33,21 @@ namespace Movies.Api.Infrastructure.AutoMapper
         private void CreateCinemaMapper()
         {
             CreateMap<Cinema, CinemaModel>()
-                .ForMember(x => x.Movies, opt => opt.Ignore())
                 .ReverseMap();
 
             CreateMap<Cinema, CinemaListModel>()
                 .ReverseMap();
 
             CreateMap<CinemaCreateModel, Cinema>()
-                .ForMember(x => x.Movies, opt => opt.Ignore())
                 .ReverseMap();
 
             CreateMap<CinemaModel, CinemaCreateModel>()
+                .ReverseMap();
+        }
+
+        private void CreatePhotoMapper()
+        {
+            CreateMap<Photo, PhotoModel>()
                 .ReverseMap();
         }
     }

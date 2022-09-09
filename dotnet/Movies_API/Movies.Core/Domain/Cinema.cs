@@ -13,6 +13,7 @@ namespace Movies.Core.Domain
         public bool Deleted { get; set; }
 
         public List<Movie> Movies { get; set; }
+        public List<Photo> Photos { get; set; }
         //Add venues later
         //public List<Venue> Venues{ get; set; }
     }

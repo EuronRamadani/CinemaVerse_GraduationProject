@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Movies.Services\Movies.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

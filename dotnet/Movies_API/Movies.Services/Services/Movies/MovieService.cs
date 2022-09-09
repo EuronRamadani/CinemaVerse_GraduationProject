@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Movies.Core.Domain;
 using Movies.Core.Exceptions;
 using Movies.Data.Interfaces;
 using Movies.Services.Models.Movies;
-using Movies.Services.Services.Cinemas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,22 +35,7 @@ namespace Movies.Services.Services.Movies
         {
             var movie = await _movieRepository.GetAsync(query => query
                 .Where(movie => movie.Id == movieId)
-                .Where(movie => movie.Cinema.Id == cinemaId)
-                .Select(x => new Movie 
-                {
-                    Title = x.Title,
-                    Description = x.Description,
-                    Director = x.Director,
-                    TrailerLink = x.TrailerLink,
-                    ReleaseYear = x.ReleaseYear,
-                    ReleaseDate = x.ReleaseDate,
-                    Country = x.Country,
-                    Language = x.Language,
-                    Genre = x.Genre,
-                    Length = x.Length,
-                    Deleted = x.Deleted,
-                    Cinema = new Cinema { Id = x.Cinema.Id }
-                }));
+                .Where(movie => movie.CinemaId == cinemaId));
 
             if (movie == null)
                 throw new BaseException($"Movie with id {movieId} not found!", ExceptionType.ServerError,
@@ -68,22 +51,7 @@ namespace Movies.Services.Services.Movies
             try
             {
                 var movies = await _movieRepository.GetAllAsync(query => query
-                    .Where(movie => movie.Cinema.Id == cinemaId)
-                    .Select(x => new Movie
-                    {
-                        Title = x.Title,
-                        Description = x.Description,
-                        Director = x.Director,
-                        TrailerLink = x.TrailerLink,
-                        ReleaseYear = x.ReleaseYear,
-                        ReleaseDate = x.ReleaseDate,
-                        Country = x.Country,
-                        Language = x.Language,
-                        Genre = x.Genre,
-                        Length = x.Length,
-                        Deleted = x.Deleted,
-                        Cinema = new Cinema { Id = x.Cinema.Id }
-                    }));
+                    .Where(movie => movie.Cinema.Id == cinemaId));
 
                 var moviesList = _mapper.Map<IList<MovieListModel>>(movies);
 
@@ -110,6 +78,7 @@ namespace Movies.Services.Services.Movies
 
                 var movie = PrepareMovie(movieCreateModel);
                 movie.Cinema = cinema;
+                movie.CinemaId = cinemaId;
 
                 await _movieRepository.InsertAsync(movie);
 
@@ -132,7 +101,8 @@ namespace Movies.Services.Services.Movies
             try
             {
                 var movie = await _movieRepository.GetAsync(query => query
-                    .Where(movie => movie.Id == movieId));
+                    .Where(movie => movie.Id == movieId)
+                    .Where(movie => movie.CinemaId == cinemaId));
 
                 if (movie == null)
                     throw new BaseException($"Movie with id: {movieId} does not exist",
@@ -161,7 +131,8 @@ namespace Movies.Services.Services.Movies
             try
             {
                 var movie = await _movieRepository.GetAsync(query => query
-                    .Where(movie => movie.Id == movieId));
+                    .Where(movie => movie.Id == movieId)
+                    .Where(movie => movie.CinemaId == cinemaId));
 
                 _movieRepository.Delete(movie);
 
