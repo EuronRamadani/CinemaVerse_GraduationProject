@@ -14,6 +14,7 @@ namespace Movies.Core.Domain
 
         public List<Movie> Movies { get; set; }
         public List<Photo> Photos { get; set; }
+        public List<Event> Events { get; set; }
         //Add venues later
         //public List<Venue> Venues{ get; set; }
     }
