@@ -25,7 +25,7 @@ namespace Movies.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(ApiResponse<IList<CinemaListModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<IList<HallListModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get()
         {
@@ -35,7 +35,7 @@ namespace Movies.API.Controllers
 
         [HttpGet]
         [Route("{hallId}")]
-        [ProducesResponseType(typeof(ApiResponse<CinemaModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<HallModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int hallId)
         {
@@ -44,7 +44,7 @@ namespace Movies.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ApiResponse<CinemaModel>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<HallModel>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] HallCreateModel hallModel)
         {
@@ -68,7 +68,7 @@ namespace Movies.API.Controllers
 
         [HttpDelete]
         [Route("{hallId}")]
-        [ProducesResponseType(typeof(ApiResponse<CinemaModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<HallModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int hallId)
         {
