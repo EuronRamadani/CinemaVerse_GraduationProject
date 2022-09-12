@@ -62,12 +62,15 @@
           Submit
         </v-btn>
       </div>
-
       <hr />
-      Don't have an account?
-      <v-btn outlined color="primary" :to="{ name: 'Register' }">
-        Register
-      </v-btn>
+      <div class="noAcc">
+        <p>
+        Don't have an account?
+        </p>
+        <v-btn outlined color="primary" :to="{ name: 'Register' }">
+          Register
+        </v-btn>
+      </div>
     </v-form>
   </body>
 </template>
@@ -142,7 +145,16 @@ export default {
   },
 };
 </script>
-<style>
+<style lang="scss" scoped >
+
+.noAcc{
+  display: flex;
+  flex-direction: column;
+
+  p{
+    text-align: center;
+  }
+}
 .google-button {
   max-height: 50px;
 }

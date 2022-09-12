@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<input type="text" v-model="search" placeholder="search cinemas" />
+		<input type="text" v-model="search" placeholder="Search cinemas" />
 		<div class="card" v-for="cinema in filter" :key="cinema.id">
 			<v-card class="mx-auto my-12" max-width="374">
 				<template slot="progress">
@@ -161,7 +161,9 @@ export default {
 }
 input {
 	border: 1px solid black;
-	position: relative;
-	left: 85%;
+	padding: 20px;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	border-radius: 15px;
 }
 </style>

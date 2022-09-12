@@ -10,7 +10,7 @@
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <!-- <tbody>
+      <tbody>
         <tr
           v-for="{ id, name, image, description, isPaid } in events"
           :key="id"
@@ -28,7 +28,7 @@
             </button>
           </td>
         </tr>
-      </tbody> -->
+      </tbody>
     </table>
   </div>
 </template>
