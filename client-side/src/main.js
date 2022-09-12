@@ -5,14 +5,22 @@ import store from "./store";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import { initializeApp } from "firebase/app";
 
+import "@/assets/css/style.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+
+// Global Components
+import "./global-components";
+//  Global Helpers
+import helpers from "./helpers/helpers";
 
 import vuetify from "./plugins/vuetify";
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+
+Vue.mixin(helpers);
 
 Vue.config.productionTip = false;
 

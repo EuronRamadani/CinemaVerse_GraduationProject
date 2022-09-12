@@ -14,11 +14,11 @@ export default {
     },
   },
   actions: {
-    getMovies({ commit }) {
+    getMovies({ commit }, cinemaId) {
       commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
         api("movies")
-          .get(`movies`)
+          .get(`cinemas/${cinemaId}/movies`)
           .then((response) => {
             commit("SET_MOVIES", response.data.result);
             resolve(response);

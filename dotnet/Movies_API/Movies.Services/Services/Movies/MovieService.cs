@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Movies.Core.Domain;
 using Movies.Core.Exceptions;
 using Movies.Data.Interfaces;
 using Movies.Services.Models.Movies;
+using Movies.Services.Models.Photos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,8 @@ namespace Movies.Services.Services.Movies
         {
             var movie = await _movieRepository.GetAsync(query => query
                 .Where(movie => movie.Id == movieId)
-                .Where(movie => movie.CinemaId == cinemaId));
+                .Where(movie => movie.CinemaId == cinemaId)
+                .Include(movie => movie.Photos));
 
             if (movie == null)
                 throw new BaseException($"Movie with id {movieId} not found!", ExceptionType.ServerError,
@@ -51,7 +54,8 @@ namespace Movies.Services.Services.Movies
             try
             {
                 var movies = await _movieRepository.GetAllAsync(query => query
-                    .Where(movie => movie.Cinema.Id == cinemaId));
+                    .Where(movie => movie.Cinema.Id == cinemaId)
+                    .Include(movie => movie.Photos));
 
                 var moviesList = _mapper.Map<IList<MovieListModel>>(movies);
 

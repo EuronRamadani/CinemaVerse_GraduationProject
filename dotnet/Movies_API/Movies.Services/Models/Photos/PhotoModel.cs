@@ -9,5 +9,6 @@ namespace Movies.Services.Models.Photos
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImgPath { get; set; }
+        public string ImgClientPath { get; set; }
     }
 }

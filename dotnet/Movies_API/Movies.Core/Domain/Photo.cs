@@ -9,6 +9,7 @@ namespace Movies.Core.Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImgPath { get; set; }
+        public string ImgClientPath { get; set; }
         public bool Deleted { get; set; }
     }
 }

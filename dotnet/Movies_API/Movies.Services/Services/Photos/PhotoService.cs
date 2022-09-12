@@ -78,12 +78,14 @@ namespace Movies.Services.Services.Photos
         {
             long size = files.Sum(f => f.Length);
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/Cinemas");
-
-            var photosToReturn = new List<PhotoModel>();
+            var client_assets_folder = Directory.GetDirectories(@"../../../client-side/src/assets/")[0];
+            
+            string path = client_assets_folder + "/Cinemas";
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
+
+            var photosToReturn = new List<PhotoModel>();
 
             foreach (var formFile in files)
             {
@@ -112,12 +114,14 @@ namespace Movies.Services.Services.Photos
         {
             long size = files.Sum(f => f.Length);
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/Movies");
-
-            var photosToReturn = new List<PhotoModel>();
+            var client_assets_folder = Directory.GetDirectories(@"../../../client-side/src/assets/")[0];
+            
+            string path = client_assets_folder + "/Movies";
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
+
+            var photosToReturn = new List<PhotoModel>();
 
             foreach (var formFile in files)
             {
@@ -191,6 +195,7 @@ namespace Movies.Services.Services.Photos
                 Name = fileName,
                 Description = null,
                 ImgPath = fileNameWithPath,
+                ImgClientPath = "@/assets/App_Files/Cinemas/" + fileName,
                 Deleted = false,
                 InsertDate = DateTime.UtcNow,
                 UpdateDate = DateTime.UtcNow
@@ -211,6 +216,7 @@ namespace Movies.Services.Services.Photos
                 Name = fileName,
                 Description = null,
                 ImgPath = fileNameWithPath,
+                ImgClientPath = "@/assets/App_Files/Movies/"+ fileName,
                 Deleted = false,
                 InsertDate = DateTime.UtcNow,
                 UpdateDate = DateTime.UtcNow

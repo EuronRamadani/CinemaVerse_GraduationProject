@@ -7,7 +7,14 @@ import app from "./app";
 //Users
 import users from "./Users/users";
 
+//Movies
 import movies from "./Movies/movies";
+
+//Cinemas
+import cinemas from "./Cinemas/cinemas";
+
+//Events
+import events from "./Events/events";
 
 const initialState = {
   users: { ...users.state },
@@ -25,6 +32,8 @@ export default new Vuex.Store({
     app,
     users,
     movies,
+    cinemas,
+    events,
   },
   state: {},
   mutations: {
