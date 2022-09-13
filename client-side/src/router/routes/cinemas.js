@@ -47,6 +47,18 @@ export default [
       ),
   },
   {
+    path: "/admin/cinemas/details/:cinemaId/add-photo",
+    name: "cinema-add-photo",
+    meta: {
+      requiresAuth: true,
+      layout: "dashboard",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "cinema-details" */ "../../views/Admin/Cinemas/AddCinemaPhoto.vue"
+      ),
+  },
+  {
     path: "/admin/cinemas/edit/:cinemaId",
     name: "cinema-edit",
     meta: {

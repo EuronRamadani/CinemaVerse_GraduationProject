@@ -78,7 +78,7 @@ namespace Movies.Services.Services.Photos
         {
             long size = files.Sum(f => f.Length);
 
-            var client_assets_folder = Directory.GetDirectories(@"../../../client-side/src/assets/")[0];
+            var client_assets_folder = Directory.GetDirectories(@"../../../client-side/public/assets")[0];
             
             string path = client_assets_folder + "/Cinemas";
 
@@ -114,7 +114,7 @@ namespace Movies.Services.Services.Photos
         {
             long size = files.Sum(f => f.Length);
 
-            var client_assets_folder = Directory.GetDirectories(@"../../../client-side/src/assets/")[0];
+            var client_assets_folder = Directory.GetDirectories(@"../../../client-side/public/assets")[0];
             
             string path = client_assets_folder + "/Movies";
 
@@ -195,7 +195,7 @@ namespace Movies.Services.Services.Photos
                 Name = fileName,
                 Description = null,
                 ImgPath = fileNameWithPath,
-                ImgClientPath = "@/assets/App_Files/Cinemas/" + fileName,
+                ImgClientPath = "http://localhost:8080/assets/app_files/Cinemas/" + fileName,
                 Deleted = false,
                 InsertDate = DateTime.UtcNow,
                 UpdateDate = DateTime.UtcNow
@@ -216,7 +216,7 @@ namespace Movies.Services.Services.Photos
                 Name = fileName,
                 Description = null,
                 ImgPath = fileNameWithPath,
-                ImgClientPath = "@/assets/App_Files/Movies/"+ fileName,
+                ImgClientPath = "http://localhost:8080/assets/app_files/Movies/" + fileName,
                 Deleted = false,
                 InsertDate = DateTime.UtcNow,
                 UpdateDate = DateTime.UtcNow

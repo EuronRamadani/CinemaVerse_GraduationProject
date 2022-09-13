@@ -1,67 +1,73 @@
 <template>
-  <div class="table-wrapper cinemas">
+  <div class="table-wrapper p-2 cinemas">
     <h2>Cinemas</h2>
     <hr />
-    <div class="d-flex mb-5 cinemas-header">
-      <div>
-        <b-button class="mr-2" variant="success" @click="onCreateCinema()">
-          Create Cinema
-        </b-button>
-      </div>
-      <div>
-        <b-button
-          variant="outline-primary"
-          :disabled="!isSelected"
-          class="mr-2 d-lg-inline action-cinema-button"
-          @click="onEditClick(selected[0].id)"
+    <div v-if="loading"><loading-page /></div>
+    <div v-else>
+      <div class="d-flex mb-5 cinemas-header">
+        <div>
+          <v-btn color="success" class="mr-2" @click="onCreateCinema()">
+            <v-icon left dark> mdi-plus </v-icon>
+            Create Cinema
+          </v-btn>
+        </div>
+        <div>
+          <v-btn
+            color="primary"
+            :disabled="!isSelected"
+            class="mr-2 d-lg-inline action-cinema-button"
+            @click="onEditClick(selected[0].id)"
+          >
+            Edit
+          </v-btn>
+          <v-btn
+            color="error"
+            :loading="removingCinema"
+            :disabled="!isSelected || removingCinema"
+            class="mr-2 d-lg-inline action-cinema-button"
+            @click="onDeleteClick(selected[0].id)"
+          >
+            Delete
+            <template v-slot:loader>
+              <span class="custom-loader">
+                <v-icon light>mdi-cached</v-icon>
+              </span>
+            </template>
+          </v-btn>
+        </div>
+        <v-btn
+          :loading="loading"
+          :disabled="loading"
+          color="blue-grey"
+          class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
+          @click="onRefresh()"
         >
-          Edit
-        </b-button>
-        <button-loading
-          variant="outline-primary"
-          :disabled="!isSelected"
-          :spinning="removingCinema"
-          class="mr-2 d-lg-inline action-cinema-button"
-          @click="onDeleteClick(selected[0].id)"
-        >
-          Delete
-        </button-loading>
+          Refresh
+          <v-icon right dark> mdi-refresh </v-icon>
+          <template v-slot:loader>
+            <span class="custom-loader">
+              <v-icon light>mdi-cached</v-icon>
+            </span>
+          </template>
+        </v-btn>
       </div>
-      <button-loading
-        variant="outline-primary"
-        class="mt-1 mt-sm-0 ml-auto mr-0"
-        :spinning="loading"
-        :disabled="loading"
-        @click="onRefresh()"
-      >
-        Refresh
-      </button-loading>
-    </div>
-    <!-- DESKTOP -->
-    <div class="default-table position-relative d-lg-block">
-      <paper-simple>
-        <b-table
-          ref="table"
+      <div class="default-table position-relative d-lg-block">
+        <v-data-table
+          v-model="selected"
+          :single-select="true"
+          show-select
+          :headers="headers"
           :items="cinemas"
-          :fields="fields"
-          select-mode="single"
-          show-empty
-          selectable
-          responsive
+          item-key="id"
+          :items-per-page="10"
+          :loading="loading"
+          loading-text="Loading Cinemas... Please wait"
           :class="{ loaded: !loading }"
-          :busy="loading"
-          @row-selected="onRowSelected"
+          class="elevation-1"
         >
-          <template #cell(selected)="{ rowSelected }">
-            <select-button :selected="rowSelected" />
+          <template v-slot:[`item.name`]="{ item }">
+            <a class="link" @click="onDetailsClick(item.id)">{{ item.name }}</a>
           </template>
-
-          <template #cell(name)="data">
-            <a class="link" @click="onDetailsClick(data.item.id)">{{
-              data.value
-            }}</a>
-          </template>
-
           <template #empty>
             <div v-if="loading" class="loading-table text-center py-1">
               <b-spinner variant="primary" />
@@ -71,14 +77,12 @@
                 no-data-text="No Cinemas have been added yet..."
                 create-text="+ Create Cinema"
                 access-page="Cinemas"
-                icon="Monitoring"
                 @action="onCreateCinema()"
               />
             </template>
           </template>
-        </b-table>
-      </paper-simple>
-      <table-busy v-if="loading && cinemas.length > 0" />
+        </v-data-table>
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +93,18 @@ export default {
   components: {},
   data() {
     return {
+      headers: [
+        {
+          text: "Id",
+          align: "start",
+          sortable: false,
+          value: "id",
+        },
+        { text: "Name", value: "name" },
+        { text: "City", value: "city" },
+        { text: "Address", sortable: false, value: "address" },
+        { text: "Number Of Venues", value: "numberOfVenues" },
+      ],
       selected: [],
       fields: [
         {
@@ -166,11 +182,11 @@ export default {
       ).then((ok) => {
         if (ok) {
           this.$store
-            .dispatch("cinemas/removeCinema", cinemaId)
+            .dispatch("removeCinema", cinemaId)
             .then(() => {
-              this.successToast("Cinema was removed");
               this.selected = [];
               this.getCinemas();
+              this.successToast("Cinema was removed");
             })
             .catch((error) => {
               this.errorToast(error.response.data.errors[0]);

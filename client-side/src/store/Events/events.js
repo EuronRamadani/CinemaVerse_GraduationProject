@@ -2,7 +2,7 @@ import api from "@/libs/api";
 
 export default {
   state: {
-    loading: false,
+    looading: false,
     events: [],
   },
   mutations: {
@@ -17,7 +17,7 @@ export default {
     getEvents({ commit }, eventId) {
       commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
-        api("movies")
+        api("events")
           .get(`cinemas/${eventId}/events`)
           .then((response) => {
             commit("SET_EVENTS", response.data.result);

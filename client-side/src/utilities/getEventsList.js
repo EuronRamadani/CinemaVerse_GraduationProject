@@ -4,7 +4,7 @@ const getEvents = async () => {
   const apiCaller = axios.create({
     baseURL: "https://localhost:44355/",
   });
-  const { data } = await apiCaller.get(`api/events/`);
+  const { data } = await apiCaller.get(`api/Events/`);
 
   return data;
 };

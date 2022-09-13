@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Movies.API.Controllers
 {
-    [Route("api/cinemas/{cinemaId}/events")]
+    [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
     {
@@ -26,10 +26,9 @@ namespace Movies.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IList<EventListModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int cinemaId)
+        public async Task<IActionResult> Get()
         {
-            Console.WriteLine("test " + cinemaId);
-            var Events = await _eventService.GetAllAsync(cinemaId);
+            var Events = await _eventService.GetAllAsync();
             return Ok(new ApiResponse<IList<EventListModel>>(Events));
         }
 
@@ -37,9 +36,9 @@ namespace Movies.API.Controllers
         [Route("{EventId}")]
         [ProducesResponseType(typeof(ApiResponse<EventModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int cinemaId, int EventId)
+        public async Task<IActionResult> Get(int EventId)
         {
-            var Event = await _eventService.GetAsync(cinemaId,EventId);
+            var Event = await _eventService.GetAsync(EventId);
             return Ok(new ApiResponse<EventModel>(Event));
         }
 

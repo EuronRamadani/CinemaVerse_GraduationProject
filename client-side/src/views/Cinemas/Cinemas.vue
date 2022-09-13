@@ -10,16 +10,16 @@
             indeterminate
           ></v-progress-linear>
         </template>
+        <!-- 
+				<v-img
+					height="250"
+					src="@/assets/App_Files/Cinemas/2-1.png.png"
+				></v-img> -->
 
-        <v-img
-          height="250"
-          src="@/assets/App_Files/Cinemas/2-1.png.png"
-        ></v-img>
-
-        <v-card-title>{{ cinema.title }}</v-card-title>
+        <v-card-title>{{ cinema.name }}</v-card-title>
 
         <p class="ml-5">
-          {{ cinema.vendi }}
+          {{ cinema.city }}
         </p>
 
         <v-divider class="mx-4"></v-divider>
@@ -132,22 +132,38 @@ export default {
   name: "Cinemas",
   data() {
     return {
-      cinemas: [
-        {
-          title: "Cineplexx Cinema",
-          vendi: "Prishtine / Prizren",
-          cmimi: { name: "CineplexxPrice" },
-        },
-        { title: "ABC Cinema", vendi: "Prishtine" },
-      ],
+      // cinemas: [
+      // 	{
+      // 		title: "Cineplexx Cinema",
+      // 		vendi: "Prishtine / Prizren",
+      // 		cmimi: { name: "CineplexxPrice" },
+      // 	},
+      // 	{ title: "ABC Cinema", vendi: "Prishtine" },
+      // ],
       // cinemas: [],
       search: "",
     };
   },
+  created() {
+    this.getCinemas();
+  },
   computed: {
+    cinemas() {
+      return this.$store.state.cinemas.cinemas;
+    },
     filter() {
       return this.cinemas.filter((temp) => {
-        return temp.title.match(this.search);
+        return temp.name.match(this.search);
+      });
+    },
+  },
+  methods: {
+    getCinemas() {
+      this.$store.dispatch("getCinemas").catch((error) => {
+        this.errorToast(
+          error.response?.data?.errors[0] ||
+            "Something went wrong while fetching cinemas!"
+        );
       });
     },
   },

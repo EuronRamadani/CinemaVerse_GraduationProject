@@ -5,12 +5,10 @@ using Movies.Core.Domain;
 using Movies.Core.Exceptions;
 using Movies.Data.Interfaces;
 using Movies.Services.Models.Cinemas;
-using Movies.Services.Models.Photos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movies.Services.Services.Cinemas
@@ -35,7 +33,8 @@ namespace Movies.Services.Services.Cinemas
         {
             var cinema = await _cinemaRepository.GetAsync(query => query
                 .Where(cinema => cinema.Id == cinemaId)
-                .Include(cinema => cinema.Photos));
+                .Include(cinema => cinema.Photos
+                    .Where(photo => photo.Deleted == false)));
 
             if (cinema == null)
                 throw new BaseException($"Cinema with id {cinemaId} not found!", ExceptionType.ServerError,
@@ -51,7 +50,8 @@ namespace Movies.Services.Services.Cinemas
             try
             {
                 var cinemas = await _cinemaRepository.GetAllAsync(query => query
-                    .Include(movie => movie.Photos));
+                    .Include(movie => movie.Photos
+                        .Where(photo => photo.Deleted == false)));
 
                 var cinemasList = _mapper.Map<IList<CinemaListModel>>(cinemas);
 

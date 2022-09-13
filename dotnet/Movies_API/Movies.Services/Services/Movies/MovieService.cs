@@ -5,7 +5,6 @@ using Movies.Core.Domain;
 using Movies.Core.Exceptions;
 using Movies.Data.Interfaces;
 using Movies.Services.Models.Movies;
-using Movies.Services.Models.Photos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,7 +2,7 @@ import api from "@/libs/api";
 
 export default {
   state: {
-    loading: false,
+    looading: false,
     movies: [],
   },
   mutations: {

@@ -4,10 +4,7 @@ import axios from "axios";
 export const subdomains = {
   node: process.env.VUE_APP_NODE_ENV,
   movies: process.env.VUE_APP_MOVIES_ENV,
-  events: process.env.VUE_APP_EVENTS_ENV,
 };
-
-console.log(subdomains.movies)
 
 export const axiosIns = {};
 // eslint-disable-next-line no-restricted-syntax
