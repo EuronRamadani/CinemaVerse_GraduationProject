@@ -180,11 +180,11 @@ export default {
       ).then((ok) => {
         if (ok) {
           this.$store
-            .dispatch("cinemas/removeCinema", cinemaId)
+            .dispatch("removeCinema", cinemaId)
             .then(() => {
-              this.successToast("Cinema was removed");
               this.selected = [];
               this.getCinemas();
+              this.successToast("Cinema was removed");
             })
             .catch((error) => {
               this.errorToast(error.response.data.errors[0]);

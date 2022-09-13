@@ -74,13 +74,14 @@ namespace Movies.Services.Services.Events
                 if (cinema == null)
                     throw new BaseException($"Cinema with id {cinemaId} not found!", ExceptionType.NotFound, HttpStatusCode.NotFound);
 
-                var @event = PrepareEvent(eventCreateModel);
-                @event.Cinema = cinema;
-                @event.CinemaId = cinemaId;
+                var cinemaEvent = PrepareEvent(eventCreateModel);
 
-                await _eventRepository.InsertAsync(@event);
+                cinemaEvent.Cinema = cinema;
+                cinemaEvent.CinemaId = cinemaId;
 
-                var movieModel = _mapper.Map<EventModel>(@event);
+                await _eventRepository.InsertAsync(cinemaEvent);
+
+                var movieModel = _mapper.Map<EventModel>(cinemaEvent);
 
                 return movieModel;
             }

@@ -20,6 +20,41 @@ const helpers = {
       const opt = keys.map((key) => ({ text: key, value: options[key] }));
       return opt.find((o) => o.value === id)?.text;
     },
+    errorToast(message, title = "Error") {
+      this.generalToast(message, title, "danger");
+    },
+    successToast(message, title = "Success") {
+      this.generalToast(message, title, "success");
+    },
+    infoToast(message, title = "Info") {
+      this.generalToast(message, title, "primary");
+    },
+    generalToast(message, title, variant) {
+      this.$bvToast.toast(message, {
+        toastClass: "general-toast-class",
+        solid: true,
+        title,
+        variant,
+      });
+    },
+    confirmDelete(
+      title = "Delete",
+      message = "Are you sure you want to delete?",
+      okTitle = "Delete",
+      cancelTitle = "Cancel"
+    ) {
+      return this.$bvModal
+        .msgBoxConfirm(message, {
+          title,
+          okVariant: "danger",
+          okTitle,
+          cancelTitle,
+          cancelVariant: "bg-white",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .catch();
+    },
   },
 };
 
