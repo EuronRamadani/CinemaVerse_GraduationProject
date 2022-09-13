@@ -1,100 +1,90 @@
 <template>
-  <div class="table-wrapper p-2 movies">
-    <v-row>
-      <v-col cols="9">
-        <h2>Movies</h2>
-      </v-col>
-      <v-col cols="3">
-        <v-select
-          solo
-          v-model="selectedCinema"
-          :items="getObjectOptionsName(cinemas)"
-          @change="changeCinema()"
-          label="Select Cinema"
-        ></v-select>
-      </v-col>
-    </v-row>
-
+  <div class="table-wrapper movies">
+    <h2>Movies</h2>
+    <custom-select
+      v-model="selectedCinema"
+      class="r-dropdown col-2 p-0 method-dropdown"
+      :options="getObjectOptionsName(cinemas)"
+      @change="changeCinema()"
+    />
     <hr />
     <div class="d-flex mb-5 movies-header">
       <div>
-        <v-btn color="success" class="mr-2" @click="onCreateMovie()">
-          <v-icon left dark> mdi-plus </v-icon>
+        <b-button class="mr-2" variant="success" @click="onCreateMovie()">
           Create Movie
-        </v-btn>
+        </b-button>
       </div>
       <div>
-        <v-btn
-          color="primary"
+        <b-button
+          variant="outline-primary"
           :disabled="!isSelected"
           class="mr-2 d-lg-inline action-movie-button"
           @click="onEditClick(selected[0].id)"
         >
           Edit
-        </v-btn>
-        <v-btn
-          color="error"
-          :loading="removingMovie"
-          :disabled="!isSelected || removingMovie"
+        </b-button>
+        <button-loading
+          variant="outline-primary"
+          :disabled="!isSelected"
+          :spinning="removingMovie"
           class="mr-2 d-lg-inline action-movie-button"
           @click="onDeleteClick(selected[0].id)"
         >
           Delete
-          <template v-slot:loader>
-            <span class="custom-loader">
-              <v-icon light>mdi-cached</v-icon>
-            </span>
-          </template>
-        </v-btn>
+        </button-loading>
       </div>
-      <v-btn
-        :loading="loading"
+      <button-loading
+        variant="outline-primary"
+        class="mt-1 mt-sm-0 ml-auto mr-0"
+        :spinning="loading"
         :disabled="loading"
-        color="blue-grey"
-        class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
         @click="onRefresh()"
       >
         Refresh
-        <v-icon right dark> mdi-refresh </v-icon>
-        <template v-slot:loader>
-          <span class="custom-loader">
-            <v-icon light>mdi-cached</v-icon>
-          </span>
-        </template>
-      </v-btn>
+      </button-loading>
     </div>
     <!-- DESKTOP -->
     <div class="default-table position-relative d-lg-block">
-      <v-data-table
-        v-model="selected"
-        :single-select="true"
-        show-select
-        :headers="headers"
-        :items="movies"
-        item-key="id"
-        :items-per-page="10"
-        :loading="loading"
-        loading-text="Loading Movies... Please wait"
-        :class="{ loaded: !loading }"
-        class="elevation-1"
-      >
-        <template v-slot:[`item.title`]="{ item }">
-          <a class="link" @click="onDetailsClick(item.id)">{{ item.title }}</a>
-        </template>
-        <template slot="no-data">
-          <div v-if="loading" class="loading-table text-center py-1">
-            <b-spinner variant="primary" />
-          </div>
-          <template v-else>
-            <no-data
-              no-data-text="No Movies have been added to this cinema yet..."
-              create-text="+ Create Movie"
-              access-page="Movies"
-              @action="onCreateMovie()"
-            />
+      <paper-simple>
+        <b-table
+          ref="table"
+          :items="movies"
+          :fields="fields"
+          select-mode="single"
+          show-empty
+          selectable
+          responsive
+          :class="{ loaded: !loading }"
+          :busy="loading"
+          @row-selected="onRowSelected"
+        >
+          <template #cell(selected)="{ rowSelected }">
+            <select-button :selected="rowSelected" />
           </template>
-        </template>
-      </v-data-table>
+
+          <template #cell(title)="data">
+            <a class="link" @click="onDetailsClick(data.item.id)">{{
+              data.value
+            }}</a>
+          </template>
+
+          <template #empty>
+            <div v-if="loading" class="loading-table text-center py-1">
+              <b-spinner variant="primary" />
+            </div>
+            <template v-else>
+              <no-data
+                no-data-text="No Movies have been added to this cinema yet..."
+                create-text="+ Create Movie"
+                access-page="Movies"
+                icon="Monitoring"
+                @action="onCreateMovie()"
+              />
+            </template>
+          </template>
+        </b-table>
+      </paper-simple>
+      <table-busy v-if="loading && movies.length > 0" />
     </div>
   </div>
 </template>
@@ -106,19 +96,6 @@ export default {
   data() {
     return {
       selected: [],
-      headers: [
-        {
-          text: "Id",
-          align: "start",
-          sortable: false,
-          value: "id",
-        },
-        { text: "Title", value: "title" },
-        { text: "Trailer Link", sortable: false, value: "trailerLink" },
-        { text: "Country", value: "country" },
-        { text: "Language", value: "language" },
-        { text: "Genre", value: "genre" },
-      ],
       selectedCinema: null,
       fields: [
         {

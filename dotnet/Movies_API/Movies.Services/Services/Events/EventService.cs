@@ -9,6 +9,7 @@ using Movies.Core.Exceptions;
 using Movies.Data.Interfaces;
 using Movies.Services.Models.Events;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace Movies.Services.Services.Events
 {
@@ -31,38 +32,21 @@ namespace Movies.Services.Services.Events
             _cinemaRepository = cinemaRepository ?? throw new ArgumentNullException(nameof(cinemaRepository));
         }
 
-        public async Task<EventModel> GetAsync(int EventId)
+        public async Task<EventModel> GetAsync(int cinemaId, int EventId)
         {
-            var Event = await _eventRepository.GetAsync(query => query
-                .Where(Event => Event.Id == EventId));
+            var events = await _eventRepository.GetAsync(query => query
+                .Where(events => events.Id == EventId)
+                .Where(events => events.CinemaId == cinemaId));
 
-            if (Event == null)
-                throw new BaseException($"Event with id {EventId} not found!", ExceptionType.ServerError,
+            if (events == null)
+                throw new BaseException($"Movie with id {EventId} not found!", ExceptionType.ServerError,
                     HttpStatusCode.NotFound);
 
-            var EventModel = _mapper.Map<EventModel>(Event);
+            var eventsModel = _mapper.Map<EventModel>(events);
 
-            return EventModel;
+            return eventsModel;
         }
 
-        public async Task<IList<EventListModel>> GetAllAsync()
-        {
-            try
-            {
-                var Events = await _eventRepository.GetAllAsync(query => query);
-
-                var EventsList = _mapper.Map<IList<EventListModel>>(Events);
-
-                return EventsList;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-
-                throw new BaseException($"Failed to get all Events",
-                    ExceptionType.ServerError, HttpStatusCode.InternalServerError);
-            }
-        }
 
         public async Task<EventModel> Create(int cinemaId, EventCreateModel eventCreateModel)
         {
@@ -74,14 +58,13 @@ namespace Movies.Services.Services.Events
                 if (cinema == null)
                     throw new BaseException($"Cinema with id {cinemaId} not found!", ExceptionType.NotFound, HttpStatusCode.NotFound);
 
-                var cinemaEvent = PrepareEvent(eventCreateModel);
+                var @event = PrepareEvent(eventCreateModel);
+                @event.Cinema = cinema;
+                @event.CinemaId = cinemaId;
 
-                cinemaEvent.Cinema = cinema;
-                cinemaEvent.CinemaId = cinemaId;
+                await _eventRepository.InsertAsync(@event);
 
-                await _eventRepository.InsertAsync(cinemaEvent);
-
-                var movieModel = _mapper.Map<EventModel>(cinemaEvent);
+                var movieModel = _mapper.Map<EventModel>(@event);
 
                 return movieModel;
             }
@@ -151,6 +134,26 @@ namespace Movies.Services.Services.Events
             Event.InsertDate = DateTime.UtcNow;
             Event.UpdateDate = DateTime.UtcNow;
             return Event;
+        }
+
+        public async Task<IList<EventListModel>> GetAllAsync(int cinemaId)
+        {
+            try
+            {
+                var events = await _eventRepository.GetAllAsync(query => query
+                    .Where(events => events.Cinema.Id == cinemaId));
+
+                var eventsList = _mapper.Map<IList<EventListModel>>(events);
+
+                return eventsList;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+
+                throw new BaseException($"Failed to get all movies",
+                    ExceptionType.ServerError, HttpStatusCode.InternalServerError);
+            }
         }
     }
 }
