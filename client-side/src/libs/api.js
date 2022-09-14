@@ -6,6 +6,7 @@ export const subdomains = {
   movies: process.env.VUE_APP_MOVIES_ENV,
 };
 
+
 export const axiosIns = {};
 // eslint-disable-next-line no-restricted-syntax
 Object.keys(subdomains).forEach((subdomain) => {

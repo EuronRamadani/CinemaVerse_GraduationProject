@@ -9,6 +9,7 @@ namespace Movies.Core.Domain
 {
     public class Hall : BaseEntity, ISoftDeletedEntity
     {
+        public int CinemaId { get; set; }
         public int HallNumber{ get; set; }
         public int NumOfSeats{ get; set; }
         public bool Deleted{ get; set; }

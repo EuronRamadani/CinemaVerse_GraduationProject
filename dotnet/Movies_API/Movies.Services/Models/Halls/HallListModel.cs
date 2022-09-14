@@ -9,6 +9,7 @@ namespace Movies.Services.Models.Halls
     public class HallListModel
     {
         public int Id { get; set; }
+        public int CinemaId { get; set; }
         public int HallNumber { get; set; }
         public int NumOfSeats { get; set; }
     }

@@ -9,10 +9,10 @@ namespace Movies.Services.Services.Halls
 {
     public interface IHallService
     {
-        Task<IList<HallListModel>> GetAllAsync();
-        Task<HallModel> GetAsync(int hallId);
-        Task<HallModel> Create(HallCreateModel hallCreateModel);
-        Task<HallModel> Update(int hallId, HallCreateModel hallModel);
-        Task<HallModel> Delete(int hallId);
+        Task<IList<HallListModel>> GetAllAsync(int cinemaId);
+        Task<HallModel> GetAsync(int cinemaId , int hallId);
+        Task<HallModel> Create(int cinemaId, HallCreateModel hallCreateModel);
+        Task<HallModel> Update(int cinemaId, int hallId, HallCreateModel hallModel);
+        Task<HallModel> Delete(int cinemaId, int hallId);
     }
 }

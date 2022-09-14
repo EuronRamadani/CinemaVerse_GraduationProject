@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Movies.API.Controllers
 {
-    [Route("api/halls")]
+    [Route("api/cinemas/{cinemaId}/halls")]
     public class HallsController : ControllerBase
     {
         private readonly IHallService _hallService;
@@ -27,9 +27,9 @@ namespace Movies.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IList<HallListModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int cinemaId)
         {
-            var halls = await _hallService.GetAllAsync();
+            var halls = await _hallService.GetAllAsync(cinemaId);
             return Ok(new ApiResponse<IList<HallListModel>>(halls));
         }
 
@@ -37,20 +37,20 @@ namespace Movies.API.Controllers
         [Route("{hallId}")]
         [ProducesResponseType(typeof(ApiResponse<HallModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int hallId)
+        public async Task<IActionResult> Get(int cinemaId, int hallId)
         {
-            var hall = await _hallService.GetAsync(hallId);
+            var hall = await _hallService.GetAsync(cinemaId, hallId);
             return Ok(new ApiResponse<HallModel>(hall));
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<HallModel>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] HallCreateModel hallModel)
+        public async Task<IActionResult> Post(int cinemaId, [FromBody] HallCreateModel hallModel)
         {
-            var hall = await _hallService.Create(hallModel);
+            var hall = await _hallService.Create(cinemaId, hallModel);
             return CreatedAtAction(
-                nameof(Get),
+                nameof(Post),
                 new { hallId = hall.Id },
                 new ApiResponse<HallModel>(hall)
             );
@@ -60,9 +60,9 @@ namespace Movies.API.Controllers
         [Route("{hallId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(int hallId, [FromBody] HallCreateModel hallModel)
+        public async Task<IActionResult> Put(int cinemaId, int hallId, [FromBody] HallCreateModel hallModel)
         {
-            var hall = await _hallService.Update(hallId, hallModel);
+            var hall = await _hallService.Update(cinemaId, hallId, hallModel);
             return Ok(new ApiResponse<HallModel>(hall));
         }
 
@@ -70,9 +70,9 @@ namespace Movies.API.Controllers
         [Route("{hallId}")]
         [ProducesResponseType(typeof(ApiResponse<HallModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(int hallId)
+        public async Task<IActionResult> Delete(int cinemaId, int hallId)
         {
-            var hall = await _hallService.Delete(hallId);
+            var hall = await _hallService.Delete(cinemaId, hallId);
             return Ok(new ApiResponse<HallModel>(hall));
         }
     }
