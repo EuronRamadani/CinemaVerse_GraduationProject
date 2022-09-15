@@ -18,6 +18,7 @@ namespace Movies.Data
         public DbSet<Hall> Halls { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<MovieReview> MovieReviews { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

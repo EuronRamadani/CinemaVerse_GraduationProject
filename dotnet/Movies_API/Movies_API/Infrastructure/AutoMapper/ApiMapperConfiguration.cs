@@ -6,6 +6,7 @@ using Movies.Services.Models.Halls;
 using Movies.Services.Models.Events;
 using Movies.Services.Models.Movies;
 using Movies.Services.Models.Photos;
+using Movies.Services.Models.Reviews;
 
 namespace Movies.Api.Infrastructure.AutoMapper
 {
@@ -19,6 +20,7 @@ namespace Movies.Api.Infrastructure.AutoMapper
             CreateHallMapper();
             CreateActorMapper();
             CreateEventMapper();
+            CreateReviewMapper();
         }
 
         private void CreateActorMapper()
@@ -33,6 +35,21 @@ namespace Movies.Api.Infrastructure.AutoMapper
                 .ReverseMap();
 
             CreateMap<ActorModel, ActorCreateModel>()
+                .ReverseMap();
+        }
+
+        private void CreateReviewMapper()
+        {
+            CreateMap<MovieReview, MovieReviewModel>()
+               .ReverseMap();
+
+            CreateMap<MovieReview, MovieReviewListModel>()
+                .ReverseMap();
+
+            CreateMap<MovieReviewCreateModel, MovieReview>()
+                .ReverseMap();
+
+            CreateMap<MovieReviewModel, MovieReviewCreateModel>()
                 .ReverseMap();
         }
 

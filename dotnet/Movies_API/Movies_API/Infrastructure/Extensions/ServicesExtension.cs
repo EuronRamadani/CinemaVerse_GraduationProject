@@ -5,6 +5,7 @@ using Movies.Services.Services.Halls;
 using Movies.Services.Services.Events;
 using Movies.Services.Services.Movies;
 using Movies.Services.Services.Photos;
+using Movies.Services.Services.Reviews;
 
 namespace Movies.API.Infrastructure.Extensions
 {
@@ -18,6 +19,7 @@ namespace Movies.API.Infrastructure.Extensions
             services.AddScoped<IHallService, HallService>();
             services.AddScoped<IActorService, ActorService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IMovieReviewService, MovieReviewService>();
         }
     }
 }

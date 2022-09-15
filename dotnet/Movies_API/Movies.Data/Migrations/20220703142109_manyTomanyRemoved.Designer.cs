@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movies.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Movies.Data.Migrations
 {
     [DbContext(typeof(MoviesDbContext))]
-    partial class MoviesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220703142109_manyTomanyRemoved")]
+    partial class manyTomanyRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,9 +64,14 @@ namespace Movies.Data.Migrations
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
 
+                    b.Property<int?>("actorId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MovieId");
+
+                    b.HasIndex("actorId");
 
                     b.ToTable("Actors");
                 });
@@ -136,14 +143,8 @@ namespace Movies.Data.Migrations
                     b.Property<Guid>("InsertedBy")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("timestamp without time zone");
@@ -165,7 +166,7 @@ namespace Movies.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CinemaId")
+                    b.Property<int?>("CinemaId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("Deleted")
@@ -258,47 +259,6 @@ namespace Movies.Data.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("Movies.Core.Domain.MovieReview", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("InsertedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("ReviewDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("ReviewDescription")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ReviewTitle")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("MovieReviews");
-                });
-
             modelBuilder.Entity("Movies.Core.Domain.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -356,6 +316,12 @@ namespace Movies.Data.Migrations
                     b.HasOne("Movies.Core.Domain.Movie", null)
                         .WithMany("Actors")
                         .HasForeignKey("MovieId");
+
+                    b.HasOne("Movies.Core.Domain.Actor", "actor")
+                        .WithMany()
+                        .HasForeignKey("actorId");
+
+                    b.Navigation("actor");
                 });
 
             modelBuilder.Entity("Movies.Core.Domain.Event", b =>
@@ -373,9 +339,7 @@ namespace Movies.Data.Migrations
                 {
                     b.HasOne("Movies.Core.Domain.Cinema", "Cinema")
                         .WithMany("Halls")
-                        .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CinemaId");
 
                     b.Navigation("Cinema");
                 });
@@ -389,17 +353,6 @@ namespace Movies.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Cinema");
-                });
-
-            modelBuilder.Entity("Movies.Core.Domain.MovieReview", b =>
-                {
-                    b.HasOne("Movies.Core.Domain.Movie", "Movie")
-                        .WithMany("MovieReviews")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("Movies.Core.Domain.Photo", b =>
@@ -427,8 +380,6 @@ namespace Movies.Data.Migrations
             modelBuilder.Entity("Movies.Core.Domain.Movie", b =>
                 {
                     b.Navigation("Actors");
-
-                    b.Navigation("MovieReviews");
 
                     b.Navigation("Photos");
                 });
