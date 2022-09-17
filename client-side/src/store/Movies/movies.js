@@ -43,11 +43,11 @@ export default {
 					});
 			});
 		},
-		getMovie({ commit }, cinemaId, movieId) {
+		getMovie({ commit }, movieId) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.get(`cinemas/${cinemaId}/movies/${movieId}`)
+					.get(`cinemas/${2}/movies/${movieId}`)
 					.then((response) => {
 						commit("SET_MOVIE", response.data.result);
 						resolve(response);
@@ -61,11 +61,11 @@ export default {
 					});
 			});
 		},
-		removeMovie({ commit }, cinemaId, movieId) {
+		removeMovie({ commit }, movieId) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.delete(`cinemas/${cinemaId}/movies/${movieId}`)
+					.delete(`cinemas/${2}/movies/${movieId}`)
 					.then((response) => {
 						commit("REMOVE_MOVIE", movieId);
 						resolve(response);
@@ -78,11 +78,11 @@ export default {
 					});
 			});
 		},
-		editMovie({ commit }, cinemaId, movieId, movie) {
+		editMovie({ commit }, movie) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.put(`cinemas/${cinemaId}/movies/${movieId}`, movie)
+					.put(`cinemas/${3}/movies/${movie.id}`, movie)
 					.then((response) => {
 						commit("ADD_MOVIE", movie);
 						resolve(response);
@@ -95,11 +95,11 @@ export default {
 					});
 			});
 		},
-		createMovie({ commit }, movie, cinemaId) {
+		createMovie({ commit }, movie) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.post(`cinemas/${cinemaId}/movies`, movie)
+					.post(`cinemas/${2}/movies`, movie)
 					.then((response) => {
 						commit("ADD_MOVIE", movie);
 						resolve(response);

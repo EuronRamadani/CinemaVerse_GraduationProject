@@ -135,7 +135,7 @@ export default {
 		},
 		addActor() {
 			const actor = {
-				firstname: this.firstname,
+				firstName: this.firstname,
 				lastName: this.lastName,
 				imgPath: this.imgPath,
 				nationality: this.nationality,

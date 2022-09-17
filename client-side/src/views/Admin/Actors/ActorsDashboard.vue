@@ -135,7 +135,7 @@ export default {
 			return this.$store.state.actors.actors;
 		},
 		removingActor() {
-			return this.$store.state.cinemas.removingActor;
+			return this.$store.state.actors.removingActor;
 		},
 		isSelected() {
 			return this.selected[0];

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Movies.API.Controllers
 {
-    [Route("api/cinemas/{cinemaId}/movies/{movieId}/actors")]
+    [Route("api/actors")]
     public class ActorsController : ControllerBase
     {
         private readonly IActorService _actorService;

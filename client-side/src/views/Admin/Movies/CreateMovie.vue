@@ -73,8 +73,8 @@
 						rules="required"
 					>
 						<v-text-field
-							v-model.number="releaseDate"
-							type="number"
+							v-model="releaseDate"
+							type="date"
 							:error-messages="errors"
 							label="Release Date"
 							outlined
@@ -87,7 +87,7 @@
 						rules="required"
 					>
 						<v-text-field
-							v-model.number="country"
+							v-model="country"
 							:error-messages="errors"
 							label="Country"
 							outlined
@@ -100,7 +100,7 @@
 						rules="required"
 					>
 						<v-text-field
-							v-model.number="language"
+							v-model="language"
 							:error-messages="errors"
 							label="Language"
 							outlined
@@ -113,7 +113,7 @@
 						rules="required"
 					>
 						<v-text-field
-							v-model.number="genre"
+							v-model="genre"
 							:error-messages="errors"
 							label="Genre"
 							outlined
