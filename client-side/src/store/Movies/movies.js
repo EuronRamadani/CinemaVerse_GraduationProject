@@ -43,15 +43,14 @@ export default {
 					});
 			});
 		},
-		getMovie({ commit }, movieId) {
+		getMovie({ commit }, query) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.get(`cinemas/${2}/movies/${movieId}`)
+					.get(`cinemas/${query.cinemaId}/movies/${query.movieId}`)
 					.then((response) => {
 						commit("SET_MOVIE", response.data.result);
 						resolve(response);
-						console.log(response);
 					})
 					.catch((error) => {
 						reject(error);
@@ -61,13 +60,13 @@ export default {
 					});
 			});
 		},
-		removeMovie({ commit }, movieId) {
+		removeMovie({ commit }, query) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.delete(`cinemas/${2}/movies/${movieId}`)
+					.delete(`cinemas/${query.cinemaId}/movies/${query.movieId}`)
 					.then((response) => {
-						commit("REMOVE_MOVIE", movieId);
+						commit("REMOVE_MOVIE", query.movieId);
 						resolve(response);
 					})
 					.catch((error) => {
@@ -78,13 +77,16 @@ export default {
 					});
 			});
 		},
-		editMovie({ commit }, movie) {
+		editMovie({ commit }, query) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.put(`cinemas/${3}/movies/${movie.id}`, movie)
+					.put(
+						`cinemas/${query.cinemaId}/movies/${query.movie.id}`,
+						query.movie
+					)
 					.then((response) => {
-						commit("ADD_MOVIE", movie);
+						commit("ADD_MOVIE", query.movie);
 						resolve(response);
 					})
 					.catch((error) => {
@@ -95,13 +97,56 @@ export default {
 					});
 			});
 		},
-		createMovie({ commit }, movie) {
+		createMovie({ commit }, query) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.post(`cinemas/${2}/movies`, movie)
+					.post(`cinemas/${query.cinemaId}/movies`, query.movie)
 					.then((response) => {
-						commit("ADD_MOVIE", movie);
+						commit("ADD_MOVIE", query.movie);
+						resolve(response);
+					})
+					.catch((error) => {
+						reject(error);
+					})
+					.finally(() => {
+						commit("SET_LOADING", false);
+					});
+			});
+		},
+		addMoviePhotos({ commit }, query) {
+			commit("SET_LOADING", true);
+			return new Promise((resolve, reject) => {
+				const headers = {
+					"Content-Type": "multipart/form-data",
+				};
+				api("movies")
+					.post(
+						`cinemas/${query.cinemaId}/movies/${query.movieId}/photos`,
+						query.files,
+						{
+							headers: headers,
+						}
+					)
+					.then((response) => {
+						resolve(response);
+					})
+					.catch((error) => {
+						reject(error);
+					})
+					.finally(() => {
+						commit("SET_LOADING", false);
+					});
+			});
+		},
+		removeMoviePhoto({ commit }, query) {
+			commit("SET_LOADING", true);
+			return new Promise((resolve, reject) => {
+				api("movies")
+					.delete(
+						`cinemas/${query.cinemaId}/movies/${query.movieId}/photos/${query.photoId}`
+					)
+					.then((response) => {
 						resolve(response);
 					})
 					.catch((error) => {

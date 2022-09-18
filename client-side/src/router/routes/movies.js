@@ -18,6 +18,8 @@ export default [
         /* webpackChunkName: "register" */ "../../views/Movies/MovieDetails.vue"
       ),
   },
+
+  //Admin Routes
   {
     path: "/admin/movies",
     name: "MoviesDashboard",
@@ -31,7 +33,7 @@ export default [
       ),
   },
   {
-    path: "/admin/movies/create",
+    path: "/admin/movies/cinemaId/:cinemaId/create",
     name: "movie-create",
     meta: {
       requiresAuth: true,
@@ -43,7 +45,7 @@ export default [
       ),
   },
   {
-    path: "/admin/movies/details/:movieId",
+    path: "/admin/movies/cinemaId/:cinemaId/:movieId",
     name: "movie-details",
     meta: {
       requiresAuth: true,
@@ -55,7 +57,7 @@ export default [
       ),
   },
   {
-    path: "/admin/movies/edit/:movieId",
+    path: "/admin/movies/cinemaId/:cinemaId/edit/:movieId",
     name: "movie-edit",
     meta: {
       requiresAuth: true,
@@ -64,6 +66,18 @@ export default [
     component: () =>
       import(
         /* webpackChunkName: "movie-details" */ "../../views/Admin/Movies/EditMovie.vue"
+      ),
+  },
+  {
+    path: "/admin/movies/cinemaId/:cinemaId/add-photo/:movieId",
+    name: "movie-add-photo",
+    meta: {
+      requiresAuth: true,
+      layout: "dashboard",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "cinema-details" */ "../../views/Admin/Movies/AddMoviePhoto.vue"
       ),
   },
 

@@ -157,9 +157,6 @@ export default {
 		this.getCinemas();
 	},
 	methods: {
-		onRowSelected(item) {
-			this.selected = item;
-		},
 		onRefresh() {
 			this.getMovies(this.selectedCinema);
 		},
@@ -195,18 +192,19 @@ export default {
 		onEditClick(movieId) {
 			this.$router.push({
 				name: "movie-edit",
-				params: { movieId },
+				params: { cinemaId: this.selectedCinema.id, movieId: movieId },
 			});
 		},
 		onDetailsClick(movieId) {
 			this.$router.push({
 				name: "movie-details",
-				params: { movieId },
+				params: { cinemaId: this.selectedCinema.id, movieId: movieId },
 			});
 		},
 		onCreateMovie() {
 			this.$router.push({
 				name: "movie-create",
+				params: { cinemaId: this.selectedCinema.id },
 			});
 		},
 		onDeleteClick(movieId) {
@@ -216,11 +214,14 @@ export default {
 			).then((ok) => {
 				if (ok) {
 					this.$store
-						.dispatch("removeMovie", movieId)
+						.dispatch("removeMovie", {
+							cinemaId: this.selectedCinema.id,
+							movieId: movieId,
+						})
 						.then(() => {
 							this.successToast("Movie was removed");
 							this.selected = [];
-							this.getMovies(this.selectedCinema.id);
+							this.getMovies(this.selectedCinema);
 						})
 						.catch((error) => {
 							this.errorToast(error.response.data.errors[0]);

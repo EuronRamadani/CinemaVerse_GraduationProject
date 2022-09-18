@@ -1,53 +1,50 @@
 <template>
-  <div>
-    <input type="text" v-model="search" placeholder="Search cinemas" />
-    <div class="card" v-for="cinema in filter" :key="cinema.id">
-      <v-card class="mx-auto my-12" max-width="374">
-        <template slot="progress">
-          <v-progress-linear
-            color="deep-purple"
-            height="10"
-            indeterminate
-          ></v-progress-linear>
-        </template>
-        <!-- 
-				<v-img
-					height="250"
-					src="@/assets/App_Files/Cinemas/2-1.png.png"
-				></v-img> -->
+	<div>
+		<input type="text" v-model="search" placeholder="Search cinemas" />
+		<div class="card" v-for="cinema in filter" :key="cinema.id">
+			<v-card class="mx-auto my-12" max-width="374">
+				<template slot="progress">
+					<v-progress-linear
+						color="deep-purple"
+						height="10"
+						indeterminate
+					></v-progress-linear>
+				</template>
 
-        <v-card-title>{{ cinema.name }}</v-card-title>
+				<v-img height="250" src="@/assets/joker.jpg"></v-img>
 
-        <p class="ml-5">
-          {{ cinema.city }}
-        </p>
+				<v-card-title>{{ cinema.name }}</v-card-title>
 
-        <v-divider class="mx-4"></v-divider>
+				<p class="ml-5">
+					{{ cinema.city }}
+				</p>
 
-        <!-- <v-card-title>Tonight's availability</v-card-title> -->
+				<v-divider class="mx-4"></v-divider>
 
-        <v-card-actions>
-          <v-btn color="deep-purple lighten-2" text :to="{ name: 'Cineplexx' }">
-            View Movies
-          </v-btn>
-          <v-btn
-            color="deep-purple lighten-2"
-            text
-            :to="{ name: 'CineplexxPrice' }"
-          >
-            See Prices
-          </v-btn>
-          <v-btn
-            color="deep-purple lighten-2"
-            text
-            :to="{ name: 'CineplexxInfo' }"
-          >
-            Info
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </div>
-  </div>
+				<!-- <v-card-title>Tonight's availability</v-card-title> -->
+
+				<v-card-actions>
+					<v-btn color="deep-purple lighten-2" text :to="{ name: 'Cineplexx' }">
+						View Movies
+					</v-btn>
+					<v-btn
+						color="deep-purple lighten-2"
+						text
+						:to="{ name: 'CineplexxPrice' }"
+					>
+						See Prices
+					</v-btn>
+					<v-btn
+						color="deep-purple lighten-2"
+						text
+						:to="{ name: 'CineplexxInfo' }"
+					>
+						Info
+					</v-btn>
+				</v-card-actions>
+			</v-card>
+		</div>
+	</div>
 </template>
 
 <!--<template>
@@ -129,57 +126,57 @@
 
 <script>
 export default {
-  name: "Cinemas",
-  data() {
-    return {
-      // cinemas: [
-      // 	{
-      // 		title: "Cineplexx Cinema",
-      // 		vendi: "Prishtine / Prizren",
-      // 		cmimi: { name: "CineplexxPrice" },
-      // 	},
-      // 	{ title: "ABC Cinema", vendi: "Prishtine" },
-      // ],
-      // cinemas: [],
-      search: "",
-    };
-  },
-  created() {
-    this.getCinemas();
-  },
-  computed: {
-    cinemas() {
-      return this.$store.state.cinemas.cinemas;
-    },
-    filter() {
-      return this.cinemas.filter((temp) => {
-        return temp.name.match(this.search);
-      });
-    },
-  },
-  methods: {
-    getCinemas() {
-      this.$store.dispatch("getCinemas").catch((error) => {
-        this.errorToast(
-          error.response?.data?.errors[0] ||
-            "Something went wrong while fetching cinemas!"
-        );
-      });
-    },
-  },
+	name: "Cinemas",
+	data() {
+		return {
+			// cinemas: [
+			// 	{
+			// 		title: "Cineplexx Cinema",
+			// 		vendi: "Prishtine / Prizren",
+			// 		cmimi: { name: "CineplexxPrice" },
+			// 	},
+			// 	{ title: "ABC Cinema", vendi: "Prishtine" },
+			// ],
+			// cinemas: [],
+			search: "",
+		};
+	},
+	created() {
+		this.getCinemas();
+	},
+	computed: {
+		cinemas() {
+			return this.$store.state.cinemas.cinemas;
+		},
+		filter() {
+			return this.cinemas.filter((temp) => {
+				return temp.name.match(this.search);
+			});
+		},
+	},
+	methods: {
+		getCinemas() {
+			this.$store.dispatch("getCinemas").catch((error) => {
+				this.errorToast(
+					error.response?.data?.errors[0] ||
+						"Something went wrong while fetching cinemas!"
+				);
+			});
+		},
+	},
 };
 </script>
 
 <style scoped>
 .card {
-  flex-direction: row;
-  justify-content: center;
+	flex-direction: row;
+	justify-content: center;
 }
 input {
-  border: 1px solid black;
-  padding: 20px;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  border-radius: 15px;
+	border: 1px solid black;
+	padding: 20px;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	border-radius: 15px;
 }
 </style>

@@ -37,7 +37,8 @@ namespace Movies.Services.Services.Movies
             var movie = await _movieRepository.GetAsync(query => query
                 .Where(movie => movie.Id == movieId)
                 .Where(movie => movie.CinemaId == cinemaId)
-                .Include(movie => movie.Photos));
+                .Include(movie => movie.Photos
+                    .Where(photo => photo.Deleted == false)));
 
             if (movie == null)
                 throw new BaseException($"Movie with id {movieId} not found!", ExceptionType.ServerError,
@@ -54,7 +55,8 @@ namespace Movies.Services.Services.Movies
             {
                 var movies = await _movieRepository.GetAllAsync(query => query
                     .Where(movie => movie.Cinema.Id == cinemaId)
-                    .Include(movie => movie.Photos));
+                    .Include(movie => movie.Photos
+                        .Where(photo => photo.Deleted == false)));
 
                 var moviesList = _mapper.Map<IList<MovieListModel>>(movies);
 

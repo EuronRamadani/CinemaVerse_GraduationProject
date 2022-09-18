@@ -172,43 +172,11 @@ export default {
           );
         });
     },
-    editCinema() {
-      const cinema = {
-        id: this.cinemaId,
-        name: this.cinema.name,
-        description: this.cinema.description,
-        city: this.cinema.city,
-        address: this.cinema.address,
-        numberOfVenues: this.cinema.numberOfVenues,
-      };
-      this.$store
-        .dispatch("editCinema", cinema)
-        .then(() => {
-          this.clear();
-          this.$router.push({
-            name: "CinemasDashboard",
-          });
-        })
-        .catch((error) => {
-          this.errorToast(
-            error.response?.data?.errors[0] ||
-              "Something went wrong while creating cinemas!"
-          );
-        });
-    },
     redirectToAddPhoto(cinemaId) {
       this.$router.push({
         name: "cinema-add-photo",
         cinemaId: cinemaId,
       });
-    },
-    clear() {
-      this.name = "";
-      this.description = "";
-      this.city = "";
-      this.address = "";
-      this.numOfVenues = 0;
-      this.$refs.observer.reset();
     },
   },
 };
