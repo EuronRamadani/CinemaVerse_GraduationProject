@@ -17,7 +17,6 @@ import users from "./routes/users";
 import admin from "./routes/admin";
 import movies from "./routes/movies";
 import cinemas from "./routes/cinemas";
-import events from "./routes/events";
 import event from "./routes/event";
 import actors from "./routes/actors";
 
@@ -33,7 +32,6 @@ const router = new VueRouter({
 		...admin,
 		...movies,
 		...cinemas,
-		...events,
 		...event,
 		...actors,
 		{

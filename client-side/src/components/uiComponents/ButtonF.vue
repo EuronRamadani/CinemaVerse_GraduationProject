@@ -14,7 +14,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 button {
   position: relative;
   padding: 1em 1.8em;

@@ -31,7 +31,7 @@ namespace Movies.Services.Services.Events
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _cinemaRepository = cinemaRepository ?? throw new ArgumentNullException(nameof(cinemaRepository));
         }
-
+        
         public async Task<EventModel> GetAsync(int cinemaId, int EventId)
         {
             var events = await _eventRepository.GetAsync(query => query
@@ -39,15 +39,14 @@ namespace Movies.Services.Services.Events
                 .Where(events => events.CinemaId == cinemaId));
 
             if (events == null)
-                throw new BaseException($"Movie with id {EventId} not found!", ExceptionType.ServerError,
+                throw new BaseException($"Event with id {EventId} not found!", ExceptionType.ServerError,
                     HttpStatusCode.NotFound);
 
             var eventsModel = _mapper.Map<EventModel>(events);
 
             return eventsModel;
         }
-
-
+       
         public async Task<EventModel> Create(int cinemaId, EventCreateModel eventCreateModel)
         {
             try

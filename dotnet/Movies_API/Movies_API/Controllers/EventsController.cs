@@ -27,8 +27,7 @@ namespace Movies.API.Controllers
         [ProducesResponseType(typeof(ApiResponse<IList<EventListModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int cinemaId)
-        {
-            Console.WriteLine("test " + cinemaId);
+        {        
             var Events = await _eventService.GetAllAsync(cinemaId);
             return Ok(new ApiResponse<IList<EventListModel>>(Events));
         }
@@ -39,7 +38,7 @@ namespace Movies.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int cinemaId, int EventId)
         {
-            var Event = await _eventService.GetAsync(cinemaId,EventId);
+            var Event = await _eventService.GetAsync(cinemaId, EventId);
             return Ok(new ApiResponse<EventModel>(Event));
         }
 

@@ -1,6 +1,6 @@
 <template>
   <div id="example">
-    <h2 class="mx-3 grey--text">Upcoming Movies</h2>
+    <h2 class="mx-3">Latest Movies</h2>
     <carousel-3d
       :controls-visible="true"
       :clickable="false"

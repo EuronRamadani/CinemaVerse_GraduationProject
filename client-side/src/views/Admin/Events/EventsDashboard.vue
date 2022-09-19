@@ -1,90 +1,100 @@
 <template>
-  <div class="table-wrapper events">
-    <h2>Events</h2>
-    <custom-select
-      v-model="selectedCinema"
-      class="r-dropdown col-2 p-0 method-dropdown"
-      :options="getObjectOptionsName(cinemas)"
-      @change="changeCinema()"
-    />
+  <div class="table-wrapper p-2 events">
+    <v-row>
+      <v-col cols="9">
+        <h2>Events</h2>
+      </v-col>
+      <v-col cols="3">
+        <v-select
+          solo
+          v-model="selectedCinema"
+          :items="getObjectOptionsName(cinemas)"
+          @change="changeCinema()"
+          label="Select Cinema"
+        ></v-select>
+      </v-col>
+    </v-row>
+
     <hr />
     <div class="d-flex mb-5 events-header">
       <div>
-        <b-button class="mr-2" variant="success" @click="onCreateEvent()">
+        <v-btn color="success" class="mr-2" @click="onCreateEvent()">
+          <v-icon left dark> mdi-plus </v-icon>
           Create Event
-        </b-button>
+        </v-btn>
       </div>
       <div>
-        <b-button
-          variant="outline-primary"
+        <v-btn
+          color="primary"
           :disabled="!isSelected"
           class="mr-2 d-lg-inline action-event-button"
           @click="onEditClick(selected[0].id)"
         >
           Edit
-        </b-button>
-        <button-loading
-          variant="outline-primary"
-          :disabled="!isSelected"
-          :spinning="removingMovie"
+        </v-btn>
+        <v-btn
+          color="error"
+          :loading="removingEvent"
+          :disabled="!isSelected || removingEvent"
           class="mr-2 d-lg-inline action-event-button"
           @click="onDeleteClick(selected[0].id)"
         >
           Delete
-        </button-loading>
+          <template v-slot:loader>
+            <span class="custom-loader">
+              <v-icon light>mdi-cached</v-icon>
+            </span>
+          </template>
+        </v-btn>
       </div>
-      <button-loading
-        variant="outline-primary"
-        class="mt-1 mt-sm-0 ml-auto mr-0"
-        :spinning="loading"
+      <v-btn
+        :loading="loading"
         :disabled="loading"
+        color="blue-grey"
+        class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
         @click="onRefresh()"
       >
         Refresh
-      </button-loading>
+        <v-icon right dark> mdi-refresh </v-icon>
+        <template v-slot:loader>
+          <span class="custom-loader">
+            <v-icon light>mdi-cached</v-icon>
+          </span>
+        </template>
+      </v-btn>
     </div>
     <!-- DESKTOP -->
     <div class="default-table position-relative d-lg-block">
-      <paper-simple>
-        <b-table
-          ref="table"
-          :items="events"
-          :fields="fields"
-          select-mode="single"
-          show-empty
-          selectable
-          responsive
-          :class="{ loaded: !loading }"
-          :busy="loading"
-          @row-selected="onRowSelected"
-        >
-          <template #cell(selected)="{ rowSelected }">
-            <select-button :selected="rowSelected" />
+      <v-data-table
+        v-model="selected"
+        :single-select="true"
+        show-select
+        :headers="headers"
+        :items="events"
+        item-key="id"
+        :items-per-page="10"
+        :loading="loading"
+        loading-text="Loading events... Please wait"
+        :class="{ loaded: !loading }"
+        class="elevation-1"
+      >
+        <template v-slot:[`item.title`]="{ item }">
+          <a class="link" @click="onDetailsClick(item.id)">{{ item.name }}</a>
+        </template>
+        <template slot="no-data">
+          <div v-if="loading" class="loading-table text-center py-1">
+            <b-spinner variant="primary" />
+          </div>
+          <template v-else>
+            <no-data
+              no-data-text="No events have been added to this cinema yet..."
+              create-text="+ Create event"
+              access-page="events"
+              @action="onCreateEvent()"
+            />
           </template>
-
-          <template #cell(Title)="data">
-            <a class="link" @click="onDetailsClick(data.item.id)">{{
-              data.value
-            }}</a>
-          </template>
-
-          <template #empty>
-            <div v-if="loading" class="loading-table text-center py-1">
-              <b-spinner variant="primary" />
-            </div>
-            <template v-else>
-              <no-data
-                no-data-text="No Events have been added to this cinema yet..."
-                create-text="+ Create Event"
-                access-page="Events"
-                icon="Monitoring"
-                @action="onCreateMovie()"
-              />
-            </template>
-          </template>
-        </b-table>
-      </paper-simple>
-      <table-busy v-if="loading && events.length > 0" />
+        </template>
+      </v-data-table>
     </div>
   </div>
 </template>
@@ -96,6 +106,19 @@ export default {
   data() {
     return {
       selected: [],
+      headers: [
+        {
+          text: "Id",
+          align: "start",
+          sortable: false,
+          value: "id",
+        },
+        { text: "Title", value: "name" },
+        { text: "Description", value: "description" },
+        { text: "Date", value: "date" },
+        { text: "Price", value: "price" },
+        { text: "Is Paid?", value: "isPaid" },
+      ],
       selectedCinema: null,
       fields: [
         {
@@ -108,6 +131,8 @@ export default {
         { key: "name" },
         { key: "description" },
         { key: "date" },
+        { key: "price" },
+        { key: "isPaid" },
       ],
     };
   },
@@ -129,7 +154,7 @@ export default {
     },
   },
   created() {
-    this.getEvents();
+    this.getCinemas();
   },
   methods: {
     onRowSelected(item) {
@@ -142,19 +167,24 @@ export default {
       this.$store
         .dispatch("getCinemas")
         .then(() => {
-          if (this.selectedEvent == null) {
-            this.selectedEvent = this.events[0];
+          if (this.selectedCinema == null) {
+            this.selectedCinema = this.cinemas[0];
           }
-          this.getEvents(this.selectedEvent);
+          this.getEvents(this.selectedCinema);
         })
         .catch((error) => {
-          console.log(error);
+          this.errorToast(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching events!"
+          );
         });
     },
     getEvents(selectedCinema) {
-      console.log("testing " + selectedCinema.id);
       this.$store.dispatch("getEvents", selectedCinema.id).catch((error) => {
-        console.log(error);
+        this.errorToast(
+          error.response?.data?.errors[0] ||
+            "Something went wrong while fetching movies!"
+        );
       });
     },
     changeCinema() {
@@ -165,7 +195,7 @@ export default {
     onEditClick(eventId) {
       this.$router.push({
         name: "event-edit",
-        params: { eventId },
+        params: { cinemaId: this.selectedCinema.id, eventId: eventId },
       });
     },
     onDetailsClick(eventId) {
@@ -177,6 +207,7 @@ export default {
     onCreateEvent() {
       this.$router.push({
         name: "event-create",
+        params: { cinemaId: this.selectedCinema.id },
       });
     },
     onDeleteClick(eventId) {
@@ -186,14 +217,17 @@ export default {
       ).then((ok) => {
         if (ok) {
           this.$store
-            .dispatch("events/removeEvent", eventId)
+            .dispatch("removeEvent", {
+              cinemaId: this.selectedCinema.id,
+              eventId: eventId,
+            })
             .then(() => {
               this.successToast("Event was removed");
               this.selected = [];
-              this.getEvents(this.selectedCinema.id);
+              this.getEvents(this.selectedCinema);
             })
             .catch((error) => {
-              console.log(error);
+              this.errorToast(error.response.data.errors[0]);
             });
         }
       });

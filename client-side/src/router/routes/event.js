@@ -1,5 +1,16 @@
 export default [
 	{
+		path: "/events",
+		name: "Events",
+		meta: {
+		  layout: "public",
+		},
+		component: () =>
+		  import(
+			/* webpackChunkName: "register" */ "../../views/Events/Events.vue"
+		  ),
+	  },
+	{
 		path: "/event",
 		name: "Event",
 		component: () =>
@@ -7,4 +18,29 @@ export default [
 				/* webpackChunkName: "register" */ "../../views/Events/Event.vue"
 			),
 	},
+	{
+		path: "/admin/events/cinemaId/:cinemaId/create",
+		name: "event-create",
+		meta: {
+		  requiresAuth: true,
+		  layout: "dashboard",
+		},
+		component: () =>
+		  import(
+			/* webpackChunkName: "create-event" */ "../../views/Admin/Events/CreateEvent.vue"
+		  ),
+	  },
+	  {
+		path: "/admin/events/edit/:eventId",
+		name: "event-edit",
+		meta: {
+		  requiresAuth: true,
+		  layout: "dashboard",
+		},
+		component: () =>
+		  import(
+			/* webpackChunkName: "cinema-details" */ "../../views/Admin/Events/EditEvent.vue"
+		  ),
+	  },
+	
 ];

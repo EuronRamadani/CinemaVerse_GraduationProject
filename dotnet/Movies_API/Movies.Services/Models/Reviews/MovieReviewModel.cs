@@ -10,9 +10,8 @@ namespace Movies.Services.Models.Reviews
     {
         public int Id { get; set; }
         public string ReviewTitle { get; set; }
-
         public string ReviewDescription { get; set; }
-
+        public int ReviewRating { get; set; }
         public DateTime ReviewDate { get; set; }
     }
 }
