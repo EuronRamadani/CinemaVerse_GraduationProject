@@ -32,23 +32,6 @@ namespace Movies.Services.Services.Movies
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<MovieModel> GetAsync(int cinemaId, int movieId)
-        {
-            var movie = await _movieRepository.GetAsync(query => query
-                .Where(movie => movie.Id == movieId)
-                .Where(movie => movie.CinemaId == cinemaId)
-                .Include(movie => movie.Photos
-                    .Where(photo => photo.Deleted == false)));
-
-            if (movie == null)
-                throw new BaseException($"Movie with id {movieId} not found!", ExceptionType.ServerError,
-                    HttpStatusCode.NotFound);
-
-            var movieModel = _mapper.Map<MovieModel>(movie);
-
-            return movieModel;
-        }
-
         public async Task<IList<MovieListModel>> GetAllAsync(int cinemaId)
         {
             try
@@ -71,6 +54,23 @@ namespace Movies.Services.Services.Movies
             }
         }
 
+        public async Task<MovieModel> GetAsync(int cinemaId, int movieId)
+        {
+            var movie = await _movieRepository.GetAsync(query => query
+                .Where(movie => movie.Id == movieId)
+                .Where(movie => movie.CinemaId == cinemaId)
+                .Include(movie => movie.Photos
+                    .Where(photo => photo.Deleted == false)));
+
+            if (movie == null)
+                throw new BaseException($"Movie with id {movieId} not found!", ExceptionType.ServerError,
+                    HttpStatusCode.NotFound);
+
+            var movieModel = _mapper.Map<MovieModel>(movie);
+
+            return movieModel;
+        }
+
         public async Task<MovieModel> Create(int cinemaId, MovieCreateModel movieCreateModel)
         {
             try
@@ -78,7 +78,7 @@ namespace Movies.Services.Services.Movies
                 var cinema = await _cinemaRepository.GetAsync(query => query
                     .Where(c => c.Id == cinemaId));
 
-                if(cinema == null)
+                if (cinema == null)
                     throw new BaseException($"Cinema with id {cinemaId} not found!", ExceptionType.NotFound, HttpStatusCode.NotFound);
 
                 var movie = PrepareMovie(movieCreateModel);

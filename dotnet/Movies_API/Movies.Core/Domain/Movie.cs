@@ -23,17 +23,8 @@ namespace Movies.Core.Domain
         public Cinema Cinema { get; set; }
         public List<Photo> Photos { get; set; }
         public List<Actor> Actors { get; set; }
-        
-        public List<MovieReview> MovieReviews { get; set;}
+        public List<MovieReview> MovieReviews { get; set; }
+        public List<MovieTime> MovieTimes { get; set; }
 
-        //public List<Actor> Actors { get; set; }
-        //public List<Review> Reviews { get; set; }
     }
-
-    //public class Actor
-    //{
-    //    public string CharacterName { get; set; }
-    //    public string FirstName { get; set; }
-    //    public string LastName { get; set; }
-    //}
 }

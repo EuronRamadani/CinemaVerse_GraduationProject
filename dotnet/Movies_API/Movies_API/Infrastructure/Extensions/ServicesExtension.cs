@@ -6,6 +6,7 @@ using Movies.Services.Services.Events;
 using Movies.Services.Services.Movies;
 using Movies.Services.Services.Photos;
 using Movies.Services.Services.Reviews;
+using Movies.Services.Services.MovieTimes;
 
 namespace Movies.API.Infrastructure.Extensions
 {
@@ -20,6 +21,7 @@ namespace Movies.API.Infrastructure.Extensions
             services.AddScoped<IActorService, ActorService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IMovieReviewService, MovieReviewService>();
+            services.AddScoped<IMovieTimeService, MovieTimeService>();
         }
     }
 }
