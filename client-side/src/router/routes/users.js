@@ -21,6 +21,28 @@ export default [
         /* webpackChunkName: "login" */ "../../views/Authorization/Login/Login.vue"
       ),
   },
+  {
+    path: "/profile",
+    name: "Profile",
+    meta: {
+      layout: "public",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "login" */ "../../views/Profile.vue"
+      ),
+  },
+  {
+    path: "/forgotPassword",
+    name: "ForgotPassword",
+    meta: {
+      layout: "public",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "login" */ "../../views/ForgotPassword.vue"
+      ),
+  },
 
   //Admin Routes
   {

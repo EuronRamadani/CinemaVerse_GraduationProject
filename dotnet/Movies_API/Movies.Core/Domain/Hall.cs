@@ -6,7 +6,8 @@ namespace Movies.Core.Domain
     public class Hall : BaseEntity, ISoftDeletedEntity
     {
         public int CinemaId { get; set; }
-        public int HallNumber{ get; set; }
+        public string Name{ get; set; }
+        public string HallNumber{ get; set; }
         public int NumberOfRows{ get; set; }
         public bool Has3D { get; set; }
         public bool Deleted{ get; set; }

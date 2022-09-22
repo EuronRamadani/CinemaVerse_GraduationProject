@@ -1,65 +1,71 @@
 <template>
-  <div>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center mr-5">
-        <v-list color="primary" class="d-flex">
-          <!-- v-for="item in items" :key="item" -->
-          <v-list-item :to="{ name: 'Home' }">
-            <!-- "logo" -->
-            <img :src="logo" alt="logo" class="logo" />
-          </v-list-item>
-        </v-list>
-      </div>
-      <div class="nav-links">
-        <v-list color="primary" class="d-flex">
-          <v-list-item v-for="item in items" :key="item" :to="{ name: item }">
-            {{ item }}
-          </v-list-item>
-          <v-list-item v-if="user.isAdmin" :to="{ name: 'Admin' }">
-            Admin
-          </v-list-item>
-        </v-list>
-      </div>
-      <v-spacer></v-spacer>
-      <div class="nav-links">
-        <v-list color="primary" class="d-flex">
-          <v-list-item v-if="isLoggedIn">
-            <v-avatar size="50">
-              <img :src="user.photoURL" />
-            </v-avatar>
-          </v-list-item>
-          <v-list-item v-if="isLoggedIn" class="nav-links">
-            {{ user.displayName }}
-          </v-list-item>
-        </v-list>
-      </div>
-      <div class="my-2">
-        <v-btn
-          outlined
-          text
-          v-if="!isLoggedIn"
-          :to="{ name: 'Login' }"
-          class="mr-2"
-        >
-          <span>Login</span>
-          <v-icon right>login</v-icon>
-        </v-btn>
+  <div class="header">
+    <a class="logo" :to="{ name: 'Home' }">CinemaVerse</a>
+    <div class="header-right">
+      <div class="left">
+        <router-link class="active" :to="{ name: 'Home' }"> Home </router-link>
+        <router-link :to="{ name: 'Events' }"> Events </router-link>
+        <router-link :to="{ name: 'Movies' }"> Movies </router-link>
+        <router-link :to="{ name: 'Cinemas' }"> Cinemas </router-link>
+                   <v-select
+          v-if="isLoggedIn"
+          solo
+          v-model="selectedCinema"
+          :items="getObjectOptionsName(cinemas)"
+          @change="changeCinema()"
+          label="Select Cinema"
+        ></v-select>
       </div>
 
-      <div class="my-2">
-        <v-btn outlined text v-if="!isLoggedIn" :to="{ name: 'Register' }">
-          <span>Register</span>
-          <v-icon right>person_add</v-icon>
-        </v-btn>
-      </div>
+      <div class="right">
+          <v-btn
+            outlined
+            text
+            v-if="!isLoggedIn"
+            :to="{ name: 'Login' }"
+            class="mr-2"
+          >
+            <span>Login</span>
+            <v-icon right>login</v-icon>
+          </v-btn>
+       
+        <v-avatar v-if="isLoggedIn" size="50"> <img :src="user.photoURL" /> </v-avatar>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <div class="my-2">
-        <v-btn outlined text v-if="isLoggedIn" @click="handleSignOut">
-          <span>Sign Out</span>
-          <v-icon right>logout</v-icon>
-        </v-btn>
+        <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+          <v-list nav dense>
+            <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+            >
+              <v-list-item>
+                <v-list-item-title>
+                  <router-link :to="{ name: 'Admin' }"> Admin </router-link>
+                </v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-title>
+                  <router-link
+                    v-if="isLoggedIn"
+                    class="link"
+                    :to="{ name: 'Profile' }"
+                  >
+                    {{ user.displayName }}
+                  </router-link></v-list-item-title
+                >
+              </v-list-item>
+            </v-list-item-group>
+
+            <v-list-item>
+              <v-list-item-title>
+                <router-link :to="{ name: 'Admin' }"> Sign Out </router-link>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-navigation-drawer>
       </div>
-    </v-app-bar>
+    </div>
   </div>
 </template>
 
@@ -68,6 +74,13 @@ import { signOut } from "firebase/auth";
 
 export default {
   components: {},
+  data() {
+    return {
+      selectedCinema: null,
+      drawer: false,
+      group: null,
+    };
+  },
   props: {
     isLoggedIn: {
       required: true,
@@ -77,13 +90,23 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      items: ["Cinemas", "Movies", "Events"],
-      logo: require("@/assets/main-logo_1.svg"),
-    };
+  created() {
+    this.getCinemas();
+  },
+  watch: {
+    group() {
+      this.drawer = false;
+    },
   },
   methods: {
+    openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    },
+    closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    },
     handleSignOut() {
       signOut(this.auth).then(() => {
         this.$store.commit("RESET_STATE");
@@ -91,17 +114,111 @@ export default {
         window.location.reload();
       });
     },
+    getCinemas() {
+      this.$store
+        .dispatch("getCinemas")
+        .then(() => {
+          if (this.selectedCinema == null) {
+            this.selectedCinema = this.cinemas[0];
+          }
+          // this.getEvents(this.selectedCinema);
+        })
+        .catch((error) => {
+          this.errorToast(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching events!"
+          );
+        });
+    },
   },
   computed: {
     user() {
       return this.$store.state.users.user;
+    },
+    cinemas() {
+      return this.$store.state.cinemas.cinemas;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.logo {
-  width: 180px;
+.header-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+  .right{
+    height: 80px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  overflow: hidden;
+  background-color: rgb(72, 143, 239);
+  padding: 20px 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.header a.logo {
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.header a:hover {
+  background-color: #0818a8;
+  color: black;
+}
+
+.header a.active {
+  background-color: rgb(33, 31, 32);
+  color: white;
+}
+
+.header-right {
+  padding: 1px;
+}
+
+@media screen and (max-width: 500px) {
+  .right {
+    display: none;
+  }
+  .header {
+    position: relative;
+  }
+
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  .header-right {
+    float: none;
+  }
 }
 </style>

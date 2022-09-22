@@ -1,6 +1,6 @@
 <template>
   <div id="example">
-    <h2 class="mx-3">Latest Movies</h2>
+    <h2>Latest Movies</h2>
     <carousel-3d
       :controls-visible="true"
       :clickable="false"
@@ -70,5 +70,11 @@ export default {
 .next span,
 .prev span {
   color: red;
+}
+
+h2{
+  text-align: center;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 </style>

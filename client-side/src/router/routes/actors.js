@@ -1,5 +1,17 @@
 export default [
 	{
+		path: "/actor/:id",
+		name: "Actor",
+		meta: {
+			// requiresAuth: true,
+			layout: "public",
+		},
+		component: () =>
+			import(
+				/* webpackChunkName: "admin" */ "../../components/ActorDetails.vue"
+			),
+	},
+	{
 		path: "/admin/actors",
 		name: "ActorsDashboard",
 		meta: {

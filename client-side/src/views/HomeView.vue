@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<!-- <h1>Homepage</h1> -->
 		<UpcomingMovies />
 		<section id="features" class="grey lighten-3">
 			<div class="py-12"></div>

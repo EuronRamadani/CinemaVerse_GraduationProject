@@ -1,4 +1,5 @@
 ﻿using Movies.Core.Domain.Common;
+using System.Collections.Generic;
 
 namespace Movies.Core.Domain
 {
@@ -14,5 +15,6 @@ namespace Movies.Core.Domain
 
         public Hall Hall { get; set; }
         public Row Row { get; set; }
+        public List<Ticket> Tickets { get; set; }
     }
 }
