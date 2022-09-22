@@ -7,10 +7,12 @@ namespace Movies.Core.Domain
     {
         public int CinemaId { get; set; }
         public int HallNumber{ get; set; }
-        public int NumOfSeats{ get; set; }
+        public int NumberOfRows{ get; set; }
+        public bool Has3D { get; set; }
         public bool Deleted{ get; set; }
 
         public Cinema Cinema{ get; set; }
         public List<MovieTime> MovieTimes { get; set; }
+        public List<Row> Rows { get; set; }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Movies.Core.Domain;
 using Movies.Core.Exceptions;
 using Movies.Data.Interfaces;
 using Movies.Services.Models.Halls;
+using Movies.Services.Models.Rows;
+using Movies.Services.Services.Rows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +17,24 @@ namespace Movies.Services.Services.Halls
 {
     public class HallService : IHallService
     {
-
         private readonly IMapper _mapper;
         private readonly IRepository<Hall> _hallRepository;
         private readonly IRepository<Cinema> _cinemaRepository;
+        private readonly IRowService _rowService;
         private readonly ILogger<HallService> _logger;
 
         public HallService(
             IMapper mapper,
             IRepository<Hall> hallRepository,
-            ILogger<HallService> logger,
-            IRepository<Cinema> cinemaRepository)
+            IRepository<Cinema> cinemaRepository,
+            IRowService rowService,
+            ILogger<HallService> logger)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _hallRepository = hallRepository ?? throw new ArgumentNullException(nameof(hallRepository));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _cinemaRepository = cinemaRepository ?? throw new ArgumentNullException(nameof(cinemaRepository));
+            _rowService = rowService ?? throw new ArgumentNullException(nameof(rowService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<IList<HallListModel>> GetAllAsync(int cinemaId)
@@ -56,7 +61,9 @@ namespace Movies.Services.Services.Halls
         {
             var hall = await _hallRepository.GetAsync(query => query
                 .Where(hall => hall.Id == hallId)
-                .Where(hall => hall.CinemaId == cinemaId));
+                .Where(hall => hall.CinemaId == cinemaId)
+                .Include(hall => hall.Rows)
+                    .ThenInclude(Row => Row.Seats));
 
             if (hall == null)
                 throw new BaseException($"Hall with id {hallId} not found!", ExceptionType.ServerError,
@@ -86,6 +93,10 @@ namespace Movies.Services.Services.Halls
                 await _hallRepository.InsertAsync(hall);
 
                 var hallModel = _mapper.Map<HallModel>(hall);
+
+                var rowList = await CreateRows(cinemaId, hallModel);
+
+                hallModel.Rows = _mapper.Map<List<RowModel>>(rowList);
 
                 return hallModel;
             }
@@ -135,8 +146,7 @@ namespace Movies.Services.Services.Halls
             {
                 var hall = await _hallRepository.GetAsync(query => query
                     .Where(hall => hall.Id == hallId)
-                    .Where(hall => hall.CinemaId == cinemaId)
-                    );
+                    .Where(hall => hall.CinemaId == cinemaId));
 
                 _hallRepository.Delete(hall);
 
@@ -150,6 +160,47 @@ namespace Movies.Services.Services.Halls
                 throw new BaseException($"Failed to delete Hall with id: {hallId}!",
                     ExceptionType.ServerError, HttpStatusCode.InternalServerError);
             }
+        }
+
+        public async Task<List<Row>> CreateRows(int cinemaId, HallModel hallModel)
+        {
+            var rowList = new List<Row> { };
+            var rowIdCodes = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P' };
+
+            for (int i = 0; i < hallModel.NumberOfRows; i++)
+            {
+                var rowCreateModel = new RowCreateModel
+                {
+                    RowName = null,
+                    NumberOfSeats = 15,
+                    IsVipRow = false,
+                };
+
+                if (i == hallModel.NumberOfRows - 1)
+                {
+                    rowCreateModel.NumberOfSeats = 10;
+                    rowCreateModel.IsVipRow = true;
+                }
+
+                rowCreateModel.RowName = rowIdCodes[i].ToString();
+
+                try
+                {
+                    var rowModel = await _rowService.Create(cinemaId, hallModel.Id, rowCreateModel);
+                    
+                    rowList.Add(_mapper.Map<Row>(rowModel));
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, e.Message);
+
+                    if (e is BaseException) throw;
+                    throw new BaseException($"Failed to insert row!",
+                        ExceptionType.ServerError, HttpStatusCode.InternalServerError);
+                }
+            };
+
+            return rowList;
         }
 
         private Hall PrepareHall(HallCreateModel hallCreateModel)
