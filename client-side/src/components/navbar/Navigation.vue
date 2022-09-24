@@ -7,8 +7,7 @@
         <router-link :to="{ name: 'Events' }"> Events </router-link>
         <router-link :to="{ name: 'Movies' }"> Movies </router-link>
         <router-link :to="{ name: 'Cinemas' }"> Cinemas </router-link>
-                   <v-select
-          v-if="isLoggedIn"
+        <v-select
           solo
           v-model="selectedCinema"
           :items="getObjectOptionsName(cinemas)"
@@ -18,19 +17,24 @@
       </div>
 
       <div class="right">
-          <v-btn
-            outlined
-            text
-            v-if="!isLoggedIn"
-            :to="{ name: 'Login' }"
-            class="mr-2"
-          >
-            <span>Login</span>
-            <v-icon right>login</v-icon>
-          </v-btn>
-       
-        <v-avatar v-if="isLoggedIn" size="50"> <img :src="user.photoURL" /> </v-avatar>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-btn
+          outlined
+          text
+          v-if="!isLoggedIn"
+          :to="{ name: 'Login' }"
+          class="mr-2"
+        >
+          <span>Login</span>
+          <v-icon right>login</v-icon>
+        </v-btn>
+
+        <v-avatar v-if="isLoggedIn" size="50">
+          <img :src="user.photoURL" />
+        </v-avatar>
+        <v-app-bar-nav-icon
+          v-if="isLoggedIn"
+          @click.stop="drawer = !drawer"
+        ></v-app-bar-nav-icon>
 
         <v-navigation-drawer v-model="drawer" absolute bottom temporary>
           <v-list nav dense>
@@ -40,7 +44,9 @@
             >
               <v-list-item>
                 <v-list-item-title>
-                  <router-link :to="{ name: 'Admin' }"> Admin </router-link>
+                  <router-link v-if="user.isAdmin" :to="{ name: 'Admin' }">
+                    Admin
+                  </router-link>
                 </v-list-item-title>
               </v-list-item>
 
@@ -58,8 +64,8 @@
             </v-list-item-group>
 
             <v-list-item>
-              <v-list-item-title>
-                <router-link :to="{ name: 'Admin' }"> Sign Out </router-link>
+              <v-list-item-title  @click="handleSignOut()">
+                <router-link :to="{ name: 'Login' }"> Sign Out </router-link>
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -99,13 +105,14 @@ export default {
     },
   },
   methods: {
-    openNav() {
-      document.getElementById("mySidebar").style.width = "250px";
-      document.getElementById("main").style.marginLeft = "250px";
-    },
-    closeNav() {
-      document.getElementById("mySidebar").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
+    changeCinema(){
+      this.$store.dispatch("getCinema",this.selectedCinema.id)
+        .catch((error) => {
+          this.errorToast(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching cinema!"
+          );
+        });
     },
     handleSignOut() {
       signOut(this.auth).then(() => {
@@ -149,7 +156,7 @@ export default {
   justify-content: space-between;
   width: 100%;
 
-  .right{
+  .right {
     height: 80px;
   }
 }
@@ -190,7 +197,7 @@ body {
 }
 
 .header a:hover {
-  background-color: #0818a8;
+  background-color: white;
   color: black;
 }
 

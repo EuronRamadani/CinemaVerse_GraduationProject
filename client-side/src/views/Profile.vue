@@ -15,14 +15,6 @@
           <p>{{ user.displayName }}</p>
         </div>
         <div class="input">
-          <label for="lastName">Last Name:</label>
-          <p>{{ user.lastname }}</p>
-        </div>
-        <div class="input">
-          <label for="username">Username:</label>
-          <p>{{ user.username }}</p>
-        </div>
-        <div class="input">
           <label for="email">Email:</label>
           <p>{{ user.email }}</p>
         </div>
@@ -50,13 +42,6 @@ export default {
     };
   },
   methods: {
-    // handleSignOut() {
-    //   signOut(this.auth).then(() => {
-    //     this.$store.commit("RESET_STATE");
-    //     this.$router.push("/login");
-    //     window.location.reload();
-    //   });
-    // },
   },
   computed: {
     user() {

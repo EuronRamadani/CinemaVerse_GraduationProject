@@ -8,6 +8,11 @@ export default {
     events: [],
     event: {},
   },
+  getters: {
+    eventList(state) {
+      return state.events;
+    },
+  },
   mutations: {
     SET_LOADING(state, value) {
       state.loading = value;

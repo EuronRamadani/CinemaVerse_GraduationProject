@@ -171,8 +171,8 @@ namespace Movies.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("HallNumber")
-                        .HasColumnType("text");
+                    b.Property<int>("HallNumber")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("Has3D")
                         .HasColumnType("boolean");
@@ -182,9 +182,6 @@ namespace Movies.Data.Migrations
 
                     b.Property<Guid>("InsertedBy")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
 
                     b.Property<int>("NumberOfRows")
                         .HasColumnType("integer");
@@ -496,75 +493,6 @@ namespace Movies.Data.Migrations
                     b.ToTable("Seats");
                 });
 
-            modelBuilder.Entity("Movies.Core.Domain.Ticket", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("HallId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("InsertedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("Is3D")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsTicketForCouple")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsVipTicket")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("MovieStartTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("MovieTimeId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("text");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
-
-                    b.Property<int>("RowId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("TicketCode")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HallId");
-
-                    b.HasIndex("MovieTimeId");
-
-                    b.HasIndex("SeatId");
-
-                    b.ToTable("Tickets");
-                });
-
             modelBuilder.Entity("Movies.Core.Domain.Actor", b =>
                 {
                     b.HasOne("Movies.Core.Domain.Movie", null)
@@ -676,33 +604,6 @@ namespace Movies.Data.Migrations
                     b.Navigation("Row");
                 });
 
-            modelBuilder.Entity("Movies.Core.Domain.Ticket", b =>
-                {
-                    b.HasOne("Movies.Core.Domain.Hall", "Hall")
-                        .WithMany()
-                        .HasForeignKey("HallId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Movies.Core.Domain.MovieTime", "MovieTime")
-                        .WithMany()
-                        .HasForeignKey("MovieTimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Movies.Core.Domain.Seat", "Seat")
-                        .WithMany("Tickets")
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hall");
-
-                    b.Navigation("MovieTime");
-
-                    b.Navigation("Seat");
-                });
-
             modelBuilder.Entity("Movies.Core.Domain.Cinema", b =>
                 {
                     b.Navigation("Events");
@@ -735,11 +636,6 @@ namespace Movies.Data.Migrations
             modelBuilder.Entity("Movies.Core.Domain.Row", b =>
                 {
                     b.Navigation("Seats");
-                });
-
-            modelBuilder.Entity("Movies.Core.Domain.Seat", b =>
-                {
-                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

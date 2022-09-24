@@ -10,7 +10,6 @@ using Movies.Services.Models.Reviews;
 using Movies.Services.Models.MovieTimes;
 using Movies.Services.Models.Rows;
 using Movies.Services.Models.Seats;
-using Movies.Services.Models.Tickets;
 
 namespace Movies.Api.Infrastructure.AutoMapper
 {
@@ -28,7 +27,6 @@ namespace Movies.Api.Infrastructure.AutoMapper
             CreateMovieTimeMapper();
             CreateRowMapper();
             CreateSeatMapper();
-            CreateTicketMapper();
         }
 
         private void CreateActorMapper()
@@ -85,8 +83,8 @@ namespace Movies.Api.Infrastructure.AutoMapper
                 .ReverseMap();
 
             CreateMap<MovieCreateModel, Movie>()
-                .ReverseMap();
-
+                .ReverseMap();            
+            
             CreateMap<MovieModel, MovieCreateModel>()
                 .ReverseMap();
         }
@@ -131,8 +129,8 @@ namespace Movies.Api.Infrastructure.AutoMapper
 
             CreateMap<MovieTimeModel, MovieTimeCreateModel>()
                 .ReverseMap();
-        }
-
+        }       
+        
         private void CreateRowMapper()
         {
             CreateMap<Row, RowModel>()
@@ -144,7 +142,7 @@ namespace Movies.Api.Infrastructure.AutoMapper
             CreateMap<RowModel, RowCreateModel>()
                 .ReverseMap();
         }
-
+        
         private void CreateSeatMapper()
         {
             CreateMap<Seat, SeatModel>()
@@ -154,18 +152,6 @@ namespace Movies.Api.Infrastructure.AutoMapper
                 .ReverseMap();
 
             CreateMap<SeatModel, SeatCreateModel>()
-                .ReverseMap();
-        }
-
-        private void CreateTicketMapper()
-        {
-            CreateMap<Ticket, TicketModel>()
-                .ReverseMap();
-
-            CreateMap<TicketCreateModel, Ticket>()
-                .ReverseMap();
-
-            CreateMap<TicketModel, TicketCreateModel>()
                 .ReverseMap();
         }
 
