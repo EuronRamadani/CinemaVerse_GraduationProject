@@ -1,5 +1,14 @@
+import { format } from "date-fns";
+
 const helpers = {
   methods: {
+    formatDateTime: (isoDate) =>
+      isoDate ? format(new Date(`${isoDate}Z`), "yyyy-MM-dd HH:mm:ss") : "-",
+    formatOffsetDateTime: (isoDate) =>
+      isoDate ? format(new Date(`${isoDate}`), "yyyy-MM-dd HH:mm:ss") : "-",
+    formatDateTimeDetailed: (isoDate) =>
+      isoDate ? format(new Date(`${isoDate}Z`), "yyyy-MM-dd HH:mm:ss") : "-",
+
     getOptions: (options) =>
       options.map((o) => ({ text: o.value, value: o.id })),
     getObjectOptions: (options) => {

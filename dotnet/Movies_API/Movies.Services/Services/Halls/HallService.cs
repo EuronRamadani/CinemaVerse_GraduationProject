@@ -121,8 +121,12 @@ namespace Movies.Services.Services.Halls
                 if (hall == null)
                     throw new BaseException($"Hall with id: {hallId} does not exist",
                         ExceptionType.NotFound, HttpStatusCode.NotFound);
-
+                
+                var numberOfRows = hall.NumberOfRows;
+                
                 _mapper.Map(hallUpdateModel, hall);
+
+                hall.NumberOfRows = numberOfRows;
 
                 _hallRepository.Update(hall);
 

@@ -22,6 +22,7 @@ namespace Movies.Data
         public DbSet<MovieTime> MovieTimes { get; set; }
         public DbSet<Row> Rows { get; set; }
         public DbSet<Seat> Seats { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

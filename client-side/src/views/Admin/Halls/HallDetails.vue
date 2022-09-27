@@ -4,24 +4,16 @@
     <div v-else>
       <v-row>
         <v-col cols="9">
-          <h2>Movie Details</h2>
+          <h2>Hall Details</h2>
         </v-col>
         <v-col class="d-flex align-content-end" cols="3">
           <v-btn
             class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
             color="success"
-            @click="redirectToAddPhoto(cinemaId, movieId)"
+            @click="redirectToAddPhoto(cinemaId, hallId)"
           >
             <v-icon left dark> mdi-camera </v-icon>
             Add Images
-          </v-btn>
-          <v-btn
-            class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
-            color="primary"
-            @click="redirectToMovieTimes(cinemaId, movieId)"
-          >
-            <v-icon left dark> schedule </v-icon>
-            View Schedule
           </v-btn>
         </v-col>
       </v-row>
@@ -29,10 +21,10 @@
       <hr />
       <div class="container mt-5">
         <v-col class="d-flex align-center justify-content-center" cols="12">
-          <v-item v-if="movie.photos.length > 0">
+          <!-- <v-item v-if="hall.photos.length > 0">
             <v-carousel>
               <v-carousel-item
-                v-for="(photo, i) in movie.photos"
+                v-for="(photo, i) in hall.photos"
                 :key="i"
                 :src="photo.imgClientPath"
                 reverse-transition="fade-transition"
@@ -42,7 +34,7 @@
                   <v-btn
                     class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
                     color="error"
-                    @click="removePhoto(cinemaId, movieId, photo)"
+                    @click="removePhoto(cinemaId, hallId, photo)"
                   >
                     <v-icon left dark> mdi-close </v-icon>
                     Remove
@@ -50,13 +42,13 @@
                 </div>
               </v-carousel-item>
             </v-carousel>
-          </v-item>
-          <div v-else class="d-flex flex-column mb-5">
-            <h2>There are no photos for this movie!</h2>
+          </v-item> -->
+          <div class="d-flex flex-column mb-5">
+            <h2>There are no photos for this hall!</h2>
             <v-btn
               color="success"
               class="mr-2"
-              @click="redirectToAddPhoto(cinemaId, movieId)"
+              @click="redirectToAddPhoto(cinemaId, hallId)"
             >
               <v-icon left dark> mdi-camera </v-icon>
               Add Image
@@ -70,73 +62,32 @@
               <v-col cols="12" md="4">
                 <v-item>
                   <span
-                    >Title:
-                    <h6>{{ movie.title }}</h6>
+                    >Name:
+                    <h6>{{ hall.name }}</h6>
                   </span>
                 </v-item>
               </v-col>
               <v-col cols="12" md="4">
                 <v-item>
                   <span
-                    >Description:
-                    <h6>{{ movie.description }}</h6></span
-                  >
-                </v-item>
-              </v-col>
-
-              <v-col cols="12" md="4">
-                <v-item>
-                  <span
-                    >Trailer Link:
-                    <h6>{{ movie.trailerLink }}</h6></span
+                    >Hall Number:
+                    <h6>{{ hall.hallNumber }}</h6></span
                   >
                 </v-item>
               </v-col>
               <v-col cols="12" md="4">
                 <v-item>
                   <span
-                    >Release Year:
-                    <h6>{{ movie.releaseYear }}</h6></span
+                    >Number Of Rows:
+                    <h6>{{ hall.numberOfRows }}</h6></span
                   >
                 </v-item>
               </v-col>
               <v-col cols="12" md="4">
                 <v-item>
                   <span
-                    >Release Date:
-                    <h6>{{ movie.releaseDate }}</h6></span
-                  >
-                </v-item>
-              </v-col>
-              <v-col cols="12" md="4">
-                <v-item>
-                  <span
-                    >Country:
-                    <h6>{{ movie.country }}</h6></span
-                  >
-                </v-item>
-              </v-col>
-              <v-col cols="12" md="4">
-                <v-item>
-                  <span
-                    >Language:
-                    <h6>{{ movie.language }}</h6></span
-                  >
-                </v-item>
-              </v-col>
-              <v-col cols="12" md="4">
-                <v-item>
-                  <span
-                    >Genre:
-                    <h6>{{ movie.genre }}</h6></span
-                  >
-                </v-item>
-              </v-col>
-              <v-col cols="12" md="4">
-                <v-item>
-                  <span
-                    >Movie Length (minutes):
-                    <h6>{{ movie.length }}</h6></span
+                    >Has 3D Display:
+                    <h6>{{ hall.has3D }}</h6></span
                   >
                 </v-item>
               </v-col>
@@ -160,7 +111,7 @@ export default {
   data() {
     return {
       cinemaId: null,
-      movieId: null,
+      hallId: null,
       required,
       numberInt,
       minValueRule,
@@ -168,34 +119,34 @@ export default {
   },
   created() {
     this.cinemaId = this.$route.params.cinemaId;
-    this.movieId = this.$route.params.movieId;
+    this.hallId = this.$route.params.hallId;
     const query = {
       cinemaId: this.cinemaId,
-      movieId: this.movieId,
+      hallId: this.hallId,
     };
-    this.getMovie(query);
+    this.getHall(query);
   },
   computed: {
     loading() {
-      return this.$store.state.movies.loading;
+      return this.$store.state.halls.loading;
     },
-    movie() {
-      return this.$store.state.movies.movie;
+    hall() {
+      return this.$store.state.halls.hall;
     },
   },
   methods: {
     submit() {
       this.$refs.observer.validate();
     },
-    removePhoto(cinemaId, movieId, photo) {
+    removePhoto(cinemaId, hallId, photo) {
       this.$store
-        .dispatch("removeMoviePhoto", {
+        .dispatch("removeHallPhoto", {
           cinemaId: cinemaId,
-          movieId: movieId,
+          hallId: hallId,
           photoId: photo.longId,
         })
         .then(() => {
-          this.getMovie({ cinemaId: cinemaId, movieId: movieId });
+          this.getHall({ cinemaId: cinemaId, hallId: hallId });
         })
         .catch((error) => {
           this.errorToast(
@@ -204,24 +155,18 @@ export default {
           );
         });
     },
-    getMovie(query) {
-      this.$store.dispatch("getMovie", query).catch((error) => {
+    getHall(query) {
+      this.$store.dispatch("getHall", query).catch((error) => {
         this.errorToast(
           error.response?.data?.errors[0] ||
-            "Something went wrong while fetching movie!"
+            "Something went wrong while fetching hall!"
         );
       });
     },
-    redirectToAddPhoto(cinemaId, movieId) {
+    redirectToAddPhoto(cinemaId, hallId) {
       this.$router.push({
-        name: "movie-add-photo",
-        params: { cinemaId: cinemaId, movieId: movieId },
-      });
-    },
-    redirectToMovieTimes(cinemaId, movieId) {
-      this.$router.push({
-        name: "movie-times",
-        params: { cinemaId: cinemaId, movieId: movieId },
+        name: "hall-add-photo",
+        params: { cinemaId: cinemaId, hallId: hallId },
       });
     },
   },

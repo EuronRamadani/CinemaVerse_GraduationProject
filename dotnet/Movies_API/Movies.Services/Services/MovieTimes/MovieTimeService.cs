@@ -7,12 +7,10 @@ using Movies.Data.Interfaces;
 using Movies.Services.Models.Common;
 using Movies.Services.Models.MovieTimes;
 using Movies.Services.Services.Cinemas;
-using Movies.Services.Services.Halls;
-using Movies.Services.Services.Movies;
+using Movies.Services.Services.Tickets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -25,6 +23,7 @@ namespace Movies.Services.Services.MovieTimes
         private readonly IRepository<Hall> _hallRepository;
         private readonly IRepository<Movie> _movieRepository;
         private readonly ICinemaService _cinemaService;
+        private readonly ITicketService _ticketService;
         private readonly ILogger<MovieTimeService> _logger;
 
         public MovieTimeService(
@@ -33,6 +32,7 @@ namespace Movies.Services.Services.MovieTimes
             IRepository<Hall> hallRepository,
             IRepository<Movie> movieRepository,
             ICinemaService cinemaService,
+            ITicketService ticketService,
             ILogger<MovieTimeService> logger)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -40,6 +40,7 @@ namespace Movies.Services.Services.MovieTimes
             _hallRepository = hallRepository ?? throw new ArgumentNullException(nameof(hallRepository));
             _movieRepository = movieRepository ?? throw new ArgumentNullException(nameof(movieRepository));
             _cinemaService = cinemaService ?? throw new ArgumentNullException(nameof(cinemaService));
+            _ticketService = ticketService ?? throw new ArgumentNullException(nameof(ticketService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -68,8 +69,7 @@ namespace Movies.Services.Services.MovieTimes
 
         public async Task<MovieTimeModel> GetAsync(int cinemaId, int movieTimeId)
         {
-            var movieTime = await _movieTimeRepository.GetAllAsync(query => query
-                .Include(movieTime => movieTime.Movie)
+            var movieTime = await _movieTimeRepository.GetAsync(query => query
                 .Where(movieTime => movieTime.Movie.CinemaId == cinemaId)
                 .Where(movieTime => movieTime.Id == movieTimeId));
 
@@ -113,6 +113,8 @@ namespace Movies.Services.Services.MovieTimes
                 var hall = await _hallRepository.GetAsync(query => query
                     .Where(hall => hall.CinemaId == cinemaId)
                     .Where(hall => hall.Id == movieTimeCreateModel.HallId)
+                    .Include(hall => hall.Rows)
+                        .ThenInclude(row => row.Seats)
                     .AsNoTracking());
 
                 if (hall == null)
@@ -140,6 +142,8 @@ namespace Movies.Services.Services.MovieTimes
                 await _movieTimeRepository.InsertAsync(movieTime);
 
                 var movieTimeModel = _mapper.Map<MovieTimeModel>(movieTime);
+
+                await CreateTickets(cinemaId, hall.Id, movieTimeModel.Id, hall.Rows);
 
                 return movieTimeModel;
             }
@@ -204,6 +208,25 @@ namespace Movies.Services.Services.MovieTimes
                 throw new BaseException($"Failed to check for hall availabilty!",
                     ExceptionType.ServerError, HttpStatusCode.InternalServerError);
             }
+        }
+
+        public async Task<List<Ticket>> CreateTickets(int cinemaId, int hallId, int movieTimeId, List<Row> rows)
+        {
+            var seatIds = new List<int> { };
+
+            foreach (var row in rows)
+            {
+                foreach (var seat in row.Seats)
+                {
+                    seatIds.Add(seat.Id);
+                }
+            }
+
+            var ticketList = await _ticketService.Create(cinemaId, hallId, movieTimeId, seatIds);
+
+            var ticketListModel = _mapper.Map<List<Ticket>>(ticketList);
+
+            return ticketListModel;
         }
 
         private MovieTime PrepareMovieTime(MovieTimeCreateModel movieTimeCreateModel)

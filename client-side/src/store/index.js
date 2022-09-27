@@ -19,6 +19,12 @@ import events from "./Events/events";
 //Actors
 import actors from "./Actors/actors";
 
+//Halls
+import halls from "./Halls/halls";
+
+//Movie Times
+import movieTimes from "./MovieTimes/movieTimes";
+
 const initialState = {
   users: { ...users.state },
 };
@@ -38,6 +44,8 @@ export default new Vuex.Store({
     cinemas,
     events,
     actors,
+    halls,
+    movieTimes,
   },
   state: {},
   mutations: {
