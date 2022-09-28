@@ -11,6 +11,28 @@ export default [
       ),
   },
   {
+    path: "/tickets",
+    name: "Tickets",
+    meta: {
+      layout: "public",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../../views/Movies/Tickets.vue"
+      ),
+  },
+  {
+    path: "/seats",
+    name: "Seats",
+    meta: {
+      layout: "public",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../../views/Movies/Seats.vue"
+      ),
+  },
+  {
     path: "/movie/:id",
     name: "Movie",
     component: () =>

@@ -8,13 +8,6 @@
 			<v-col cols="8" md="8">
 				<subscribe />
 			</v-col>
-
-			<!-- <v-col
-        cols="12"
-        md="4"
-      >
-        <tags />
-      </v-col> -->
 		</v-row>
 	</v-container>
 </template>

@@ -12,25 +12,25 @@
 					md="6"
 					:pa-5="$vuetify.breakpoint.smAndDown"
 				>
-					<base-bubble-1 style="transform: rotate(180deg) translateY(25%)" />
+					<!-- <base-bubble-1 style="transform: rotate(180deg) translateY(25%)" /> -->
 
 					<v-row align="center" justify="center">
 						<v-col cols="10" md="6">
-							<base-heading>About Us!</base-heading>
-							<base-text>
+							<h1>About Us!</h1>
+							<p>
 								CinemaVerse, as the first project in our region for the union of
 								cinemas, is a big project that is doing very well because it is
 								easy to use and you have everything in one place. CinemaVerse
 								was created with the aim of bringing customers together in one
 								platform, through comments, movie selection and online payment.
-							</base-text>
-							<base-btn class="mt-4"> Learn More! </base-btn>
+							</p>
+							<!-- <base-btn class="mt-4"> Learn More! </base-btn> -->
 						</v-col>
 					</v-row>
 
-					<base-bubble-2
+					<!-- <base-bubble-2
 						style="transform: rotate(180deg) translate(-200px, -15%)"
-					/>
+					/> -->
 				</v-col>
 			</v-row>
 		</section>
@@ -42,26 +42,26 @@
 					md="6"
 					:pa-5="$vuetify.breakpoint.smAndDown"
 				>
-					<base-bubble-1 style="transform: rotate(180deg) translateY(25%)" />
+					<!-- <base-bubble-1 style="transform: rotate(180deg) translateY(25%)" /> -->
 
 					<v-row align="center" justify="center">
 						<v-col cols="10" md="6">
-							<base-heading>Mission!</base-heading>
-							<base-text>
+							<h1>Mission!</h1>
+							<p>
 								As an application that is at the beginning, we are trying to be
 								the best in the work we do, where we still continue to work
 								towards the quality and maintenance of the application. Our
 								mission for the future is to spread even more through the
 								neighboring countries, to have as many cinemas from different
 								countries as possible and in this way to expand even more.
-							</base-text>
-							<base-btn class="mt-4"> Learn More! </base-btn>
+							</p>
+							<!-- <base-btn class="mt-4"> Learn More! </base-btn> -->
 						</v-col>
 					</v-row>
 
-					<base-bubble-2
+					<!-- <base-bubble-2
 						style="transform: rotate(180deg) translate(-200px, -15%)"
-					/>
+					/> -->
 				</v-col>
 				<v-col class="hidden-sm-and-down" md="6">
 					<v-img :src="photo2" height="50vh" width="50vw" />
@@ -80,24 +80,24 @@
 					md="6"
 					:pa-5="$vuetify.breakpoint.smAndDown"
 				>
-					<base-bubble-1 style="transform: rotate(180deg) translateY(25%)" />
+					<!-- <base-bubble-1 style="transform: rotate(180deg) translateY(25%)" /> -->
 
 					<v-row align="center" justify="center">
 						<v-col cols="10" md="6">
-							<base-heading>Experience!</base-heading>
-							<base-text>
+							<h1>Experience!</h1>
+							<p>
 								Considering that CinemaVerse is the first application in our
 								market, it has been well received by our clients, where we have
 								also received feedback, very good comments. So we are working
 								for the best
-							</base-text>
-							<base-btn class="mt-4"> Learn More! </base-btn>
+							</p>
+							<!-- <base-btn class="mt-4"> Learn More! </base-btn> -->
 						</v-col>
 					</v-row>
 
-					<base-bubble-2
+					<!-- <base-bubble-2
 						style="transform: rotate(180deg) translate(-200px, -15%)"
-					/>
+					/> -->
 				</v-col>
 			</v-row>
 		</section>

@@ -28,7 +28,7 @@
 			<div class="py-4" dark height="auto">
 				<v-container class="mx-auto">
 					<v-row>
-						<base-btn
+						<v-btn
 							class="mr-2"
 							color="secondary"
 							square
@@ -36,7 +36,7 @@
 							@click="$vuetify.goTo(0)"
 						>
 							<v-icon>mdi-chevron-up</v-icon>
-						</base-btn>
+						</v-btn>
 					</v-row>
 				</v-container>
 			</div>

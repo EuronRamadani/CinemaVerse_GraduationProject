@@ -1,10 +1,10 @@
 <template>
 	<v-container id="subscribe" tag="section">
-		<base-card color="rgba(203, 170, 92, 0.51)" class="pa-3">
+		<v-card color="rgba(203, 170, 92, 0.51)" class="pa-3">
 			<v-container>
 				<v-row>
 					<v-col cols="12" md="10" offset-md="1">
-						<base-subheading>Contact</base-subheading>
+						<h1>Contact</h1>
 
 						<v-list class="transparent">
 							<v-list-item>
@@ -42,7 +42,7 @@
 					</v-col>
 				</v-row>
 			</v-container>
-		</base-card>
+		</v-card>
 	</v-container>
 </template>
 
