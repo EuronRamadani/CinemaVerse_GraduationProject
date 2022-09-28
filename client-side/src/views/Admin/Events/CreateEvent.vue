@@ -53,6 +53,17 @@
               required
             ></v-text-field>
           </validation-provider>
+           <validation-provider v-slot="{ errors }" name="attendeesNumber" rules="required">
+            <v-text-field
+              v-model="attendeesNumber"
+              type="number"
+              name=""
+              :error-messages="errors"
+              label="Attendees"
+              outlined
+              required
+            ></v-text-field>
+          </validation-provider>
           <validation-provider
             name="isPaid"
           >
@@ -102,6 +113,7 @@ export default {
       date: "date",
       isPaid: "",
       price:"",
+      attendeesNumber:"",
     };
   },
   created() {
@@ -140,6 +152,7 @@ export default {
       this.date = "";
       this.isPaid = "";
       this.price="",
+      this.attendeesNumber="",
       this.$refs.observer.reset();
     },
   },

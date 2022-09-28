@@ -52,6 +52,17 @@
               required
             ></v-text-field>
           </validation-provider>
+          <validation-provider v-slot="{ errors }" name="attendeesNumber" rules="required">
+            <v-text-field
+              v-model="event.attendeesNumber"
+              type="number"
+              name=""
+              :error-messages="errors"
+              label="Attendees"
+              outlined
+              required
+            ></v-text-field>
+          </validation-provider>
             <v-switch v-model="event.isPaid" :label="`Is Paid?`"></v-switch>
           <v-btn
             color="success"
@@ -94,6 +105,7 @@ export default {
       date: "date",
       isPaid: "",
       price:"",
+      attendeesNumber:"",
     };
   },
   created() {
@@ -133,6 +145,7 @@ export default {
         date: this.event.date,
         isPaid: this.event.isPaid,
         price: this.event.price,
+        attendeesNumber:this.event.attendeesNumber
       };
       this.$store
         .dispatch("editEvent", { cinemaId: this.cinemaId, event: event })
@@ -156,6 +169,7 @@ export default {
       this.date = "";
       this.isPaid = "";
       this.price="",
+      this.attendeesNumber="",
       this.$refs.observer.reset();
     },
   },
