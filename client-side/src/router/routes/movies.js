@@ -1,6 +1,6 @@
 export default [
   {
-    path: "/movies",
+    path: "/cinemas/:cinemaId/movies",
     name: "Movies",
     meta: {
       layout: "public",
@@ -28,16 +28,14 @@ export default [
       layout: "public",
     },
     component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../../views/Movies/Seats.vue"
-      ),
+      import(/* webpackChunkName: "register" */ "../../views/Movies/Seats.vue"),
   },
   {
-    path: "/movie/:id",
+    path: "/movies/:movieId",
     name: "Movie",
     component: () =>
       import(
-        /* webpackChunkName: "register" */ "../../views/Movies/MovieDetails.vue"
+        /* webpackChunkName: "movie-public-details" */ "../../views/Movies/MovieDetails.vue"
       ),
   },
 

@@ -118,9 +118,6 @@ namespace Movies.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("AttendeesNumber")
-                        .HasColumnType("integer");
-
                     b.Property<int>("CinemaId")
                         .HasColumnType("integer");
 
@@ -361,9 +358,6 @@ namespace Movies.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("ActorId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("CinemaId")
                         .HasColumnType("integer");
 
@@ -401,8 +395,6 @@ namespace Movies.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ActorId");
 
                     b.HasIndex("CinemaId");
 
@@ -645,10 +637,6 @@ namespace Movies.Data.Migrations
 
             modelBuilder.Entity("Movies.Core.Domain.Photo", b =>
                 {
-                    b.HasOne("Movies.Core.Domain.Actor", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("ActorId");
-
                     b.HasOne("Movies.Core.Domain.Cinema", null)
                         .WithMany("Photos")
                         .HasForeignKey("CinemaId");
@@ -713,11 +701,6 @@ namespace Movies.Data.Migrations
                     b.Navigation("MovieTime");
 
                     b.Navigation("Seat");
-                });
-
-            modelBuilder.Entity("Movies.Core.Domain.Actor", b =>
-                {
-                    b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("Movies.Core.Domain.Cinema", b =>

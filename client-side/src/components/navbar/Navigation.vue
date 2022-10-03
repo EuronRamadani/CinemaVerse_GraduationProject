@@ -64,7 +64,7 @@
             </v-list-item-group>
 
             <v-list-item>
-              <v-list-item-title  @click="handleSignOut()">
+              <v-list-item-title @click="handleSignOut()">
                 <router-link :to="{ name: 'Login' }"> Sign Out </router-link>
               </v-list-item-title>
             </v-list-item>
@@ -105,8 +105,9 @@ export default {
     },
   },
   methods: {
-    changeCinema(){
-      this.$store.dispatch("getCinema",this.selectedCinema.id)
+    changeCinema() {
+      this.$store
+        .dispatch("getCinema", this.selectedCinema.id)
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||

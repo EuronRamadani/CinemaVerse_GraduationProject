@@ -11,6 +11,17 @@ export default [
       ),
   },
   {
+    path: "/cinemas/:cinemaId",
+    name: "cinema-public-details",
+    meta: {
+      layout: "public",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "cinema-public-detials" */ "../../views/Cinemas/CinemaDetails.vue"
+      ),
+  },
+  {
     path: "/admin/cinemas",
     name: "CinemasDashboard",
     meta: {
@@ -80,7 +91,7 @@ export default [
     },
     component: () =>
       import(
-        /* webpackChunkName: "register" */ "../../components/CineplexxPrice.vue"
+        /* webpackChunkName: "register" */ "../../components/CinemaPricing.vue"
       ),
   },
   {
@@ -92,17 +103,6 @@ export default [
     component: () =>
       import(
         /* webpackChunkName: "register" */ "../../components/CineplexxInfo.vue"
-      ),
-  },
-  {
-    path: "/cinemas/AbcPrice",
-    name: "AbcPrice",
-    meta: {
-      layout: "public",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../../components/AbcPrice.vue"
       ),
   },
   {

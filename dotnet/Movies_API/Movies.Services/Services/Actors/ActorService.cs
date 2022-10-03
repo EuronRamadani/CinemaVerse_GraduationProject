@@ -32,8 +32,7 @@ namespace Movies.Services.Services.Actors
         {
             try
             {
-                var actors = await _actorRepository.GetAllAsync(query => query
-                    .Where(photo => photo.Deleted == false));
+                var actors = await _actorRepository.GetAllAsync(query => query);
 
                 var actorsList = _mapper.Map<IList<ActorListModel>>(actors);
 
@@ -51,8 +50,7 @@ namespace Movies.Services.Services.Actors
         public async Task<ActorModel> GetAsync(int actorId)
         {
             var actor = await _actorRepository.GetAsync(query => query
-                .Where(actor => actor.Id == actorId)
-                .Where(photo => photo.Deleted == false));
+                .Where(actor => actor.Id == actorId));
 
             if (actor == null)
                 throw new BaseException($"Cinema with id {actorId} not found!", ExceptionType.ServerError,

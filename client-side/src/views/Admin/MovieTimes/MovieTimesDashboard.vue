@@ -31,6 +31,15 @@
       </v-btn>
     </div>
     <div class="position-relative d-lg-block">
+      <h6>Select Schedule Date:</h6>
+      <v-text-field
+        class="col-3"
+        v-model="todayDate"
+        type="datetime-local"
+        label="Movie Schedule"
+        outlined
+        required
+      ></v-text-field>
       <v-calendar
         v-if="!loading"
         :events="events"

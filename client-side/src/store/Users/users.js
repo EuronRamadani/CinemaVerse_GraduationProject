@@ -1,6 +1,4 @@
 import api from "@/libs/api";
-// import "firebase/auth";
-// import db from "../../../src/firebase/firebaseInit";
 
 export default {
   state: {
@@ -71,40 +69,6 @@ export default {
           });
       });
     },
-    makeAdmin({ commit }, id) {
-      commit("SET_LOADING", true);
-      return new Promise((resolve, reject) => {
-        api("node")
-          .put(`users/${id}/makeAdmin`)
-          .then((response) => {
-            commit("SET_USER", response.data);
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          })
-          .finally(() => {
-            commit("SET_LOADING", false);
-          });
-      });
-    },
-    removeAdmin({ commit }, id) {
-      commit("SET_LOADING", true);
-      return new Promise((resolve, reject) => {
-        api("node")
-          .put(`users/${id}/removeAdmin`)
-          .then((response) => {
-            commit("SET_USER", response.data);
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          })
-          .finally(() => {
-            commit("SET_LOADING", false);
-          });
-      });
-    },
     addUser({ commit }, query) {
       commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
@@ -122,5 +86,24 @@ export default {
           });
       });
     },
+
+    // async makeAdmin({ commit }, id) {
+    //   commit("SET_LOADING", true);
+    //   const dataBase = await db.collection("users").doc(id);
+    //   await dataBase.update({
+    //     roles: [0, 1],
+    //     updatedDate: new Date(),
+    //   });
+    //   commit("SET_LOADING", false);
+    // },
+    // async removeAdmin({ commit }, id) {
+    //   commit("SET_LOADING", true);
+    //   const dataBase = await db.collection("users").doc(id);
+    //   await dataBase.update({
+    //     roles: [0],
+    //     updatedDate: new Date(),
+    //   });
+    //   commit("SET_LOADING", false);
+    // },
   },
 };

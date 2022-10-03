@@ -4,11 +4,11 @@
     <div v-else>
       <div class="container mt-5">
         <v-col class="d-flex align-center justify-content-center" cols="12">
-          <div v-if="movie.photos.length > 0">
+          <div v-if="cinema.photos.length > 0">
             <div class="d-flex justify-content-center flex-wrap w-100">
               <v-carousel>
                 <v-carousel-item
-                  v-for="(photo, i) in movie.photos"
+                  v-for="(photo, i) in cinema.photos"
                   :key="i"
                   :src="photo.imgClientPath"
                   reverse-transition="fade-transition"
@@ -20,56 +20,40 @@
                 <v-row>
                   <v-col cols="12">
                     <span
-                      >Title:
-                      <h4>{{ movie.title }}</h4>
+                      >Name:
+                      <h4>{{ cinema.name }}</h4>
                     </span>
                   </v-col>
                   <v-col cols="12">
                     <span
                       >Description:
                       <h6>
-                        {{ movie.description | truncate(600, "...") }}
+                        {{ cinema.description | truncate(600, "...") }}
                       </h6>
                     </span>
                   </v-col>
 
                   <v-col cols="12">
                     <span
-                      >Release Year:
-                      <h6>{{ movie.releaseYear }}</h6></span
-                    >
-                  </v-col>
-                  <v-col cols="12">
-                    <span
-                      >Length:
-                      <h6>{{ movie.length }}min</h6></span
-                    >
-                  </v-col>
-                  <v-col cols="12">
-                    <span
-                      >Director:
+                      >Location:
                       <h6>
-                        {{ movie.director }}
+                        <div class="my-4 text-subtitle-1">
+                          <v-icon light>place</v-icon>
+                          {{ `${cinema.city}, ${cinema.address}` }}
+                        </div>
                       </h6></span
                     >
-                  </v-col>
-                  <v-col cols="12">
-                    <div class="pa-2 my-4 text-subtitle-1">
-                      <v-icon light>language</v-icon>
-                      • {{ `${movie.country}/${movie.language}` }}
-                    </div>
                   </v-col>
                 </v-row>
               </div>
             </div>
           </div>
           <div v-else class="d-flex flex-column mb-5">
-            <h2>There are no photos for this movie!</h2>
+            <h2>There are no photos for this cinema!</h2>
           </div>
         </v-col>
         <hr />
       </div>
-      <h1>Schedule and Tickets</h1>
     </div>
   </div>
 </template>
@@ -91,9 +75,8 @@ export default {
     };
   },
   created() {
-    this.movieId = this.$route.params.movieId;
-    this.cinemaId = this.cinema.id;
-    this.getMovie(this.movieId);
+    this.cinemaId = this.$route.params.cinemaId;
+    this.getCinema(this.cinemaId);
   },
   filters: {
     truncate: function (text, length, suffix) {
@@ -106,10 +89,7 @@ export default {
   },
   computed: {
     loading() {
-      return this.$store.state.movies.loading;
-    },
-    movie() {
-      return this.$store.state.movies.movie;
+      return this.$store.state.cinemas.loading;
     },
     cinema() {
       return this.$store.state.cinemas.cinema;
@@ -119,26 +99,18 @@ export default {
     submit() {
       this.$refs.observer.validate();
     },
-    getMovie(movieId) {
-      const query = {
-        cinemaId: this.cinemaId,
-        movieId: movieId,
-      };
+    getCinema(cinemaId) {
       this.$store
-        .dispatch("getMovie", query)
+        .dispatch("getCinema", cinemaId)
         .then(() => {
-          if (this.movies.length > 0) {
-            if (this.movies.photos.length > 0) {
-              this.movies.photos.forEach((photo) => {
-                require(photo.imgClientPath);
-              });
-            }
-          }
+          this.cinema.photos.forEach((photo) => {
+            require(photo.imgClientPath);
+          });
         })
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||
-              "Something went wrong while fetching movie!"
+              "Something went wrong while fetching cinema!"
           );
         });
     },

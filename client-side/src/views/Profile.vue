@@ -1,11 +1,15 @@
 <template>
-  <body class="profile">
-    <div class="container">
+  <body class="profile" :class="mode">
+    <div class="container" :class="mode">
       <h2>Account Settings</h2>
       <div class="profile-info">
          <v-avatar size="50">
               <img :src="user.photoURL" />
             </v-avatar>
+        <div v-if="isAdmin" class="admin-badge">
+          <adminIcon class="icon" />
+          <span>Admin</span>
+        </div>
         <div class="input">
           <label for="firstName">First Name:</label>
           <p>{{ user.displayName }}</p>
@@ -23,6 +27,13 @@
 export default {
   components: {},
   props: {
+    isLoggedIn: {
+      required: true,
+      type: Boolean,
+    },
+    auth: {
+      required: true,
+    },
   },
   data() {
     return {

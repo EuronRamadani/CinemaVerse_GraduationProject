@@ -67,44 +67,6 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-const makeAdmin = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const user = await firestore.collection("users").doc(id);
-    const userData = await user.get();
-    if (!userData.exists) {
-      res.status(404).send(`Could not find User with id: ${id}`);
-    } else {
-      await user.update({
-        isAdmin:true,
-    })
-      res.status(200).send("User updated successfully!");
-    }
-  } catch (error) {
-    console.log(error)
-    res.status(400).send(error.message);
-  }
-};
-
-const removeAdmin = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const user = await firestore.collection("users").doc(id);
-    const userData = await user.get();
-    if (!userData.exists) {
-      res.status(404).send(`Could not find User with id: ${id}`);
-    } else {
-      await user.update({
-        isAdmin:false,
-    })
-      res.status(200).send("User updated successfully!");
-    }
-  } catch (error) {
-    console.log(error)
-    res.status(400).send(error.message);
-  }
-};
-
 const addUser = async (req, res, next) => {
   try {
     const data = req.body;
@@ -136,6 +98,4 @@ module.exports = {
   updateUser,
   addUser,
   deleteUser,
-  makeAdmin,
-  removeAdmin,
 };

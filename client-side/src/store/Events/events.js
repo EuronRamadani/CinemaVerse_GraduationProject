@@ -119,21 +119,5 @@ export default {
           });
       });
     },
-    goToEvent({ commit }, query) {
-      commit("SET_LOADING", true);
-      return new Promise((reject) => {
-        api("movies")
-          .put(
-            `cinemas/${query.cinemaId}/events/IncreaseAttendees/${query.eventId}`,
-             query.event
-          )
-          .catch((error) => {
-            reject(error);
-          })
-          .finally(() => {
-            commit("SET_LOADING", false);
-          });
-      });
-    },
   },
 };

@@ -65,24 +65,6 @@ namespace Movies.API.Controllers
             return Ok(new ApiResponse<EventModel>(Event));
         }
 
-        [HttpPut]
-        [Route("IncreaseAttendees/{EventId}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GoToEvent(int EventId, [FromBody] EventCreateModel EventModel, int cinemaId)
-        {
-            var Event = await _eventService.GetAsync(cinemaId,EventId);
-
-            Event.AttendeesNumber++;
-
-            var EventModelNew=new EventCreateModel { AttendeesNumber = Event.AttendeesNumber, 
-            Date=Event.Date,Description=Event.Description,IsPaid=Event.IsPaid,Price=Event.Price,Name=Event.Name};
-
-            await _eventService.Update(EventId, EventModelNew);
-
-            return Ok(new ApiResponse<EventModel>(Event));
-        }
-
         [HttpDelete]
         [Route("{EventId}")]
         [ProducesResponseType(typeof(ApiResponse<EventModel>), StatusCodes.Status200OK)]

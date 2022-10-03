@@ -118,7 +118,6 @@ export default {
         { text: "Date", value: "date" },
         { text: "Price", value: "price" },
         { text: "Is Paid?", value: "isPaid" },
-        { text: "Attendees", value: "attendeesNumber" },
       ],
       selectedCinema: null,
       fields: [
@@ -134,7 +133,6 @@ export default {
         { key: "date" },
         { key: "price" },
         { key: "isPaid" },
-        { key: "attendeesNumber" },
       ],
     };
   },

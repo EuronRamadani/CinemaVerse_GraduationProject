@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Movies.Services.Models.Movies
 {
@@ -16,6 +15,5 @@ namespace Movies.Services.Models.Movies
         //Change to List of Genre class later
         public string Genre { get; set; }
         public int Length { get; set; }
-        public List<int> ActorsId { get; set; }
     }
 }
