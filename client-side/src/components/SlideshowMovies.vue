@@ -12,9 +12,7 @@
         <figure>
           <img :src="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" />
           <figcaption>
-            <v-btn :to="`/movie/${movie.id}`" text color="white">
-              {{ movie.title }}</v-btn
-            >
+            <v-btn text color="white"> {{ movie.title }}</v-btn>
           </figcaption>
         </figure>
       </slide>
@@ -72,7 +70,7 @@ export default {
   color: red;
 }
 
-h2{
+h2 {
   text-align: center;
   margin-top: 2%;
   margin-bottom: 2%;

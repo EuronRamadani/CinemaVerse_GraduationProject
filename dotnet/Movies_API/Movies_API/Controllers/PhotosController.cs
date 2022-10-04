@@ -42,6 +42,27 @@ namespace Movies.API.Controllers
             return Ok(new ApiResponse<IList<PhotoModel>>(moviePhotos));
         }
 
+        [HttpGet]
+        [Route("events/{eventId}/photos")]
+        [ProducesResponseType(typeof(ApiResponse<IList<PhotoModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Gett(int cinemaId, int eventId)
+        {
+            var moviePhotos = await _photoService.GetAllAsyncc(cinemaId, eventId);
+            return Ok(new ApiResponse<IList<PhotoModel>>(moviePhotos));
+        }
+
+        [HttpGet]
+        [Route("movies/{movieId}/actors/{actorId}/photos")]
+        [ProducesResponseType(typeof(ApiResponse<IList<PhotoModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Get(int cinemaId, int movieId, int actorId)
+        {
+            var moviePhotos = await _photoService.GetAllAsync(cinemaId, movieId, actorId);
+            return Ok(new ApiResponse<IList<PhotoModel>>(moviePhotos));
+        }
+
+
         [HttpPost]
         [Route("photos")]
         [ProducesResponseType(typeof(ApiResponse<PhotoModel>), StatusCodes.Status201Created)]
@@ -68,6 +89,32 @@ namespace Movies.API.Controllers
             );
         }
 
+        [HttpPost]
+        [Route("events/{eventId}/photos")]
+        [ProducesResponseType(typeof(ApiResponse<PhotoModel>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Postt(int cinemaId, int eventId, List<IFormFile> files)
+        {
+            var cinemaPhotos = await _photoService.Createe(cinemaId, eventId, files);
+            return CreatedAtAction(
+                nameof(Postt),
+                new ApiResponse<IList<PhotoModel>>(cinemaPhotos)
+            );
+        }
+
+        [HttpPost]
+        [Route("movies/{movieId}/actors/{actorId}/photos")]
+        [ProducesResponseType(typeof(ApiResponse<PhotoModel>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Post(int cinemaId, int movieId, int actorId, List<IFormFile> files)
+        {
+            var cinemaPhotos = await _photoService.Create(cinemaId, movieId, actorId, files);
+            return CreatedAtAction(
+                nameof(Post),
+                new ApiResponse<IList<PhotoModel>>(cinemaPhotos)
+            );
+        }
+
         [HttpDelete]
         [Route("photos/{photoId}")]
         [ProducesResponseType(typeof(ApiResponse<PhotoModel>), StatusCodes.Status200OK)]
@@ -85,6 +132,26 @@ namespace Movies.API.Controllers
         public async Task<IActionResult> Delete(int cinemaId, int movieId, Guid photoId)
         {
             var photo = await _photoService.Delete(cinemaId, movieId, photoId);
+            return Ok(new ApiResponse<PhotoModel>(photo));
+        }
+
+        [HttpDelete]
+        [Route("events/{eventId}/photos/{photoId}")]
+        [ProducesResponseType(typeof(ApiResponse<PhotoModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Deletee(int cinemaId, int eventId, Guid photoId)
+        {
+            var photo = await _photoService.Deletee(cinemaId, eventId, photoId);
+            return Ok(new ApiResponse<PhotoModel>(photo));
+        }
+
+        [HttpDelete]
+        [Route("movies/{movieId}/actors/{actorId}/photos/{photoId}")]
+        [ProducesResponseType(typeof(ApiResponse<PhotoModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int cinemaId, int movieId, int actorId, Guid photoId)
+        {
+            var photo = await _photoService.Delete(cinemaId, movieId, actorId, photoId);
             return Ok(new ApiResponse<PhotoModel>(photo));
         }
     }

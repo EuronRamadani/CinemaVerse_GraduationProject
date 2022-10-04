@@ -69,7 +69,12 @@
         </v-col>
         <hr />
       </div>
-      <h1>Schedule and Tickets</h1>
+      <div class="d-flex justify-content-center">
+        <div class="container m0">
+          <h1 class="d-flex justify-content-center mb-5">Today's Schedule</h1>
+          <movie-schedules />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -77,11 +82,12 @@
 <script>
 import { required, numberInt, minValueRule } from "@/helpers/validations";
 import { setInteractionMode } from "vee-validate";
+import MovieSchedules from "./MovieSchedules.vue";
 
 setInteractionMode("eager");
 
 export default {
-  components: {},
+  components: { MovieSchedules },
   data() {
     return {
       cinemaId: null,

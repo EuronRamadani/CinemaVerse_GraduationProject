@@ -10,9 +10,15 @@ namespace Movies.Services.Services.Photos
     {
         Task<IList<PhotoModel>> GetAllAsync(int cinemaId);
         Task<IList<PhotoModel>> GetAllAsync(int cinemaId, int movieId);
+        Task<IList<PhotoModel>> GetAllAsync(int cinemaId, int movieId, int actorId);
+        Task<IList<PhotoModel>> GetAllAsyncc(int cinemaId, int eventId);
         Task<IList<PhotoModel>> Create(int cinemaId, List<IFormFile> files);
         Task<IList<PhotoModel>> Create(int cinemaId, int movieId, List<IFormFile> files);
+        Task<IList<PhotoModel>> Create(int cinemaId, int movieId, int actorId, List<IFormFile> files);
+        Task<IList<PhotoModel>> Createe(int cinemaId, int eventId, List<IFormFile> files);
         Task<PhotoModel> Delete(int cinemaId, Guid photoId);
         Task<PhotoModel> Delete(int cinemaId, int movieId, Guid photoId);
+        Task<PhotoModel> Delete(int cinemaId, int movieId, int actorId, Guid photoId);
+        Task<PhotoModel> Deletee(int cinemaId, int eventId, Guid photoId);
     }
 }

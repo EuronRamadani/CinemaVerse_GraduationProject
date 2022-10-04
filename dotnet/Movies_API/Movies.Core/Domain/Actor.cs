@@ -16,6 +16,7 @@ namespace Movies.Core.Domain
         public string  Genre{ get; set; }
         public DateTime Birth{ get; set; }
         public bool Deleted { get; set; }
+        public List<Photo> Photos { get; set; }
 
         //public List<Movie> Movies { get; set; }
     }

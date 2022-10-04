@@ -8,16 +8,23 @@
         <p>
           {{ event.description }}
         </p>
-        <h6><b>Created At: </b> {{ event.date ? event.date : '--' }}</h6>
+        <h6><b>Created At: </b> {{ event.date ? event.date : "--" }}</h6>
         <h6><b>Price: </b> {{ event.price }}</h6>
+        <div>
+          <v-btn color="success" class="mr-2" @click="goToEvent()">
+            <v-icon left dark> mdi-plus </v-icon>
+            Go to event
+          </v-btn>
         </div>
       </div>
-      <hr />
+    </div>
+    <hr />
   </body>
 </template>
 
 <script>
 export default {
+  components: {},
   props: {
     event: Object,
   },
@@ -25,8 +32,22 @@ export default {
     events() {
       return this.$store.state.events.events;
     },
+    cinema() {
+      return this.$store.state.cinemas.cinema;
+    },
   },
   methods: {
+    goToEvent() {
+      this.$store
+        .dispatch("goToEvent", {
+          cinemaId: this.cinema.id,
+          eventId: this.event.id,
+          event:this.event
+        })
+        .then(() => {
+          this.$router.push("/movies");
+        });
+    },
     removeEvent(eventId) {
       this.$store.dispatch("removeEvent", eventId).then(() => {
         window.location.reload();
@@ -90,41 +111,6 @@ export default {
     margin-top: 3%;
     font-size: 23px;
     margin-bottom: 3%;
-  }
-
-  @media (max-width: 700px) {
-    .btns {
-      width: 190% !important;
-      .link {
-        width: 150%;
-      }
-    }
-  }
-
-  .btns {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 15px;
-    width: 30%;
-
-    .link {
-      padding: 15px;
-    }
-
-    button {
-      background-color: black;
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin-bottom: 3%;
-      margin-top: 3%;
-      margin-left: 5%;
-    }
   }
 }
 </style>

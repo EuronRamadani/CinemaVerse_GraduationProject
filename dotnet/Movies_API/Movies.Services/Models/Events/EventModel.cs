@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Movies.Services.Models.Photos;
+using System;
+using System.Collections.Generic;
 
 namespace Movies.Services.Models.Events
 {
@@ -10,5 +12,8 @@ namespace Movies.Services.Models.Events
         public bool IsPaid { get; set; }
         public int Price { get; set; }
         public DateTime Date { get; set; }
+        public int AttendeesNumber { get; set; }
+        public IList<PhotoModel> Photos { get; set; }
+
     }
 }

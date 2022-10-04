@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Movies.Services.Models.Photos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,6 @@ namespace Movies.Services.Models.Actors
         public string Nationality { get; set; }
         public string Genre { get; set; }
         public DateTime Birth { get; set; }
+        public IList<PhotoModel> Photos { get; set; }
     }
 }

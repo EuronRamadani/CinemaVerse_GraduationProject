@@ -38,6 +38,30 @@
           </template>
         </v-btn>
       </div>
+      <div>
+        <v-btn
+          color="primary"
+          :disabled="!isSelected"
+          class="mr-2 d-lg-inline action-user-button"
+          @click="makeAdmin(selected[0].id)"
+        >
+          Make Admin
+        </v-btn>
+      </div>
+      <v-btn
+        color="error"
+        :loading="loading"
+        :disabled="!isSelected || loading"
+        class="mr-2 d-lg-inline action-user-button"
+        @click="removeAdmin(selected[0].id)"
+      >
+        Remove Admin
+        <template v-slot:loader>
+          <span class="custom-loader">
+            <v-icon light>mdi-cached</v-icon>
+          </span>
+        </template>
+      </v-btn>
       <v-btn
         :loading="loading"
         :disabled="loading"
@@ -136,6 +160,16 @@ export default {
         console.log("error", error);
       });
     },
+    makeAdmin(id) {
+      this.$store.dispatch("makeAdmin", id).catch((error) => {
+        console.log("error making admin", error);
+      });
+    },
+    removeAdmin(id) {
+      this.$store.dispatch("removeAdmin", id).catch((error) => {
+        console.log("error removing admin", error);
+      });
+    },
     onRefresh() {
       this.getUsers();
     },
@@ -165,20 +199,6 @@ export default {
         if (ok) {
           console.log(userId);
         }
-        // if (ok) {
-        //   this.$store
-        //     .dispatch("removeUser", {
-        //       userId: userId,
-        //     })
-        //     .then(() => {
-        //       this.successToast("User was removed");
-        //       this.selected = [];
-        //       this.getUsers();
-        //     })
-        //     .catch((error) => {
-        //       this.errorToast(error.response.data.errors[0]);
-        //     });
-        // }
       });
     },
   },

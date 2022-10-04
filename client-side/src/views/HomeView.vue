@@ -71,49 +71,30 @@
       </v-parallax>
     </section>
     <div>
-      <!-- <v-main class="grey lighten-2">
-				<v-container>
-					<v-row>
-						<p>Qitu mi shfaq do movies</p>
-						<v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
-							<v-sheet height="150">
-								<img :src="cinemas" alt="" />
-							</v-sheet>
-						</v-col>
-					</v-row>
-				</v-container>
-			</v-main> -->
       <v-sheet
-        class="mx-auto"
+        class="d-flex justify-content-center mx-auto"
         elevation="10"
-        max-width="1000"
         max-height="1000"
       >
         <v-slide-group
           v-model="model"
-          class="pa-4"
+          class="d-flex justify-content-center pa-4 ma-2"
           active-class="success"
           show-arrows
         >
-          <v-slide-item v-for="n in 15" :key="n" v-slot="{ active, toggle }">
-            <v-card
-              :color="active ? undefined : 'grey lighten-1'"
-              class="ma-4"
-              height="200"
-              width="150"
-              @click="toggle"
-            >
-              <v-row class="fill-height" align="center" justify="center">
-                <v-scale-transition>
-                  <v-icon
-                    v-if="active"
-                    color="white"
-                    size="48"
-                    v-text="'mdi-close-circle-outline'"
-                  ></v-icon>
-                </v-scale-transition>
-              </v-row>
-            </v-card>
+          <v-slide-item
+            v-for="movie in movies"
+            :key="movie.id"
+            v-slot="{ toggle }"
+            class="d-flex justify-content-center"
+          >
+            <div class="ml-2 mr-2">
+              <v-card @click="toggle">
+                <v-row align="center" justify="center">
+                  <movie-card :hideDetails="true" :movie="movie" />
+                </v-row>
+              </v-card>
+            </div>
           </v-slide-item>
         </v-slide-group>
       </v-sheet>
@@ -148,15 +129,18 @@
 import UpcomingMovies from "../components/SlideshowMovies.vue";
 import Social from "../components/Social.vue";
 import Welcome from "../components/Welcome.vue";
+import MovieCard from "@/components/MovieCard.vue";
 export default {
   name: "Home",
   components: {
+    MovieCard,
     UpcomingMovies,
     Social,
     Welcome,
   },
   data() {
     return {
+      cinemaId: null,
       stats: [
         ["1500+", "Tickets Sold"],
         ["145+", "Movies Streamed"],
@@ -183,13 +167,24 @@ export default {
       model: null,
     };
   },
+  watch: {
+    cinema() {
+      return this.getMovies();
+    },
+  },
   created() {
     this.getCinemas();
+    this.getMovies();
   },
   computed: {
+    movies() {
+      return this.$store.state.movies.movies;
+    },
     cinemas() {
       return this.$store.state.cinemas.cinemas;
-      // [0].photos[0].imgClientPath
+    },
+    cinema() {
+      return this.$store.state.cinemas.cinema;
     },
   },
   methods: {
@@ -200,6 +195,28 @@ export default {
             "Something went wrong while fetching cinemas!"
         );
       });
+    },
+    getMovies() {
+      this.$store
+        .dispatch(
+          "getMovies",
+          this.cinemaId == null ? this.cinema.id : this.cinemaId
+        )
+        .then(() => {
+          if (this.movies.length > 0) {
+            if (this.movies.photos.length > 0) {
+              this.movie.photos.forEach((photo) => {
+                require(photo.imgClientPath);
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          this.errorToast(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching movies!"
+          );
+        });
     },
   },
 };
