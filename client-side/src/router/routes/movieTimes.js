@@ -1,4 +1,30 @@
 export default [
+  //Public Routes
+  {
+    path: "/cinemas/:cinemaId/movies/:movieId/times",
+    name: "MovieTimes",
+    meta: {
+      requiresAuth: true,
+      layout: "public",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "movie-times-public" */ "../../views/MovieTimes/MovieTimes.vue"
+      ),
+  },
+  {
+    path: "/cinemas/:cinemaId/movies/:movieId/times/:movieTimeId",
+    name: "MovieTime-Details",
+    meta: {
+      requiresAuth: true,
+      layout: "public",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "movie-times-details-public" */ "../../views/MovieTimes/MovieTimeDetails.vue"
+      ),
+  },
+
   //Admin Routes
   {
     path: "/admin/movie-times",

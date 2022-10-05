@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Movies.Services.Models.Halls;
+using System;
 
 namespace Movies.Services.Models.MovieTimes
 {
@@ -9,5 +10,6 @@ namespace Movies.Services.Models.MovieTimes
         public int HallId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public HallModel Hall { get; set; }
     }
 }

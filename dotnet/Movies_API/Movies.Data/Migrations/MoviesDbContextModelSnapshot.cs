@@ -373,9 +373,6 @@ namespace Movies.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int?>("EventId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("ImgClientPath")
                         .HasColumnType("text");
 
@@ -408,8 +405,6 @@ namespace Movies.Data.Migrations
                     b.HasIndex("ActorId");
 
                     b.HasIndex("CinemaId");
-
-                    b.HasIndex("EventId");
 
                     b.HasIndex("MovieId");
 
@@ -658,10 +653,6 @@ namespace Movies.Data.Migrations
                         .WithMany("Photos")
                         .HasForeignKey("CinemaId");
 
-                    b.HasOne("Movies.Core.Domain.Event", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("EventId");
-
                     b.HasOne("Movies.Core.Domain.Movie", null)
                         .WithMany("Photos")
                         .HasForeignKey("MovieId");
@@ -737,11 +728,6 @@ namespace Movies.Data.Migrations
 
                     b.Navigation("Movies");
 
-                    b.Navigation("Photos");
-                });
-
-            modelBuilder.Entity("Movies.Core.Domain.Event", b =>
-                {
                     b.Navigation("Photos");
                 });
 

@@ -32,16 +32,14 @@ namespace Movies.Services.Services.Events
             _cinemaRepository = cinemaRepository ?? throw new ArgumentNullException(nameof(cinemaRepository));
         }
         
-        public async Task<EventModel> GetAsync(int cinemaId, int eventId)
+        public async Task<EventModel> GetAsync(int cinemaId, int EventId)
         {
             var events = await _eventRepository.GetAsync(query => query
-                .Where(events => events.Id == eventId)
-                .Where(events => events.CinemaId == cinemaId)
-                .Include(events => events.Photos
-                    .Where(photo => photo.Deleted == false)));
+                .Where(events => events.Id == EventId)
+                .Where(events => events.CinemaId == cinemaId));
 
             if (events == null)
-                throw new BaseException($"Event with id {eventId} not found!", ExceptionType.ServerError,
+                throw new BaseException($"Event with id {EventId} not found!", ExceptionType.ServerError,
                     HttpStatusCode.NotFound);
 
             var eventsModel = _mapper.Map<EventModel>(events);
@@ -80,23 +78,22 @@ namespace Movies.Services.Services.Events
             }
         }
 
-        public async Task<EventModel> Update(int cinemaId, int eventId, EventCreateModel EventUpdateModel)
+        public async Task<EventModel> Update(int EventId, EventCreateModel EventUpdateModel)
         {
             try
             {
-                var eventt = await _eventRepository.GetAsync(query => query
-                    .Where(eventt => eventt.Id == eventId)
-                    .Where(eventt => eventt.CinemaId == cinemaId));
+                var Event = await _eventRepository.GetAsync(query => query
+                    .Where(Event => Event.Id == EventId));
 
-                if (eventt == null)
-                    throw new BaseException($"Event with id: {eventId} does not exist",
+                if (Event == null)
+                    throw new BaseException($"Event with id: {EventId} does not exist",
                         ExceptionType.NotFound, HttpStatusCode.NotFound);
 
-                _mapper.Map(EventUpdateModel, eventt);
+                _mapper.Map(EventUpdateModel, Event);
 
-                _eventRepository.Update(eventt);
+                _eventRepository.Update(Event);
 
-                var EventModel = _mapper.Map<EventModel>(eventt);
+                var EventModel = _mapper.Map<EventModel>(Event);
 
                 return EventModel;
             }
@@ -105,29 +102,28 @@ namespace Movies.Services.Services.Events
                 _logger.LogError(e, e.Message);
 
                 if (e is BaseException) throw;
-                throw new BaseException($"Failed to update Event with id: {eventId}!",
+                throw new BaseException($"Failed to update Event with id: {EventId}!",
                     ExceptionType.ServerError, HttpStatusCode.InternalServerError);
             }
         }
 
-        public async Task<EventModel> Delete(int cinemaId, int eventId)
+        public async Task<EventModel> Delete(int EventId)
         {
             try
             {
-                var eventt = await _eventRepository.GetAsync(query => query
-                    .Where(eventt => eventt.Id == eventId)
-                    .Where(eventt => eventt.CinemaId == cinemaId));
+                var Event = await _eventRepository.GetAsync(query => query
+                    .Where(Event => Event.Id == EventId));
 
-                _eventRepository.Delete(eventt);
+                _eventRepository.Delete(Event);
 
-                return _mapper.Map<EventModel>(eventt);
+                return _mapper.Map<EventModel>(Event);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);
 
                 if (e is BaseException) throw;
-                throw new BaseException($"Failed to update Event with id: {eventId}!",
+                throw new BaseException($"Failed to update Event with id: {EventId}!",
                     ExceptionType.ServerError, HttpStatusCode.InternalServerError);
             }
         }
@@ -145,9 +141,7 @@ namespace Movies.Services.Services.Events
             try
             {
                 var events = await _eventRepository.GetAllAsync(query => query
-                    .Where(events => events.Cinema.Id == cinemaId)
-                    .Include(events => events.Photos
-                        .Where(photo => photo.Deleted == false)));
+                    .Where(events => events.Cinema.Id == cinemaId));
 
                 var eventsList = _mapper.Map<IList<EventListModel>>(events);
 

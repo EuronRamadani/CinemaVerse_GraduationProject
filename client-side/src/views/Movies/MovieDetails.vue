@@ -72,6 +72,8 @@
       <div class="d-flex justify-content-center">
         <div class="container m0">
           <h1 class="d-flex justify-content-center mb-5">Today's Schedule</h1>
+          <!-- Add this view to another view -->
+          <!-- Add actors here -->
           <movie-schedules />
         </div>
       </div>

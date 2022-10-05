@@ -129,7 +129,7 @@
 import UpcomingMovies from "../components/SlideshowMovies.vue";
 import Social from "../components/Social.vue";
 import Welcome from "../components/Welcome.vue";
-import MovieCard from "@/components/MovieCard.vue";
+import MovieCard from "@/components/cards/MovieCard.vue";
 export default {
   name: "Home",
   components: {

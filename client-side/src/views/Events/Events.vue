@@ -1,6 +1,8 @@
 <template>
   <div>
-    <input type="text" v-model="search" placeholder="Search events" />
+    <h1 class="container d-flex justify-content-center">Events</h1>
+    <br />
+    <hr />
     <div class="row">
       <Card v-for="entry in eventList" :key="entry.id" :event="entry" />
     </div>

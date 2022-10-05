@@ -41,7 +41,7 @@
       <div>
         <v-btn
           color="primary"
-          :disabled="!isSelected"
+          :disabled="!isSelected || selected[0].isAdmin"
           class="mr-2 d-lg-inline action-user-button"
           @click="makeAdmin(selected[0].id)"
         >
@@ -51,7 +51,7 @@
       <v-btn
         color="error"
         :loading="loading"
-        :disabled="!isSelected || loading"
+        :disabled="!isSelected || !selected[0].isAdmin"
         class="mr-2 d-lg-inline action-user-button"
         @click="removeAdmin(selected[0].id)"
       >
@@ -161,17 +161,24 @@ export default {
       });
     },
     makeAdmin(id) {
-      this.$store.dispatch("makeAdmin", id).catch((error) => {
-        console.log("error making admin", error);
-      });
+      this.$store
+        .dispatch("makeAdmin", id)
+        .catch((error) => {
+          console.log("error making admin", error);
+        })
+        .then(() => this.onRefresh());
     },
     removeAdmin(id) {
-      this.$store.dispatch("removeAdmin", id).catch((error) => {
-        console.log("error removing admin", error);
-      });
+      this.$store
+        .dispatch("removeAdmin", id)
+        .catch((error) => {
+          console.log("error removing admin", error);
+        })
+        .then(() => this.onRefresh());
     },
     onRefresh() {
       this.getUsers();
+      this.selected = [];
     },
     onEditClick(userId) {
       this.$router.push({

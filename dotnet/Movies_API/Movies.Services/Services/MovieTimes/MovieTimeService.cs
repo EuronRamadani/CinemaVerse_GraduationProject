@@ -52,7 +52,8 @@ namespace Movies.Services.Services.MovieTimes
                     .Include(movieTime => movieTime.Movie)
                     .Where(movieTime => movieTime.Movie.CinemaId == cinemaId)
                     .Where(movieTime => movieTime.Movie.Id == movieId)
-                    .OrderBy(movieTime => movieTime.StartTime));
+                    .OrderBy(movieTime => movieTime.StartTime)
+                    .Include(movieTime => movieTime.Hall));
 
                 var movieTimesList = _mapper.Map<IList<MovieTimeModel>>(movieTimes);
 
@@ -71,7 +72,8 @@ namespace Movies.Services.Services.MovieTimes
         {
             var movieTime = await _movieTimeRepository.GetAsync(query => query
                 .Where(movieTime => movieTime.Movie.CinemaId == cinemaId)
-                .Where(movieTime => movieTime.Id == movieTimeId));
+                .Where(movieTime => movieTime.Id == movieTimeId)
+                .Include(movieTime => movieTime.Hall));
 
             if (movieTime == null)
                 throw new BaseException($"Movie Time with id {movieTime} not found!", ExceptionType.ServerError,
