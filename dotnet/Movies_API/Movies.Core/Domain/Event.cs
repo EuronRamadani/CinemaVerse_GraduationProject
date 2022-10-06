@@ -15,5 +15,6 @@ namespace Movies.Core.Domain
         public int AttendeesNumber { get; set; }
         public bool Deleted { get; set; }
         public Cinema Cinema { get; set; }
+        public List<Photo> Photos { get; set; }
     }
 }

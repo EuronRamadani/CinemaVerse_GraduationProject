@@ -59,4 +59,16 @@ export default [
 				/* webpackChunkName: "admin" */ "../../views/Admin/Actors/ActorDetails"
 			),
 	},
+	{
+		path: "/admin/actors/details/:actorId/add-photo",
+		name: "actor-add-photo",
+		meta: {
+			requiresAuth: true,
+			layout: "dashboard",
+		},
+		component: () =>
+			import(
+				/* webpackChunkName: "cinema-details" */ "../../views/Admin/Actors/AddActorPhoto.vue"
+			),
+	},
 ];
