@@ -2,12 +2,14 @@ import { format } from "date-fns";
 
 const helpers = {
   methods: {
+    movieScheduleDateTime: (isoDate) =>
+      isoDate ? format(new Date(`${isoDate}Z`), "dd MMMM - HH:mm") : "-",
+    formatSimpleDateTime: (isoDate) =>
+      isoDate ? format(new Date(`${isoDate}Z`), "yyyy-MM-dd") : "-",
+    formatShortDateTime: (isoDate) =>
+      isoDate ? format(new Date(`${isoDate}Z`), "yyyy-MM-dd HH:mm") : "-",
     formatDateTime: (isoDate) =>
-      isoDate ? format(new Date(`${isoDate}Z`), "yyyy-MM-dd HH:mm:ss") : "-",
-    formatOffsetDateTime: (isoDate) =>
       isoDate ? format(new Date(`${isoDate}`), "yyyy-MM-dd HH:mm:ss") : "-",
-    formatDateTimeDetailed: (isoDate) =>
-      isoDate ? format(new Date(`${isoDate}Z`), "yyyy-MM-dd HH:mm:ss") : "-",
 
     getOptions: (options) =>
       options.map((o) => ({ text: o.value, value: o.id })),
@@ -19,6 +21,13 @@ const helpers = {
       const keys = Object.keys(options);
       return keys.map((key) => ({
         text: options[key].name,
+        value: options[key],
+      }));
+    },
+    getActorNames: (options) => {
+      const keys = Object.keys(options);
+      return keys.map((key) => ({
+        text: `${options[key].firstName} ${options[key].lastName}`,
         value: options[key],
       }));
     },
@@ -42,6 +51,7 @@ const helpers = {
       this.$bvToast.toast(message, {
         toastClass: "general-toast-class",
         solid: true,
+        autoHideDelay: 2000,
         title,
         variant,
       });

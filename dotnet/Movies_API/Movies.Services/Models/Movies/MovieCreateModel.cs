@@ -8,6 +8,7 @@ namespace Movies.Services.Models.Movies
         public string Title { get; set; }
         public string Description { get; set; }
         public string Director { get; set; }
+        public List<int> ActorIds { get; set; }
         public string TrailerLink { get; set; }
         public int ReleaseYear { get; set; }
         public DateTime ReleaseDate { get; set; }
@@ -16,6 +17,5 @@ namespace Movies.Services.Models.Movies
         //Change to List of Genre class later
         public string Genre { get; set; }
         public int Length { get; set; }
-        public List<int> ActorsId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Movies.Core.Domain;
 using Movies.Core.Exceptions;
@@ -33,7 +34,8 @@ namespace Movies.Services.Services.Actors
             try
             {
                 var actors = await _actorRepository.GetAllAsync(query => query
-                    .Where(photo => photo.Deleted == false));
+                    .Include(actor => actor.Photos
+                        .Where(photo => photo.Deleted == false)));
 
                 var actorsList = _mapper.Map<IList<ActorListModel>>(actors);
 
@@ -52,7 +54,8 @@ namespace Movies.Services.Services.Actors
         {
             var actor = await _actorRepository.GetAsync(query => query
                 .Where(actor => actor.Id == actorId)
-                .Where(photo => photo.Deleted == false));
+                .Include(actor => actor.Photos
+                    .Where(photo => photo.Deleted == false)));
 
             if (actor == null)
                 throw new BaseException($"Cinema with id {actorId} not found!", ExceptionType.ServerError,

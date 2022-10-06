@@ -33,6 +33,21 @@
           </validation-provider>
           <validation-provider
             v-slot="{ errors }"
+            name="Actors"
+            rules="required"
+          >
+            <v-select
+              v-model="selectedActors"
+              :error-messages="errors"
+              outlined
+              :items="getActorNames(allActors)"
+              label="Select movie actors"
+              multiple
+              chips
+            ></v-select>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
             name="Director"
             rules="required"
           >
@@ -173,6 +188,7 @@ export default {
     return {
       required,
       numberInt,
+      selectedActors: [],
       minValueRule,
       cinemaId: null,
       movieId: null,
@@ -186,6 +202,12 @@ export default {
       movieId: this.movieId,
     };
     this.getMovie(query);
+    this.getActors();
+  },
+  watch: {
+    movie() {
+      this.selectedActors = this.movie.actors;
+    },
   },
   computed: {
     loading() {
@@ -194,25 +216,63 @@ export default {
     movie() {
       return this.$store.state.movies.movie;
     },
+    actors: {
+      get() {
+        return this.$store.state.movies.actors;
+      },
+      set(actors) {
+        console.log(actors);
+        this.selectedActors = actors;
+        console.log(this.selectedActors);
+      },
+    },
+    allActors() {
+      return this.$store.state.actors.actors;
+    },
   },
   methods: {
     submit() {
       this.$refs.observer.validate();
     },
-    getMovie(query) {
-      this.$store.dispatch("getMovie", query).catch((error) => {
+    getActors() {
+      this.$store.dispatch("getActors").catch((error) => {
         this.errorToast(
           error.response?.data?.errors[0] ||
-            "Something went wrong while fetching movie!"
+            "Something went wrong while fetching movie actors!"
         );
       });
     },
+    changeClg() {
+      console.log(this.selectedActors);
+    },
+    getMovie(query) {
+      this.$store
+        .dispatch("getMovie", query)
+        .then(() => {
+          this.selectedActors = this.movie.actors;
+          console.log(this.selectedActors);
+        })
+        .catch((error) => {
+          this.errorToast(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching movie!"
+          );
+        });
+    },
     editMovie() {
+      const actors = [];
+      if (this.selectedActors != []) {
+        this.selectedActors.forEach((actor) => {
+          actors.push(actor.id);
+        });
+      }
+
       const movie = {
         id: this.movieId,
         title: this.movie.title,
         description: this.movie.description,
         director: this.movie.director,
+        actorIds: actors,
         trailerLink: this.movie.trailerLink,
         releaseYear: this.movie.releaseYear,
         releaseDate: this.movie.releaseDate,

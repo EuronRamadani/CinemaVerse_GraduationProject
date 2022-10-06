@@ -94,24 +94,4 @@ export default [
         /* webpackChunkName: "register" */ "../../components/CinemaPricing.vue"
       ),
   },
-  {
-    path: "/cinemas/CineplexxInfo",
-    name: "CineplexxInfo",
-    meta: {
-      layout: "public",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../../components/CineplexxInfo.vue"
-      ),
-  },
-  {
-    path: "/cinemas/AbcInfo",
-    name: "AbcInfo",
-    meta: {
-      layout: "public",
-    },
-    component: () =>
-      import(/* webpackChunkName: "register" */ "../../components/AbcInfo.vue"),
-  },
 ];

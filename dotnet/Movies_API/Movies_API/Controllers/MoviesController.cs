@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Movies.Services.Models.Actors;
 using Movies.Services.Models.Common;
 using Movies.Services.Models.Movies;
 using Movies.Services.Services.Movies;
@@ -29,6 +30,16 @@ namespace Movies.API.Controllers
         {
             var movies = await _movieService.GetAllAsync(cinemaId);
             return Ok(new ApiResponse<IList<MovieListModel>>(movies));
+        }
+
+        [HttpGet]
+        [Route("{movieId}/actors")]
+        [ProducesResponseType(typeof(ApiResponse<IList<ActorListModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetActors(int movieId)
+        {
+            var actors = await _movieService.GetAllActorsAsync(movieId);
+            return Ok(new ApiResponse<IList<ActorListModel>>(actors));
         }
 
         [HttpGet]

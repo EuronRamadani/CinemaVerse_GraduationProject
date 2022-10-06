@@ -5,12 +5,16 @@ export default {
     loading: false,
     fetchingMovies: false,
     removingMovie: false,
+    movieActors: [],
     movies: [],
     movie: {},
   },
   mutations: {
     SET_LOADING(state, value) {
       state.loading = value;
+    },
+    SET_MOVIE_ACTORS(state, payload) {
+      state.movieActors = payload;
     },
     SET_MOVIES(state, payload) {
       state.movies = payload;
@@ -33,6 +37,23 @@ export default {
           .get(`cinemas/${cinemaId}/movies`)
           .then((response) => {
             commit("SET_MOVIES", response.data.result);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          })
+          .finally(() => {
+            commit("SET_LOADING", false);
+          });
+      });
+    },
+    getMovieActors({ commit }, query) {
+      commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        api("movies")
+          .get(`cinemas/${query.cinemaId}/movies/${query.movieId}/actors`)
+          .then((response) => {
+            commit("SET_MOVIE_ACTORS", response.data.result);
             resolve(response);
           })
           .catch((error) => {

@@ -11,6 +11,8 @@
                   v-for="(photo, i) in cinema.photos"
                   :key="i"
                   :src="photo.imgClientPath"
+                  min-width="1100"
+                  max-width="1100"
                   reverse-transition="fade-transition"
                   transition="fade-transition"
                 >
@@ -102,11 +104,7 @@ export default {
     getCinema(cinemaId) {
       this.$store
         .dispatch("getCinema", cinemaId)
-        .then(() => {
-          this.cinema.photos.forEach((photo) => {
-            require(photo.imgClientPath);
-          });
-        })
+        .then(() => {})
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||

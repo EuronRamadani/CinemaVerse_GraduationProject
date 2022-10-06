@@ -31,6 +31,21 @@
               required
             ></v-textarea>
           </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="Actors"
+            rules="required"
+          >
+            <v-select
+              v-model="selectedActors"
+              :error-messages="errors"
+              outlined
+              :items="getActorNames(actors)"
+              label="Select movie actors"
+              multiple
+              chips
+            ></v-select>
+          </validation-provider>
           <validation-provider v-slot="{ errors }" name="City" rules="required">
             <v-text-field
               v-model="director"
@@ -173,6 +188,7 @@ export default {
       minValueRule,
       title: "",
       description: "",
+      selectedActors: [],
       director: "",
       trailerLink: "",
       releaseYear: 0,
@@ -186,14 +202,34 @@ export default {
   created() {
     this.cinemaId = this.$route.params.cinemaId;
   },
+  computed: {
+    actors() {
+      return this.$store.state.actors.actors;
+    },
+  },
   methods: {
     submit() {
       this.$refs.observer.validate();
     },
+    getActors() {
+      this.$store.dispatch("getActors").catch((error) => {
+        this.errorToast(
+          error.response?.data?.errors[0] ||
+            "Something went wrong while fetching movie actors!"
+        );
+      });
+    },
     createMovie() {
+      const actors = [];
+      if (this.selectedActors != []) {
+        this.selectedActors.forEach((actor) => {
+          actors.push(actor.id);
+        });
+      }
       const movie = {
         title: this.title,
         description: this.description,
+        actorIds: actors,
         director: this.director,
         trailerLink: this.trailerLink,
         releaseYear: this.releaseYear,
@@ -221,6 +257,7 @@ export default {
     clear() {
       this.title = "";
       this.description = "";
+      this.selectedActors = [];
       this.director = "";
       this.trailerLink = "";
       this.releaseYear = 0;

@@ -1,4 +1,4 @@
-﻿using Movies.Core.Domain;
+﻿using Movies.Services.Models.Actors;
 using Movies.Services.Models.Photos;
 using System;
 using System.Collections.Generic;
@@ -21,5 +21,6 @@ namespace Movies.Services.Models.Movies
         public string Genre { get; set; }
         public int Length { get; set; }
         public IList<PhotoModel> Photos { get; set; }
+        public IList<ActorModel> Actors { get; set; }
     }
 }

@@ -22,11 +22,11 @@ namespace Movies.API.Controllers
             _actorService = actorService ?? throw new ArgumentNullException(nameof(actorService));
             _logger = logger.CreateLogger<ActorsController>() ?? throw new ArgumentNullException(nameof(logger));
         }
-
+           
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IList<ActorListModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetMovieActors()
         {
             var actors = await _actorService.GetAllAsync();
             return Ok(new ApiResponse<IList<ActorListModel>>(actors));

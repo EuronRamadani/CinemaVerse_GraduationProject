@@ -93,15 +93,13 @@ export default {
           movieId: this.movieId,
           files: formData,
         })
-        .then(() => {
-          this.goBack(this.cinemaId, this.movieId);
-        })
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||
               "Something went wrong while adding photos!"
           );
         });
+      this.goBack(this.cinemaId, this.movieId);
     },
     goBack(cinemaId, movieId) {
       this.$router.push({

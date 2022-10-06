@@ -43,7 +43,7 @@ namespace Movies.Services.Services.Photos
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<IList<PhotoModel>> GetAllAsync(int cinemaId)
+        public async Task<IList<PhotoModel>> GetAllCinemaPhotosAsync(int cinemaId)
         {
             var cinema = await _cinemaRepository.GetAsync(query => query
                 .Where(cinema => cinema.Id == cinemaId)
@@ -61,7 +61,7 @@ namespace Movies.Services.Services.Photos
             return photosModel;
         }
 
-        public async Task<IList<PhotoModel>> GetAllAsync(int cinemaId, int movieId)
+        public async Task<IList<PhotoModel>> GetAllMoviePhotosAsync(int cinemaId, int movieId)
         {
             var movie = await _movieRepository.GetAsync(query => query
                 .Where(movie => movie.CinemaId == cinemaId)
@@ -80,7 +80,7 @@ namespace Movies.Services.Services.Photos
             return photosModel;
         }
 
-        public async Task<IList<PhotoModel>> GetAllAsyncc(int cinemaId, int eventId)
+        public async Task<IList<PhotoModel>> GetAllEventPhotosAsync(int cinemaId, int eventId)
         {
             var eventt = await _eventRepository.GetAsync(query => query
                 .Where(eventt => eventt.CinemaId == cinemaId)
@@ -99,11 +99,9 @@ namespace Movies.Services.Services.Photos
             return photosModel;
         }
 
-        public async Task<IList<PhotoModel>> GetAllAsync(int cinemaId, int movieId, int actorId)
+        public async Task<IList<PhotoModel>> GetAllActorPhotosAsync(int cinemaId, int actorId)
         {
             var actor = await _actorRepository.GetAsync(query => query
-                //.Where(actor => actor.CinemaId == cinemaId)
-                .Where(actor => actor.Id == movieId)
                 .Where(actor => actor.Id == actorId)
                 .Include(movie => movie.Photos
                         .Where(x => x.Deleted == false)));
@@ -121,7 +119,7 @@ namespace Movies.Services.Services.Photos
 
         
 
-        public async Task<IList<PhotoModel>> Create(int cinemaId, List<IFormFile> files)
+        public async Task<IList<PhotoModel>> CreateCinemaPhoto(int cinemaId, List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
 
@@ -157,7 +155,7 @@ namespace Movies.Services.Services.Photos
             return photosToReturn;
         }
 
-        public async Task<IList<PhotoModel>> Create(int cinemaId, int movieId, List<IFormFile> files)
+        public async Task<IList<PhotoModel>> CreateMoviePhoto(int cinemaId, int movieId, List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
 
@@ -193,7 +191,7 @@ namespace Movies.Services.Services.Photos
             return photosToReturn;
         }
 
-        public async Task<IList<PhotoModel>> Createe(int cinemaId, int eventId, List<IFormFile> files)
+        public async Task<IList<PhotoModel>> CreateEventPhoto(int cinemaId, int eventId, List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
 
@@ -229,7 +227,7 @@ namespace Movies.Services.Services.Photos
             return photosToReturn;
         }
 
-        public async Task<IList<PhotoModel>> Create(int cinemaId, int movieId, int actorId, List<IFormFile> files)
+        public async Task<IList<PhotoModel>> CreateActorPhoto(int cinemaId, int actorId, List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
 
@@ -256,7 +254,7 @@ namespace Movies.Services.Services.Photos
                         formFile.CopyTo(stream);
                     }
 
-                    PhotoModel photoModel = await PrepareActorPhoto(cinemaId, movieId, actorId, fileName, fileNameWithPath);
+                    PhotoModel photoModel = await PrepareActorPhoto(actorId, fileName, fileNameWithPath);
 
                     photosToReturn.Add(photoModel);
                 }
@@ -265,9 +263,7 @@ namespace Movies.Services.Services.Photos
             return photosToReturn;
         }
 
-        
-
-        public async Task<PhotoModel> Delete(int cinemaId, Guid photoId)
+        public async Task<PhotoModel> DeleteCinemaPhoto(int cinemaId, Guid photoId)
         {
             var cinema = await _cinemaRepository.GetAsync(query => query
                 .Where(cinema => cinema.Id == cinemaId)
@@ -287,7 +283,7 @@ namespace Movies.Services.Services.Photos
             return photoModel;
         }
 
-        public async Task<PhotoModel> Delete(int cinemaId, int movieId, Guid photoId)
+        public async Task<PhotoModel> DeleteMoviePhoto(int cinemaId, int movieId, Guid photoId)
         {
             var movie = await _movieRepository.GetAsync(query => query
                 .Where(movie => movie.CinemaId == cinemaId)
@@ -308,7 +304,7 @@ namespace Movies.Services.Services.Photos
             return photoModel;
         }
 
-        public async Task<PhotoModel> Deletee(int cinemaId, int eventId, Guid photoId)
+        public async Task<PhotoModel> DeleteEventPhoto(int cinemaId, int eventId, Guid photoId)
         {
             var eventt = await _eventRepository.GetAsync(query => query
                 .Where(eventt => eventt.CinemaId == cinemaId)
@@ -329,13 +325,11 @@ namespace Movies.Services.Services.Photos
             return photoModel;
         }
 
-        public async Task<PhotoModel> Delete(int cinemaId, int movieId, int actorId, Guid photoId)
+        public async Task<PhotoModel> DeleteActorPhoto(int cinemaId, int actorId, Guid photoId)
         {
             var actor = await _actorRepository.GetAsync(query => query
-                //.Where(movie => movie.CinemaId == cinemaId)
-                .Where(actor => actor.Id == movieId)
                 .Where(actor => actor.Id == actorId)
-                .Include(cinema => cinema.Photos));
+                .Include(actor => actor.Photos));
 
             if (actor == null)
                 throw new BaseException($"Actor with id: {actorId} does not exist",
@@ -350,8 +344,6 @@ namespace Movies.Services.Services.Photos
 
             return photoModel;
         }
-
-       
 
         private async Task<PhotoModel> PrepareCinemaPhoto(int cinemaId, string fileName, string fileNameWithPath)
         {
@@ -394,7 +386,7 @@ namespace Movies.Services.Services.Photos
 
             return photoModel;
         }
-        private async Task<PhotoModel> PrepareActorPhoto(int cinemaId, int movieId, int actorId, string fileName, string fileNameWithPath)
+        private async Task<PhotoModel> PrepareActorPhoto(int actorId, string fileName, string fileNameWithPath)
         {
             var photo = new Photo()
             {
@@ -408,7 +400,7 @@ namespace Movies.Services.Services.Photos
                 UpdateDate = DateTime.UtcNow
             };
 
-            await InsertPhotoToActor(cinemaId, movieId, actorId, photo);
+            await InsertPhotoToActor(actorId, photo);
 
             var photoModel = _mapper.Map<PhotoModel>(photo);
 
@@ -519,13 +511,12 @@ namespace Movies.Services.Services.Photos
             }
         }
 
-        private async Task InsertPhotoToActor(int cinemaId, int movieId, int actorId, Photo photo)
+        private async Task InsertPhotoToActor(int actorId, Photo photo)
         {
             try
             {
                 var actor = await _actorRepository.GetAsync(query => query
                     //.Where(actor => actor. == cinemaId)
-                    .Where(actor => actor.Id == movieId)
                     .Where(actor => actor.Id == actorId)
                     .Include(cinema => cinema.Photos));
 

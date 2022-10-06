@@ -77,13 +77,37 @@
               </v-col>
               <v-col cols="12" md="4">
                 <v-item>
+                  <div>
+                    <span>Actors:</span>
+                    <div v-if="movie.actors.length > 0">
+                      <b-avatar-group size="60px" class="actors-container">
+                        <div
+                          class="d-flex justify-content-center w-100"
+                          v-b-tooltip.hover
+                          @click="onActorDetailsClick(actor.id)"
+                          :title="`${actor.firstName} ${actor.lastName}`"
+                          v-for="actor in movie.actors"
+                          :key="actor.id"
+                        >
+                          <b-avatar
+                            :src="actor.photos[0].imgClientPath"
+                            variant="dark"
+                          >
+                          </b-avatar>
+                        </div>
+                      </b-avatar-group>
+                    </div>
+                  </div>
+                </v-item>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-item>
                   <span
                     >Description:
                     <h6>{{ movie.description }}</h6></span
                   >
                 </v-item>
               </v-col>
-
               <v-col cols="12" md="4">
                 <v-item>
                   <span
@@ -212,6 +236,12 @@ export default {
         );
       });
     },
+    onActorDetailsClick(actorId) {
+      this.$router.push({
+        name: "actor-details",
+        params: { actorId },
+      });
+    },
     redirectToAddPhoto(cinemaId, movieId) {
       this.$router.push({
         name: "movie-add-photo",
@@ -227,3 +257,8 @@ export default {
   },
 };
 </script>
+<style lang="css">
+.actors-container > div {
+  flex-wrap: nowrap !important;
+}
+</style>

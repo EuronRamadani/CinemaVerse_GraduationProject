@@ -68,6 +68,22 @@
           <template v-slot:[`item.name`]="{ item }">
             <a class="link" @click="onDetailsClick(item.id)">{{ item.name }}</a>
           </template>
+          <template v-slot:[`item.image`]="{ item }">
+            <v-avatar tile contain class="ma-2" color="blue">
+              <img
+                v-if="item.photos.length > 0"
+                :src="item.photos[0].imgClientPath"
+                :alt="item.id"
+                class="avatar-image"
+              />
+              <img
+                v-else
+                src="http://localhost:8080/assets/app_files/Movies/default-image.jpg"
+                :alt="item.id"
+                class="avatar-image"
+              />
+            </v-avatar>
+          </template>
           <template #empty>
             <div v-if="loading" class="loading-table text-center py-1">
               <b-spinner variant="primary" />
@@ -101,6 +117,7 @@ export default {
           value: "id",
         },
         { text: "Name", value: "name" },
+        { text: "Image", value: "image" },
         { text: "City", value: "city" },
         { text: "Address", sortable: false, value: "address" },
         { text: "Number Of Venues", value: "numberOfVenues" },

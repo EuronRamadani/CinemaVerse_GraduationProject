@@ -70,7 +70,8 @@
         </v-container>
       </v-parallax>
     </section>
-    <div>
+    <div style="margin-top: 60px; margin-bottom: 60px">
+      <h1 class="container d-flex justify-content-center">Available Movies</h1>
       <v-sheet
         class="d-flex justify-content-center mx-auto"
         elevation="10"
@@ -86,12 +87,17 @@
             v-for="movie in movies"
             :key="movie.id"
             v-slot="{ toggle }"
+            style="margin-top: 20px; margin-bottom: 20px"
             class="d-flex justify-content-center"
           >
             <div class="ml-2 mr-2">
               <v-card @click="toggle">
                 <v-row align="center" justify="center">
-                  <movie-card :hideDetails="true" :movie="movie" />
+                  <movie-card
+                    style="margin: 60px"
+                    :hideDetails="true"
+                    :movie="movie"
+                  />
                 </v-row>
               </v-card>
             </div>
@@ -100,11 +106,13 @@
       </v-sheet>
     </div>
 
-    <div>
-      <v-main class="grey lighten-2">
+    <div style="margin-top: 40px; margin-bottom: 40px">
+      <v-main
+        style="margin-top: 40px; margin-bottom: 40px"
+        class="grey lighten-2"
+      >
         <v-container>
           <v-row>
-            <p>evente</p>
             <v-col v-for="n in 6" :key="n" cols="6">
               <v-card height="200"></v-card>
             </v-col>
@@ -112,6 +120,57 @@
         </v-container>
       </v-main>
     </div>
+    <v-divider></v-divider>
+    <div>
+      <div class="row">
+        <div class="col-sm-3 col-6">
+          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
+						>Image</small
+					> -->
+          <img
+            src="../assets/theme/team-1-800x800.jpg"
+            alt="Rounded image"
+            class="img-fluid rounded shadow"
+            style="width: 150px"
+          />
+        </div>
+        <div class="col-sm-3 col-6">
+          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
+						>Circle Image</small
+					> -->
+          <img
+            src="../assets/theme/team-2-800x800.jpg"
+            alt="Circle image"
+            class="img-fluid rounded-circle shadow"
+            style="width: 150px"
+          />
+        </div>
+        <div class="col-sm-3 col-6 mt-5 mt-sm-0">
+          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
+						>Raised</small
+					> -->
+          <img
+            src="../assets/theme/team-3-800x800.jpg"
+            alt="Raised image"
+            class="img-fluid rounded shadow-lg"
+            style="width: 150px"
+          />
+        </div>
+        <div class="col-sm-3 col-6 mt-5 mt-sm-0">
+          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
+						>Circle Raised</small
+					> -->
+          <img
+            src="../assets/theme/team-4-800x800.jpg"
+            alt="Raised circle image"
+            class="img-fluid rounded-circle shadow-lg"
+            style="width: 150px"
+          />
+        </div>
+      </div>
+    </div>
+    <v-divider></v-divider>
+
     <v-divider></v-divider>
     <div>
       <Welcome />
@@ -186,6 +245,9 @@ export default {
     cinema() {
       return this.$store.state.cinemas.cinema;
     },
+    user() {
+      return this.$store.state.users.user;
+    },
   },
   methods: {
     getCinemas() {
@@ -202,21 +264,22 @@ export default {
           "getMovies",
           this.cinemaId == null ? this.cinema.id : this.cinemaId
         )
-        .then(() => {
-          if (this.movies.length > 0) {
-            if (this.movies.photos.length > 0) {
-              this.movie.photos.forEach((photo) => {
-                require(photo.imgClientPath);
-              });
-            }
-          }
-        })
+        .then(() => {})
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||
               "Something went wrong while fetching movies!"
           );
         });
+    },
+  },
+  props: {
+    isLoggedIn: {
+      required: true,
+      type: Boolean,
+    },
+    auth: {
+      required: true,
     },
   },
 };

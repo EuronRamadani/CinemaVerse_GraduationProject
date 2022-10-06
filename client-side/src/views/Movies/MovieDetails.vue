@@ -11,6 +11,8 @@
                   v-for="(photo, i) in movie.photos"
                   :key="i"
                   :src="photo.imgClientPath"
+                  min-width="1100"
+                  max-width="1100"
                   reverse-transition="fade-transition"
                   transition="fade-transition"
                 >
@@ -71,10 +73,28 @@
       </div>
       <div class="d-flex justify-content-center">
         <div class="container m0">
-          <h1 class="d-flex justify-content-center mb-5">Today's Schedule</h1>
+          <h1 class="d-flex justify-content-center mb-5">Cast</h1>
           <!-- Add this view to another view -->
           <!-- Add actors here -->
+          <movie-actors />
+        </div>
+      </div>
+      <hr />
+      <div class="d-flex justify-content-center">
+        <div class="container m0">
+          <h1 class="d-flex justify-content-center mb-5">Today's Schedule</h1>
           <movie-schedules />
+        </div>
+      </div>
+      <hr />
+      <div
+        style="margin-top: 50px; margin-bottom: 50px"
+        class="d-flex justify-content-center"
+      >
+        <div class="container m0">
+          <h1 class="d-flex justify-content-center mb-5">
+            Reviews for this movie
+          </h1>
         </div>
       </div>
     </div>
@@ -85,17 +105,19 @@
 import { required, numberInt, minValueRule } from "@/helpers/validations";
 import { setInteractionMode } from "vee-validate";
 import MovieSchedules from "./MovieSchedules.vue";
+import MovieActors from "./MovieActors.vue";
 
 setInteractionMode("eager");
 
 export default {
-  components: { MovieSchedules },
+  components: { MovieSchedules, MovieActors },
   data() {
     return {
       cinemaId: null,
       required,
       numberInt,
       minValueRule,
+      todayDate: this.formatShortDateTime(new Date()),
     };
   },
   created() {
@@ -124,6 +146,9 @@ export default {
     },
   },
   methods: {
+    handleCHange() {
+      console.log(this.todayDate);
+    },
     submit() {
       this.$refs.observer.validate();
     },
@@ -135,20 +160,26 @@ export default {
       this.$store
         .dispatch("getMovie", query)
         .then(() => {
-          if (this.movies.length > 0) {
-            if (this.movies.photos.length > 0) {
-              this.movies.photos.forEach((photo) => {
-                require(photo.imgClientPath);
-              });
-            }
-          }
+          this.getMovieTimes();
         })
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||
-              "Something went wrong while fetching movie!"
+              "Something went wrong while fetching movie details!"
           );
         });
+    },
+    getMovieTimes() {
+      const query = {
+        cinemaId: this.cinema.id,
+        movieId: this.movie.id,
+      };
+      this.$store.dispatch("getMovieTimes", query).catch((error) => {
+        this.errorToast(
+          error.response?.data?.errors[0] ||
+            "Something went wrong while fetching movie times!"
+        );
+      });
     },
   },
 };

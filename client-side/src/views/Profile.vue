@@ -3,9 +3,9 @@
     <div class="container">
       <h2>Account Settings</h2>
       <div class="profile-info">
-         <v-avatar size="50">
-              <img :src="user.photoURL" />
-            </v-avatar>
+        <v-avatar size="50">
+          <img :src="user.photoURL" />
+        </v-avatar>
         <div class="input">
           <label for="firstName">First Name:</label>
           <p>{{ user.displayName }}</p>
@@ -22,16 +22,13 @@
 <script>
 export default {
   components: {},
-  props: {
-  },
+  props: {},
   data() {
     return {
       items: ["Cinemas", "Movies", "Events"],
-      logo: require("@/assets/main-logo_1.svg"),
     };
   },
-  methods: {
-  },
+  methods: {},
   computed: {
     user() {
       return this.$store.state.users.user;
@@ -41,17 +38,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dark input{
+.dark input {
   background: #303030;
 }
 
-.dark label{
+.dark label {
   color: #f1f1f1;
   font-size: 20px !important;
 }
 
-.dark div{
-    background: #303030 !important; 
+.dark div {
+  background: #303030 !important;
 }
 
 .profile {

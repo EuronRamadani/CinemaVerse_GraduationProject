@@ -122,7 +122,7 @@ export default {
     },
     addActor() {
       const actor = {
-        firstName: this.firstname,
+        firstName: this.firstName,
         lastName: this.lastName,
         imgPath: this.imgPath,
         nationality: this.nationality,
@@ -145,7 +145,7 @@ export default {
         });
     },
     clear() {
-      (this.firstname = ""),
+      (this.firstName = ""),
         (this.lastName = ""),
         (this.imgPath = ""),
         (this.nationality = ""),

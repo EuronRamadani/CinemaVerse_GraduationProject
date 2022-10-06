@@ -11,10 +11,12 @@ export default [
 			),
 	},
 	{
-		path: "/event",
+		path: "/events/:eventId",
 		name: "Event",
 		component: () =>
-			import(/* webpackChunkName: "register" */ "../../views/Events/Event.vue"),
+			import(
+				/* webpackChunkName: "movie-public-details" */ "../../views/Events/EventDetails.vue"
+			),
 	},
 	{
 		path: "/admin/events/cinemaId/:cinemaId/create",

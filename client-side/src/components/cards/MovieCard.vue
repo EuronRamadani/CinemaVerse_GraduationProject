@@ -3,12 +3,14 @@
     <v-card :loading="loading" class="mx-auto my-12" max-width="374">
       <v-img
         v-if="movie.photos.length > 0"
-        height="250"
+        min-width="250"
+        min-height="250"
         :src="movie.photos[0].imgClientPath"
       ></v-img>
       <v-img
         v-else
-        height="250"
+        min-width="250"
+        min-height="250"
         src="http://localhost:8080/assets/app_files/Movies/default-image.jpg"
       ></v-img>
 

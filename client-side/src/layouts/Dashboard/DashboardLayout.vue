@@ -80,7 +80,6 @@ export default {
 
   data() {
     return {
-      logo: require("@/assets/main-logo.png"),
       //refactor to get this from firebase auth
       isAdmin: true,
       drawer: true,

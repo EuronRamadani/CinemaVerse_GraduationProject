@@ -41,8 +41,6 @@
               outlined
               required
             ></v-text-field>
-          </validation-provider>
-          <validation-provider v-slot="{ errors }" name="price" rules="required">
             <v-text-field
               v-model="price"
               type="number"
@@ -50,10 +48,7 @@
               :error-messages="errors"
               label="Price"
               outlined
-              required
             ></v-text-field>
-          </validation-provider>
-           <validation-provider v-slot="{ errors }" name="attendeesNumber" rules="required">
             <v-text-field
               v-model="attendeesNumber"
               type="number"
@@ -61,12 +56,7 @@
               :error-messages="errors"
               label="Attendees"
               outlined
-              required
             ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            name="isPaid"
-          >
             <v-switch
               v-model="isPaid"
               :label="`Is Paid?`"

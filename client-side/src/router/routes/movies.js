@@ -1,6 +1,6 @@
 export default [
   {
-    path: "/cinemas/:cinemaId/movies",
+    path: "/movies",
     name: "Movies",
     meta: {
       layout: "public",
@@ -98,30 +98,6 @@ export default [
     component: () =>
       import(
         /* webpackChunkName: "cinema-details" */ "../../views/Admin/Movies/AddMoviePhoto.vue"
-      ),
-  },
-
-  //static pages
-  {
-    path: "/cineplexx/movies",
-    name: "Cineplexx",
-    meta: {
-      layout: "public",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../../views/Movies/Cineplexx/CineplexxMovies.vue"
-      ),
-  },
-  {
-    path: "/abc/movies",
-    name: "ABC",
-    meta: {
-      layout: "public",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "register" */ "../../views/Movies/ABC/ABCMovies.vue"
       ),
   },
 ];
