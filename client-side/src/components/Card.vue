@@ -12,9 +12,9 @@
       ></b-card-img>
       <b-col md="6" class="text-center mx-auto">
         <b-card-body :title="event.name">
-          <b-card-text>
+          <!-- <b-card-text>
             {{ event.description }}
-          </b-card-text>
+          </b-card-text> -->
           <b-card-text> <b> Price: </b>{{ event.price }}€ </b-card-text>
           <b-card-text>
             {{ event.date }}
