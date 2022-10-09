@@ -48,7 +48,6 @@ namespace Movies.Services.Services.Reviews
 
                 movieEvent.Movie = movie;
                 movieEvent.MovieId = movieId;
-                movieEvent.ReviewDate=DateTime.Now;
 
                 await _movieReviewRepository.InsertAsync(movieEvent);
 

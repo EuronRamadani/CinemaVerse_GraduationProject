@@ -56,6 +56,7 @@ export default {
 					.then((response) => {
 						commit("SET_EVENT", response.data.result);
 						resolve(response);
+						console.log("GetEvent", response.data.result);
 					})
 					.catch((error) => {
 						reject(error);

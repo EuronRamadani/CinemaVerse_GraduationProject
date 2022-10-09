@@ -16,8 +16,8 @@
 
 					<v-row align="center" justify="center">
 						<v-col cols="10" md="6">
-							<h1>About Us!</h1>
-							<p>
+							<h1 class="test">About Us!</h1>
+							<p class="test">
 								CinemaVerse, as the first project in our region for the union of
 								cinemas, is a big project that is doing very well because it is
 								easy to use and you have everything in one place. CinemaVerse
@@ -118,3 +118,9 @@ export default {
 	},
 };
 </script>
+
+<style scoped>
+.test {
+	margin-top: revert;
+}
+</style>

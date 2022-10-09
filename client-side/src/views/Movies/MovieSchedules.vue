@@ -32,10 +32,7 @@
               class="mb-2 d-flex justify-content-center"
             >
               <div class="ml-4 mr-4">
-                <v-card
-                  @click="onDetailsClick(movieTime.id, movieTime.hall.id)"
-                  class="p-3 ma-2"
-                >
+                <v-card @click="onDetailsClick(movie.id)" class="p-3 ma-2">
                   <v-row align="center" justify="center">
                     <v-card class="p-2 mx-auto" max-width="300" outlined>
                       <div class="d-flex">
@@ -114,13 +111,12 @@ export default {
   },
   methods: {
     onClg() {},
-    onDetailsClick(movieTimeId, hallId) {
+    onDetailsClick(movieTimeId) {
       this.$router.push({
         name: "MovieTime-Details",
         params: {
           cinemaId: this.cinema.id,
           movieId: this.movie.id,
-          hallId,
           movieTimeId: movieTimeId,
         },
       });

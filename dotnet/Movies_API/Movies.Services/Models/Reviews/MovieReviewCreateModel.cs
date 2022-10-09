@@ -13,6 +13,7 @@ namespace Movies.Services.Models.Reviews
         public string ReviewDescription { get; set; }
 
         public int ReviewRating { get; set; }
+        public string UserId { get; set; }
 
     }
 }

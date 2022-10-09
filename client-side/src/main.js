@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import { initializeApp } from "firebase/app";
-import VueBarcode from "vue-barcode";
 
 import "@/assets/css/style.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -20,7 +19,6 @@ import vuetify from "./plugins/vuetify";
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
-Vue.use(VueBarcode);
 
 Vue.mixin(helpers);
 

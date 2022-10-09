@@ -83,8 +83,8 @@
                       <b-avatar-group size="60px" class="actors-container">
                         <div
                           class="d-flex justify-content-center w-100"
-                          @click="onActorDetailsClick(actor.id)"
                           v-b-tooltip.hover
+                          @click="onActorDetailsClick(actor.id)"
                           :title="`${actor.firstName} ${actor.lastName}`"
                           v-for="actor in movie.actors"
                           :key="actor.id"

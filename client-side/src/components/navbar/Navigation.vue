@@ -8,7 +8,7 @@
         class="logo-img"
       />
     </router-link>
-    <div class="header-right align-middle">
+    <div class="header-right align-middle" style="margin-top: 21px">
       <div class="left">
         <router-link
           :class="routeName == 'Home' && 'active'"
@@ -34,6 +34,17 @@
         >
           Cinemas
         </router-link>
+        <div class="hidethese2">
+          <router-link v-if="user.isAdmin" :to="{ name: 'Admin' }">
+            Admin
+          </router-link>
+          <router-link v-if="isLoggedIn" class="link" :to="{ name: 'Profile' }">
+            {{ user.displayName }}
+          </router-link>
+          <router-link @click="handleSignOut()" :to="{ name: 'Login' }">
+            Sign Out
+          </router-link>
+        </div>
         <v-select
           solo
           v-model="selectedCinema"
@@ -66,17 +77,17 @@
           <span>Sign Up</span>
           <v-icon right>person_add</v-icon>
         </v-btn>
-
-        <div v-if="isLoggedIn" class="hidethis">
-          {{ user.displayName }}
-          <v-avatar size="50">
+        <div class="hidethis">
+          <v-avatar v-if="isLoggedIn" size="50">
             <img :src="user.photoURL" />
           </v-avatar>
         </div>
-        <v-app-bar-nav-icon
-          v-if="isLoggedIn"
-          @click.stop="drawer = !drawer"
-        ></v-app-bar-nav-icon>
+        <div class="hideDrawer">
+          <v-app-bar-nav-icon
+            v-if="isLoggedIn"
+            @click.stop="drawer = !drawer"
+          ></v-app-bar-nav-icon>
+        </div>
         <v-navigation-drawer v-model="drawer" absolute bottom temporary>
           <v-list nav dense>
             <v-list-item-group
@@ -96,23 +107,11 @@
                   <router-link
                     v-if="isLoggedIn"
                     class="link"
-                    :to="{ name: 'MyTickets' }"
-                  >
-                    My Tickets
-                  </router-link>
-                </v-list-item-title>
-              </v-list-item>
-
-              <v-list-item>
-                <v-list-item-title>
-                  <router-link
-                    v-if="isLoggedIn"
-                    class="link"
                     :to="{ name: 'Profile' }"
                   >
                     {{ user.displayName }}
-                  </router-link>
-                </v-list-item-title>
+                  </router-link></v-list-item-title
+                >
               </v-list-item>
             </v-list-item-group>
 
@@ -269,8 +268,24 @@ body {
 .header-right {
   padding: 1px;
 }
+
+.hidethese2 {
+  display: none;
+}
+
 @media only screen and (max-width: 600px) {
+  img {
+    display: none;
+  }
   .hidethis {
+    display: none;
+  }
+
+  .hidethese2 {
+    display: block;
+  }
+
+  .hideDrawer {
     display: none;
   }
 
