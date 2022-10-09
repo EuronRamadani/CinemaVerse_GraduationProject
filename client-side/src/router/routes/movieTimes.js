@@ -13,7 +13,7 @@ export default [
       ),
   },
   {
-    path: "/cinemas/:cinemaId/movies/:movieId/times/:movieTimeId",
+    path: "/cinemas/:cinemaId/movies/:movieId/halls/:hallId/times/:movieTimeId",
     name: "MovieTime-Details",
     meta: {
       requiresAuth: true,

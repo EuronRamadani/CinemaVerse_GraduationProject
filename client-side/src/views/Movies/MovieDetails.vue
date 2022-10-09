@@ -71,7 +71,14 @@
         </v-col>
         <hr />
       </div>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center mb-10">
+        <div class="container m0">
+          <h1 class="d-flex justify-content-center mb-5">Today's Schedule</h1>
+          <movie-schedules />
+        </div>
+      </div>
+      <hr />
+      <div class="d-flex justify-content-center mb-10">
         <div class="container m0">
           <h1 class="d-flex justify-content-center mb-5">Cast</h1>
           <!-- Add this view to another view -->
@@ -81,16 +88,6 @@
       </div>
       <hr />
       <div class="d-flex justify-content-center">
-        <div class="container m0">
-          <h1 class="d-flex justify-content-center mb-5">Today's Schedule</h1>
-          <movie-schedules />
-        </div>
-      </div>
-      <hr />
-      <div
-        style="margin-top: 50px; margin-bottom: 50px"
-        class="d-flex justify-content-center"
-      >
         <div class="container m0">
           <h1 class="d-flex justify-content-center mb-5">
             Reviews for this movie
@@ -193,9 +190,6 @@ export default {
     },
   },
   methods: {
-    handleCHange() {
-      console.log(this.todayDate);
-    },
     submit() {
       this.$refs.observer.validate();
     },

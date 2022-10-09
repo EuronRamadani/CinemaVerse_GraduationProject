@@ -59,6 +59,26 @@ namespace Movies.Services.Services.Tickets
                 throw new BaseException($"Failed to get all tickets for specified movie time",
                     ExceptionType.ServerError, HttpStatusCode.InternalServerError);
             }
+        }             
+        
+        public async Task<IList<TicketModel>> GetAllUserTicketsAsync(string userId)
+        {
+            try
+            {
+                var tickets = await _ticketRepository.GetAllAsync(query => query
+                    .Where(ticket => ticket.OwnerId.Equals(userId)));
+
+                var ticketsList = _mapper.Map<IList<TicketModel>>(tickets);
+
+                return ticketsList;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+
+                throw new BaseException($"Failed to get all tickets for specified user",
+                    ExceptionType.ServerError, HttpStatusCode.InternalServerError);
+            }
         }       
         
         public async Task<IList<TicketModel>> GetAllByTicketsIdAsync(int cinemaId, int hallId, int movieTimeId, List<int> ticketsId)

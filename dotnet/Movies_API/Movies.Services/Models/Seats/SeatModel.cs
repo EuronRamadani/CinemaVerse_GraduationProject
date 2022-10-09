@@ -2,6 +2,7 @@
 {
     public class SeatModel
     {
+        public int Id { get; set; }
         public int CinemaId { get; set; }
         public int HallId { get; set; }
         public int RowId { get; set; }

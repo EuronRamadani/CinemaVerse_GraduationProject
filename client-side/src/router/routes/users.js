@@ -28,8 +28,17 @@ export default [
       layout: "public",
     },
     component: () =>
+      import(/* webpackChunkName: "login" */ "../../views/Profile.vue"),
+  },
+  {
+    path: "/profile/my-tickets",
+    name: "MyTickets",
+    meta: {
+      layout: "public",
+    },
+    component: () =>
       import(
-        /* webpackChunkName: "login" */ "../../views/Profile.vue"
+        /* webpackChunkName: "login" */ "../../views/UserProfile/MyTickets.vue"
       ),
   },
   {
@@ -39,9 +48,7 @@ export default [
       layout: "public",
     },
     component: () =>
-      import(
-        /* webpackChunkName: "login" */ "../../views/ForgotPassword.vue"
-      ),
+      import(/* webpackChunkName: "login" */ "../../views/ForgotPassword.vue"),
   },
 
   //Admin Routes
