@@ -17,7 +17,7 @@ namespace Movies.Core.Domain
 
         public int ReviewRating { get; set;}
 
-        public string UserId { get; set; }
+        public DateTime ReviewDate { get; set; }
 
         public bool Deleted { get; set; }
 

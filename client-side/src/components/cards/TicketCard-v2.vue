@@ -3,7 +3,13 @@
     <div class="holes-top"></div>
     <div class="title">
       <p class="cinema">CINEMA VERSE PRESENTS</p>
-      <p class="movie-title">Movie Name</p>
+      <img
+        class="ml-8"
+        src="http://localhost:8080/assets/app_files/main-logo_1.jpg"
+        height="2px"
+        style="height: 50px"
+        alt="Logo"
+      />
     </div>
     <div class="poster">
       <img
@@ -39,7 +45,7 @@
     </div>
     <div class="holes-lower"></div>
     <div class="barcode">
-      <barcode :value="ticket.ticketCode"> Barcode Failed. </barcode>
+      <barcode :value="shortBarcode"> Barcode Failed. </barcode>
     </div>
   </div>
 </template>
@@ -51,10 +57,24 @@ export default {
   components: { Barcode },
   data() {
     return {
-      code: "1101001000010101001",
       blackBarcode: "<td bgcolor='black'>",
       whiteBarcode: "<td bgcolor='white'>",
     };
+  },
+  computed: {
+    shortBarcode() {
+      return this.ticket.ticketCode.substring(0, 11);
+    },
+  },
+  methods: {},
+  filters: {
+    truncate: function (text, length, suffix) {
+      if (text.length > length) {
+        return text.substring(0, length) + suffix;
+      } else {
+        return text;
+      }
+    },
   },
   props: {
     ticket: {

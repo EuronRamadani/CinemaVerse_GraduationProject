@@ -99,17 +99,4 @@ export default [
         /* webpackChunkName: "user-edit" */ "../../views/Admin/Users/EditUser.vue"
       ),
   },
-  //TODOS: Implement User upload photo later
-  // {
-  //   path: "/admin/users/add-photo/:userId",
-  //   name: "user-add-photo",
-  //   meta: {
-  //     requiresAuth: true,
-  //     layout: "dashboard",
-  //   },
-  //   component: () =>
-  //     import(
-  //       /* webpackChunkName: "user-add-photo" */ "../../views/Admin/Users/AddMoviePhoto.vue"
-  //     ),
-  // },
 ];

@@ -221,9 +221,7 @@ export default {
         return this.$store.state.movies.actors;
       },
       set(actors) {
-        console.log(actors);
         this.selectedActors = actors;
-        console.log(this.selectedActors);
       },
     },
     allActors() {
@@ -242,15 +240,11 @@ export default {
         );
       });
     },
-    changeClg() {
-      console.log(this.selectedActors);
-    },
     getMovie(query) {
       this.$store
         .dispatch("getMovie", query)
         .then(() => {
           this.selectedActors = this.movie.actors;
-          console.log(this.selectedActors);
         })
         .catch((error) => {
           this.errorToast(

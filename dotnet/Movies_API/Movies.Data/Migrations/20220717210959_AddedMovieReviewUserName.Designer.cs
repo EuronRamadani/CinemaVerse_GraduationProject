@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movies.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Movies.Data.Migrations
 {
     [DbContext(typeof(MoviesDbContext))]
-    partial class MoviesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220717210959_AddedMovieReviewUserName")]
+    partial class AddedMovieReviewUserName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,9 +156,6 @@ namespace Movies.Data.Migrations
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CinemaId");
@@ -289,9 +288,6 @@ namespace Movies.Data.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("ReviewDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("ReviewDescription")
                         .HasColumnType("text");
 
@@ -306,6 +302,12 @@ namespace Movies.Data.Migrations
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

@@ -139,7 +139,7 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item three-line>
+          <v-list-item three-line v-if="hasEnded">
             <v-list-item-content>
               <v-list-item-title>
                 <h6 class="text-danger">

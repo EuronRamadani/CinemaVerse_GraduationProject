@@ -118,8 +118,8 @@
           show-arrows
         >
           <v-slide-item
-            v-for="movie in movies"
-            :key="movie.id"
+            v-for="event in events"
+            :key="event.id"
             v-slot="{ toggle }"
             style="margin-top: 20px; margin-bottom: 20px"
             class="d-flex justify-content-center"
@@ -127,7 +127,7 @@
             <div class="ml-2 mr-2">
               <v-card @click="toggle">
                 <v-row align="center" justify="center">
-                  <EventCardPhoto style="margin: 60px" :event="events[0]" />
+                  <EventCardPhoto style="margin: 60px" :event="event" />
                 </v-row>
               </v-card>
             </div>

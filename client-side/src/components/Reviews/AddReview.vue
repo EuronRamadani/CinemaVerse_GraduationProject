@@ -94,7 +94,11 @@ export default {
   created() {
     this.movieId = this.$route.params.movieId;
   },
-
+  computed: {
+    user() {
+      return this.$store.state.users.user;
+    },
+  },
   methods: {
     validate() {
       this.$refs.form.validate();
@@ -108,7 +112,8 @@ export default {
         reviewTitle: this.reviewTitle,
         reviewTdescription: this.reviewTdescription,
         reviewRating: this.reviewRating,
-        userId: this.userId,
+        userId: this.user.id,
+        userName: this.user.displayName,
       };
       this.$store
         .dispatch("createReview", { movieId: this.movieId, review: review })
@@ -131,14 +136,7 @@ export default {
         this.$refs.observer.reset();
     },
   },
-
-  computed: {
-    user() {
-      return this.$store.state.users.user;
-    },
-  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

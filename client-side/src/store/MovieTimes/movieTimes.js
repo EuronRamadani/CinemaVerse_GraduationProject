@@ -28,7 +28,6 @@ export default {
   actions: {
     getMovieTimes({ commit }, query) {
       commit("SET_LOADING", true);
-      console.log(query);
       return new Promise((resolve, reject) => {
         api("movies")
           .get(`cinemas/${query.cinemaId}/movies/${query.movieId}/movie-times`)

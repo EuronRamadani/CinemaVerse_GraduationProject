@@ -37,14 +37,10 @@ export default {
     cinema() {
       return this.$store.state.cinemas.cinema;
     },
-    // ...mapGetters({
-    // 	eventList: "eventList",
-    // }),
   },
   created() {
     this.cinemaId = this.$route.params.cinemaId;
     this.getEvents();
-    console.log("test", this.events);
   },
   methods: {
     getEvents() {
@@ -84,11 +80,9 @@ input {
 .row > * {
   flex-shrink: 0;
   width: 100%;
-  // margin: 20%;
   max-width: 100%;
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-top: var(--bs-gutter-y);
-  // display: flex;
 }
 </style>

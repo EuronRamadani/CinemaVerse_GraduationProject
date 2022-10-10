@@ -1,30 +1,25 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="9">
-        <h2>Movies</h2>
-      </v-col>
-      <v-col cols="3">
-        <v-select
-          v-model="selectedCinema"
-          :items="getObjectOptionsName(cinemas)"
-          @change="changeCinema()"
-          solo
-          label="Select Cinema"
-        ></v-select>
-      </v-col>
+      <h2 class="pl-5">Create Movie Times</h2>
     </v-row>
     <hr />
     <div class="container mt-5">
       <validation-observer ref="observer" v-slot="{ invalid }">
         <form @submit.prevent="submit">
-          <v-col class="d-flex" cols="12" sm="6">
-            <v-select label="Hall Id" dense>
-              <option v-for="item in halls" :key="item.id">
-                {{ item.hallNumber }}
-              </option></v-select
-            >
-          </v-col>
+          <validation-provider
+            v-slot="{ errors }"
+            name="Start Time"
+            rules="required"
+          >
+            <v-select
+              solo
+              :error-messages="errors"
+              v-model="selectedHall"
+              :items="getObjectOptionsName(halls)"
+              label="Select Hall"
+            ></v-select>
+          </validation-provider>
           <validation-provider
             v-slot="{ errors }"
             name="Start Time"
@@ -35,6 +30,7 @@
               type="datetime-local"
               :error-messages="errors"
               label="Start Time"
+              :min="formatShortDateTime(new Date())"
               outlined
               required
             ></v-text-field>
@@ -50,11 +46,10 @@
               :error-messages="errors"
               label="End Time"
               outlined
+              :min="startTime"
               required
             ></v-text-field>
           </validation-provider>
-          >>>>>>> b7ac3eb0841b6406d02f25bf676d7694abfbe7bf
-
           <v-btn
             color="success"
             type="submit"
@@ -91,17 +86,14 @@ export default {
       numberInt,
       minValueRule,
       cinemaId: null,
-      hallId: 0,
+      movieId: null,
       startTime: null,
       endTime: null,
-      selectedCinema: null,
+      selectedHall: null,
       items: ["Foo", "Bar", "Fizz", "Buzz"],
     };
   },
   computed: {
-    cinemas() {
-      return this.$store.state.cinemas.cinemas;
-    },
     halls() {
       return this.$store.state.halls.halls;
     },
@@ -109,55 +101,26 @@ export default {
   created() {
     this.cinemaId = this.$route.params.cinemaId;
     this.movieId = this.$route.params.movieId;
-    console.log("halls", this.halls);
+    this.getHalls();
   },
   methods: {
     onRefresh() {
-      this.getHalls(this.selectedCinema);
-    },
-    getCinema() {
-      this.$store.dispatch("getCinema").catch((error) => {
-        this.errorToast(
-          error.response?.data?.errors[0] ||
-            "Something went wrong while fetching cinemas!"
-        );
-      });
+      this.getHalls();
     },
     submit() {
       this.$refs.observer.validate();
     },
-    getCinemas() {
-      this.$store
-        .dispatch("getCinemas")
-        .then(() => {
-          if (this.selectedCinema == null) {
-            this.selectedCinema = this.cinemas[0];
-          }
-          this.getMovies(this.selectedCinema);
-        })
-        .catch((error) => {
-          this.errorToast(
-            error.response?.data?.errors[0] ||
-              "Something went wrong while fetching cinemas!"
-          );
-        });
-    },
-    getHalls(selectedCinema) {
-      this.$store.dispatch("getHalls", selectedCinema.id).catch((error) => {
+    getHalls() {
+      this.$store.dispatch("getHalls", this.cinemaId).catch((error) => {
         this.errorToast(
           error.response?.data?.errors[0] ||
             "Something went wrong while fetching Halls!"
         );
       });
     },
-    changeCinema() {
-      if (this.selectedCinema != null) {
-        this.getHalls(this.selectedCinema);
-      }
-    },
     createMovieTime() {
       const movieTime = {
-        hallId: this.hallId,
+        hallId: this.selectedHall.id,
         startTime: this.startTime,
         endTime: this.endTime,
       };
@@ -182,7 +145,7 @@ export default {
         });
     },
     clear() {
-      this.hallId = 0;
+      this.selectedHall = null;
       this.startTime = null;
       this.endTime = null;
       this.$refs.observer.reset();

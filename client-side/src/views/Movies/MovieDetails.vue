@@ -81,8 +81,6 @@
       <div class="d-flex justify-content-center mb-10">
         <div class="container m0">
           <h1 class="d-flex justify-content-center mb-5">Cast</h1>
-          <!-- Add this view to another view -->
-          <!-- Add actors here -->
           <movie-actors />
         </div>
       </div>
@@ -93,39 +91,38 @@
             Reviews for this movie
           </h1>
           <div style="margin-top: 60px; margin-bottom: 60px">
-            <v-sheet
-              class="d-flex justify-content-center mx-auto"
-              elevation="10"
-              max-height="1000"
-            >
-              <v-slide-group
-                v-model="model"
-                class="d-flex justify-content-center pa-4 ma-2"
-                active-class="success"
-                show-arrows
-              >
-                <v-slide-item
+            <v-card-text>
+              <div class="font-weight-bold ml-8 mb-2">Reviews</div>
+              <v-timeline align-top dense>
+                <v-timeline-item
                   v-for="review in reviews"
                   :key="review.id"
-                  v-slot="{ toggle }"
-                  style="margin-top: 20px; margin-bottom: 20px"
-                  class="d-flex justify-content-center"
+                  small
                 >
-                  <div class="ml-2 mr-2">
-                    <v-card @click="toggle">
-                      <v-row align="center" justify="center">
-                        <review-card
-                          style="margin: 60px"
-                          :hideDetails="true"
-                          :movie="movie"
-                        />
-                      </v-row>
-                    </v-card>
-                  </div>
-                </v-slide-item>
-              </v-slide-group>
-            </v-sheet>
+                  <v-card class="pa-4">
+                    <div class="font-weight-normal">
+                      <h2>{{ review.reviewTitle }}</h2>
+                    </div>
+                    <v-rating
+                      :value="review.reviewRating"
+                      name="reviewRating"
+                      style="margin-top: 10px; margin-bottom: 30px"
+                      color="amber"
+                      dense
+                      readonly
+                      required
+                    ></v-rating>
+                    <div class="mb-3">{{ review.reviewDescription }}</div>
+                    <strong>{{ review.userName }}</strong> @{{
+                      movieScheduleDateTime(review.insertDate)
+                    }}
+                  </v-card>
+                </v-timeline-item>
+              </v-timeline>
+            </v-card-text>
           </div>
+          <hr />
+          <h1 class="mt-3 d-flex justify-content-center">Post a Review</h1>
           <add-review />
         </div>
       </div>
@@ -137,7 +134,6 @@
 import { required, numberInt, minValueRule } from "@/helpers/validations";
 import { setInteractionMode } from "vee-validate";
 import MovieSchedules from "./MovieSchedules.vue";
-import ReviewCard from "../../components/Reviews/ReviewCard.vue";
 import AddReview from "../../components/Reviews/AddReview.vue";
 import MovieActors from "./MovieActors.vue";
 
@@ -147,7 +143,6 @@ export default {
   components: {
     MovieSchedules,
     AddReview,
-    ReviewCard,
     MovieActors,
   },
   data() {
@@ -186,7 +181,7 @@ export default {
       return this.$store.state.cinemas.cinema;
     },
     reviews() {
-      return this.$store.state.reviews.review;
+      return this.$store.state.reviews.reviews;
     },
   },
   methods: {

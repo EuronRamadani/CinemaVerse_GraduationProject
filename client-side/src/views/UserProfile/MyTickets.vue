@@ -12,19 +12,19 @@
       </v-row>
     </v-parallax>
     <div>
-      <h1>My tickets</h1>
-      <div v-if="userTickets.length > 0">
+      <h1 class="d-flex justify-content-center">My tickets</h1>
+      <div class="d-flex flex-wrap" v-if="userTickets.length > 0">
         <div
           class="d-flex flex-wrap mb-15"
           v-for="ticket in userTickets"
           :key="ticket.id"
         >
-          <div class="container">
+          <div class="container ml-2 mr-2">
             <ticket-card-v2 :ticket="ticket" />
           </div>
         </div>
       </div>
-      <div>
+      <div v-else>
         <h3>You havent bought any tickets</h3>
       </div>
     </div>
@@ -32,7 +32,6 @@
 </template>
 
 <script>
-// import TicketCard from "@/components/cards/TicketCard.vue";
 import TicketCardV2 from "@/components/cards/TicketCard-v2.vue";
 
 export default {
@@ -55,9 +54,6 @@ export default {
     },
   },
   methods: {
-    clgMv() {
-      console.log(this.userTickets);
-    },
     getUserTickets() {
       const query = {
         userId: this.currentUser.id,

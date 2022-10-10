@@ -108,13 +108,6 @@ export default {
       numberInt,
       minValueRule,
       actorId: null,
-      // id: 2,
-      // firstName: "",
-      // lastName: "",
-      // imgPath: "",
-      // nationality: "",
-      // genre: "",
-      // birth: "",
     };
   },
   created() {
@@ -166,30 +159,6 @@ export default {
           );
         });
     },
-    // addActor() {
-    // 	const actor = {
-    // 		firstname: this.firstname,
-    // 		lastName: this.lastName,
-    // 		imgPath: this.imgPath,
-    // 		nationality: this.nationality,
-    // 		genre: this.genre,
-    // 		birth: this.birth,
-    // 	};
-    // 	this.$store
-    // 		.dispatch("addActor", actor)
-    // 		.then(() => {
-    // 			this.clear();
-    // 			this.$router.push({
-    // 				name: "ActorsDashboard",
-    // 			});
-    // 		})
-    // 		.catch((error) => {
-    // 			this.errorToast(
-    // 				error.response?.data?.errors[0] ||
-    // 					"Something went wrong while adding Actors!"
-    // 			);
-    // 		});
-    // },
     clear() {
       (this.firstname = ""),
         (this.lastName = ""),

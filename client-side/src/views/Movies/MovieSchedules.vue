@@ -3,6 +3,7 @@
     <div v-if="loading"><loading-page /></div>
     <div v-else>
       <h6>Select Schedule Date:</h6>
+      {{ selectedDate }}
       <v-text-field
         class="col-3"
         v-model="selectedDate"
